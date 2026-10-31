@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al Ghadeer Digital Services - Urdu Composing Studio</title>
+    <!-- Google Fonts for Professional Urdu & English Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Gulzar&family=Lateef&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --primary-color: #0d6efd;
+            --border-color: #ced4da;
+            --preview-bg: #ffffff;
+            --preview-text: #000000;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --primary-color: #3d8bfd;
+            --border-color: #444444;
+            --preview-bg: #181818;
+            --preview-text: #f0f0f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Tajawal', 'Noto Nastaliq Urdu', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; padding: 15px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 15px 25px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .brand-title h1 { font-size: 24px; color: var(--primary-color); font-weight: 700; }
+        .brand-title p { font-size: 13px; opacity: 0.8; }
+        .top-controls { display: flex; gap: 10px; align-items: center; }
+        .btn { background: var(--primary-color); color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .btn:hover { opacity: 0.9; }
+        .btn-secondary { background: #6c757d; }
+        
+        .main-grid { display: grid; grid-template-columns: 4fr 6fr; gap: 20px; }
+        @media(max-width: 992px) { .main-grid { grid-template-columns: 1fr; } }
+        
+        .panel { background: var(--card-bg); padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .panel h2 { font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; background: var(--card-bg); color: var(--text-color); font-size: 14px; }
+        textarea { resize: vertical; min-height: 120px; font-family: inherit; }
+        
+        .quick-phrases { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+        .chip { background: rgba(13, 110, 253, 0.1); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 4px 8px; border-radius: 15px; font-size: 12px; cursor: pointer; transition: 0.2s; }
+        .chip:hover { background: var(--primary-color); color: #fff; }
+
+        /* Preview Area */
+        .preview-container { background: var(--preview-bg); color: var(--preview-text); padding: 40px; border: 1px solid var(--border-color); border-radius: 8px; min-height: 600px; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        .preview-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 15px; }
+        .preview-footer { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; display: flex; justify-content: space-between; font-size: 13px; opacity: 0.8; }
+        
+        @media print {
+            body { background: #fff !important; color: #000 !important; padding: 0; }
+            header, .panel:first-child, .top-controls { display: none !important; }
+            .main-grid { display: block; }
+            .preview-container { border: none; box-shadow: none; padding: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+<div class="container">
+    <header>
+        <div class="brand-title">
+            <h1 id="app-title">الغدیر ڈیجیٹل سروسز - اردو کمپوزنگ اسٹوڈیو</h1>
+            <p id="app-subtitle">Al Ghadeer Digital Services | Contact: +92 3287892826</p>
+        </div>
+        <div class="top-controls">
+            <button class="btn btn-secondary" onclick="toggleTheme()">🌓 تھیم</button>
+            <button class="btn btn-secondary" onclick="toggleLang()">🌐 English/اردو</button>
+            <button class="btn" onclick="window.print()">🖨️ پرنٹ / PDF</button>
+        </div>
+    </header>
+
+    <div class="main-grid">
+        <!-- Controls Panel -->
+        <div class="panel">
+            <h2 id="section-settings">فارم اور سیٹنگز</h2>
+            
+            <div class="form-group">
+                <label id="lbl-template">ٹیمپلیٹ منتخب کریں:</label>
+                <select id="templateSelect" onchange="loadTemplate()">
+                    <option value="police">پولیس شکایت / ایف آئی آر (Police Application)</option>
+                    <option value="court">حلف نامہ / اسٹامپ پیپر (Affidavit)</option>
+                    <option value="rental">کرایہ نامہ (Rental Agreement)</option>
+                    <option value="electric">بجلی میٹر / ٹرانسفارمر درخواست</option>
+                    <option value="leave">رخصت / فیس معافی درخواست (School/Office)</option>
+                    <option value="letterhead">کاروباری لیٹر ہیڈ (Business Letterhead)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-font">اردو فونٹ:</label>
+                <select id="fontSelect" onchange="updateFont()">
+                    <option value="'Noto Nastaliq Urdu', serif">نوٹو نستعلیق اردو (Noto Nastaliq)</option>
+                    <option value="'Gulzar', serif">خطِ گلزار (Gulzar)</option>
+                    <option value="'Amiri', serif">خطِ امیری (Amiri)</option>
+                    <option value="'Lateef', serif">خطِ لطیف (Lateef)</option>
+                    <option value="'Scheherazade New', serif">شہر زاد (Scheherazade)</option>
+                    <option value="'Tajawal', sans-serif">تجاول (Tajawal)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-papersize">کاغذ کا سائز اور مارجن:</label>
+                <div style="display: flex; gap: 10px;">
+                    <select id="paperSize" onchange="updatePaperSize()">
+                        <option value="297mm">A4 سائز</option>
+                        <option value="356mm">Legal سائز (14 inch)</option>
+                        <option value="279mm">Letter سائز</option>
+                    </select>
+                    <select id="stampMargin" onchange="updateMargin()">
+                        <option value="0px">عام صفحہ (0 انچ)</option>
+                        <option value="100px">اسٹامپ پیپر (اوپر جگہ)</option>
+                        <option value="200px">بڑا اسٹامپ مارجن</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-translit">رومن اردو سے اصلی اردو کنورٹر (یہاں انگلش میں لکھیں):</label>
+                <input type="text" id="romanInput" placeholder="Misal: ba khidmat janab..." oninput="convertToUrdu(this.value)">
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-content">اصلی اردو متن (Main Content):</label>
+                <div class="quick-phrases">
+                    <span class="chip" onclick="insertText('بخدمت جناب ')">بخدمت جناب</span>
+                    <span class="chip" onclick="insertText('جناب عالی، ')">جناب عالی</span>
+                    <span class="chip" onclick="insertText('التماس ہے کہ ')">التماس ہے کہ</span>
+                    <span class="chip" onclick="insertText('العارض: ')">العارض</span>
+                    <span class="chip" onclick="insertText('مورخہ: ')">مورخہ</span>
+                </div>
+                <textarea id="mainContent" oninput="liveUpdate()"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label id="lbl-sign">دستخط / نیچے کا نام (Signature/Footer):</label>
+                <input type="text" id="signInput" value="الارض: محمد جنیرید علی (Al Ghadeer Digital Services)" oninput="liveUpdate()">
+            </div>
+        </div>
+
+        <!-- Live Preview Panel -->
+        <div class="panel">
+            <h2>لائیو پریویو (Live Preview A4)</h2>
+            <div id="previewBox" class="preview-container" style="font-family: 'Noto Nastaliq Urdu', serif;">
+                <div class="preview-header">
+                    <h2 id="prevHeaderTitle">بخدمت جناب ایس ایچ او صاحب</h2>
+                    <p id="prevHeaderSub">تھانہ چوک اعظم، ضلع لیہ</p>
+                </div>
+                <div id="prevBodyContent" style="white-space: pre-wrap; line-height: 2.2; font-size: 16px;">
+                    جناب عالی،<br>سائل گزارش کرتا ہے کہ...
+                </div>
+                <div class="preview-footer">
+                    <div>دستخط: <span id="prevSign">محمد جنید علی</span></div>
+                    <div>فون: 3287892826 92+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Roman Urdu mapping dictionary
+    const urduMap = {
+        'ba khidmat': 'بخدمت', 'janab': 'جناب', 'sho': 'ایس ایچ او', 'dpo': 'ڈسٹرکٹ پولیس آفیسر',
+        'azarz': 'العارض', 'guzarish': 'گزارش ہے کہ', 'altawas': 'التماس ہے کہ', 'morakha': 'مورخہ',
+        'lahore': 'لاہور', 'layyah': 'لیہ', 'chowk azam': 'چوک اعظم', 'pakistan': 'پاکستان',
+        'applicant': 'سائل'
+    };
+
+    function convertToUrdu(val) {
+        let text = val.toLowerCase();
+        for (let key in urduMap) {
+            text = text.replace(new RegExp(key, 'g'), urduMap[key]);
+        }
+        document.getElementById('mainContent').value = text;
+        liveUpdate();
+    }
+
+    function liveUpdate() {
+        document.getElementById('prevBodyContent').innerText = document.getElementById('mainContent').value;
+        document.getElementById('prevSign').innerText = document.getElementById('signInput').value;
+    }
+
+    function updateFont() {
+        let font = document.getElementById('fontSelect').value;
+        document.getElementById('previewBox').style.fontFamily = font;
+    }
+
+    function updatePaperSize() {
+        let size = document.getElementById('paperSize').value;
+        document.getElementById('previewBox').style.minHeight = size;
+    }
+
+    function updateMargin() {
+        let margin = document.getElementById('stampMargin').value;
+        document.getElementById('previewBox').style.paddingTop = (parseInt(margin) + 40) + 'px';
+    }
+
+    function insertText(txt) {
+        let area = document.getElementById('mainContent');
+        area.value += txt;
+        liveUpdate();
+    }
+
+    function toggleTheme() {
+        let body = document.body;
+        if(body.getAttribute('data-theme') === 'light') {
+            body.setAttribute('data-theme', 'dark');
+        } else {
+            body.setAttribute('data-theme', 'light');
+        }
+    }
+
+    let isUrdu = true;
+    function toggleLang() {
+        isUrdu = !isUrdu;
+        if(isUrdu) {
+            document.getElementById('app-title').innerText = "الغدیر ڈیجیٹل سروسز - اردو کمپوزنگ اسٹوڈیو";
+            document.getElementById('app-subtitle').innerText = "Al Ghadeer Digital Services | Contact: +92 3287892826";
+        } else {
+            document.getElementById('app-title').innerText = "Al Ghadeer Digital Services - Urdu Studio";
+            document.getElementById('app-subtitle').innerText = "Professional Composing & Typing Software";
+        }
+    }
+
+    function loadTemplate() {
+        let type = document.getElementById('templateSelect').value;
+        let content = "";
+        if(type === 'police') {
+            content = "بخدمت جناب ایس ایچ او صاحب،\nتھانہ چوک اعظم، ضلع لیہ۔\n\nموضوع: درخواست برائے قانونی کارروائی و تحفظ۔\n\nجناب عالی،\nسائل گزارش کرتا ہے کہ میں آپ کے علاقے کا مستقل رہائشی ہوں اور...</p>";
+        } else if(type === 'court') {
+            content = "حلف نامہ (Affidavit):\n\nمشمولہ حلف بیان کرتا ہوں کہ تمام کوائف درست ہیں اور خلاف ورزی کی صورت میں قانونی کارروائی کا مجاز ہوں گا۔";
+        } else if(type === 'rental') {
+            content = "معائدہ کرایہ نامہ (Rental Agreement):\n\nیہ کرایہ نامہ فریق اول اور فریق دوم کے درمیان طے پایا جس کی ماہانہ کرایہ کی رقم طے ہوئی...";
+        } else {
+            content = "سرکاری یا کاروباری درخواست کا متن یہاں درج کریں...";
+        }
+        document.getElementById('mainContent').value = content;
+        liveUpdate();
+    }
+
+    // Initial Load
+    loadTemplate();
+</script>
+
+</body>
+</html>
