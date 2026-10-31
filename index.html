@@ -3,308 +3,2034 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al Ghadeer Digital Services - Professional Urdu Composing Studio</title>
-    <!-- Google Fonts for Urdu & English -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Gulzar&family=Lateef&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>Al Ghadeer Digital Services - Enterprise Urdu Composing & ID Studio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Nastaliq, Arabic & UI Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Gulzar&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Reem+Kufi:wght@400;600;700&family=Scheherazade+New:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- html2canvas for High-Res JPEG Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --card-bg: #ffffff;
-            --text-main: #1a202c;
-            --primary: #0f766e;
-            --primary-hover: #115e59;
-            --accent: #d97706;
-            --border: #e2e8f0;
-            --preview-bg: #ffffff;
-            --preview-text: #000000;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --bg-primary: #f0f4f8;
+            --bg-secondary: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.92);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --brand-emerald: #047857;
+            --brand-emerald-dark: #065f46;
+            --brand-gold: #d97706;
+            --border-color: #cbd5e1;
+            --card-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+            --paper-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
         }
-        body.dark-mode {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --primary: #14b8a6;
-            --primary-hover: #0d9488;
-            --accent: #fbbf24;
-            --border: #334155;
-            --preview-bg: #0f172a;
-            --preview-text: #f1f5f9;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+
+        body.dark-theme {
+            --bg-primary: #090d16;
+            --bg-secondary: #111827;
+            --bg-glass: rgba(17, 24, 39, 0.92);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --brand-emerald: #10b981;
+            --brand-emerald-dark: #059669;
+            --brand-gold: #f59e0b;
+            --border-color: #1e293b;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+            --paper-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
-        body { font-family: 'Tajawal', 'Noto Nastaliq Urdu', sans-serif; background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding: 20px; }
-        .app-container { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-        
-        /* Header */
-        header { background: var(--card-bg); padding: 20px 30px; border-radius: 16px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; border-bottom: 4px solid var(--primary); }
-        .brand h1 { font-size: 26px; color: var(--primary); font-weight: 700; }
-        .brand p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
-        .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        
-        .btn { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
-        .btn-accent { background: var(--accent); }
-        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-        body.dark-mode .btn-outline { color: #fff; border-color: #fff; }
 
-        /* Main Workspace */
-        .workspace { display: grid; grid-template-columns: 450px 1fr; gap: 25px; }
-        @media(max-width: 1100px) { .workspace { grid-template-columns: 1fr; } }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        .panel { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-        .panel h3 { font-size: 18px; margin-bottom: 15px; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text-main); font-size: 14px; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15); }
-        textarea { resize: vertical; min-height: 150px; line-height: 2; font-family: inherit; }
+        /* Nastaliq Typography Helpers */
+        .font-nastaliq {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            line-height: 2.35 !important;
+        }
+        .font-gulzar {
+            font-family: 'Gulzar', serif;
+            line-height: 2.25 !important;
+        }
+        .font-amiri {
+            font-family: 'Amiri', serif;
+            line-height: 2.0 !important;
+        }
+        .font-lateef {
+            font-family: 'Lateef', serif;
+            line-height: 1.9 !important;
+            font-size: 1.25em;
+        }
+        .font-scheherazade {
+            font-family: 'Scheherazade New', serif;
+            line-height: 2.0 !important;
+        }
+        .font-kufi {
+            font-family: 'Reem Kufi', sans-serif;
+            line-height: 1.8 !important;
+        }
+        .font-tajawal {
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.8 !important;
+        }
 
-        .chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-        .chip { background: rgba(15, 118, 110, 0.1); color: var(--primary); border: 1px solid var(--primary); padding: 5px 10px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: 600; }
-        .chip:hover { background: var(--primary); color: #fff; }
+        /* Panels & Glassmorphism */
+        .studio-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            border-radius: 16px;
+            transition: all 0.25s ease;
+        }
 
-        /* Preview Studio */
-        .preview-wrapper { display: flex; flex-direction: column; gap: 15px; }
-        .page-tabs { display: flex; gap: 10px; }
-        .page-tab { background: var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; }
-        .page-tab.active { background: var(--primary); color: #fff; }
+        .studio-input {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            width: 100%;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .studio-input:focus {
+            outline: none;
+            border-color: var(--brand-emerald);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
 
-        .document-page { background: var(--preview-bg); color: var(--preview-text); padding: 50px; border-radius: 12px; min-height: 700px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid var(--border); position: relative; display: flex; flex-direction: column; justify-content: space-between; }
-        .doc-header { text-align: center; border-bottom: 3px double var(--preview-text); padding-bottom: 20px; margin-bottom: 25px; }
-        .doc-body { flex-grow: 1; white-space: pre-wrap; line-height: 2.4; font-size: 17px; }
-        .doc-footer { border-top: 1.5px solid var(--border); padding-top: 15px; display: flex; justify-content: space-between; font-size: 13px; opacity: 0.9; }
+        /* Realistic Paper Sheet */
+        .paper-sheet {
+            background: #ffffff !important;
+            color: #000000 !important;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 32px auto;
+            padding: 20mm 18mm 18mm 18mm;
+            box-shadow: var(--paper-shadow);
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .paper-sheet.size-legal {
+            width: 216mm;
+            min-height: 356mm;
+        }
+        .paper-sheet.size-letter {
+            width: 216mm;
+            min-height: 279mm;
+        }
 
-        /* Student Card Generator Section */
-        .card-preview { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #fff; padding: 20px; border-radius: 12px; width: 350px; margin: 10px auto; box-shadow: 0 10px 20px rgba(0,0,0,0.2); text-align: center; }
+        /* Page Borders */
+        .paper-sheet.border-classic {
+            border: 3px double #1e293b;
+            outline: 1px solid #1e293b;
+            outline-offset: -8px;
+        }
+        .paper-sheet.border-royal {
+            border: 4px solid #047857;
+            outline: 2px dashed #d97706;
+            outline-offset: -10px;
+        }
+        .paper-sheet.border-official {
+            border: 2px solid #000000;
+        }
 
-        /* Print Settings */
+        /* Stamp Paper Graphic Placeholder */
+        .stamp-banner {
+            border: 2px dashed #94a3b8;
+            background: repeating-linear-gradient(45deg, #f8fafc, #f8fafc 10px, #f1f5f9 10px, #f1f5f9 20px);
+            color: #475569;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* Watermark */
+        .paper-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-32deg);
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: rgba(4, 120, 87, 0.065);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 1;
+            text-align: center;
+            font-family: 'Noto Nastaliq Urdu', sans-serif;
+            line-height: 1.8;
+        }
+
+        /* Document Editable Area */
+        .doc-editable-body {
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            outline: none;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 420px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--brand-emerald);
+        }
+
+        /* Animations */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        }
+        .live-badge {
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* ID Card Dimensions */
+        .id-card-box {
+            width: 340px;
+            height: 520px;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            background: #ffffff;
+            color: #0f172a;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Responsive Paper Preview Scaling on Smaller Screens */
+        @media (max-width: 900px) {
+            .paper-sheet {
+                width: 100%;
+                min-height: 550px;
+                padding: 15px;
+            }
+        }
+
+        /* Print Media Query - Zero UI Clutter, Crisp Multi-Page Output */
         @media print {
-            body { background: #fff; padding: 0; }
-            header, .panel:not(#previewPanel), .header-actions, .page-tabs { display: none !important; }
-            .workspace { display: block; }
-            .document-page { border: none; box-shadow: none; padding: 0; width: 100%; min-height: auto; }
+            @page {
+                margin: 0;
+            }
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-full-width {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                display: block !important;
+            }
+            .paper-sheet {
+                box-shadow: none !important;
+                margin: 0 auto !important;
+                border-radius: 0 !important;
+                page-break-after: always;
+                break-after: page;
+            }
+            .paper-sheet:last-child {
+                page-break-after: auto;
+                break-after: auto;
+            }
+            .stamp-banner.hide-on-print {
+                visibility: hidden !important;
+                border: none !important;
+                background: transparent !important;
+            }
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<div class="app-container">
-    <!-- Header -->
-    <header>
-        <div class="brand">
-            <h1 id="ui-title">الغدیر ڈیجیٹل سروسز - پروفیشنل اردو اسٹوڈیو</h1>
-            <p>Al Ghadeer Digital Services | Contact: +92 3287892826 | Email: info.alghadeer@yahoo.com</p>
+    <!-- Toast Notification Banner -->
+    <div id="toastBox" class="fixed bottom-5 left-5 z-50 hidden transform transition-all duration-300 no-print">
+        <div class="bg-emerald-800 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-emerald-400">
+            <i class="fa-solid fa-circle-check text-amber-400 text-lg"></i>
+            <span id="toastMsg" class="font-semibold text-sm">کامیابی سے مکمل ہو گیا!</span>
         </div>
-        <div class="header-actions">
-            <button class="btn btn-outline" onclick="toggleTheme()">🌓 تھیم موڈ</button>
-            <button class="btn btn-outline" onclick="toggleLanguage()">🌐 English / اردو</button>
-            <button class="btn btn-accent" onclick="window.print()">🖨️ پرنٹ / PDF محفوظ کریں</button>
-            <button class="btn" onclick="exportWord()">📄 Word فائل بنائیں</button>
+    </div>
+
+    <!-- TOP ENTERPRISE HEADER -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-opacity-95 studio-panel rounded-none border-x-0 border-t-0 border-b-4 border-b-emerald-600 px-4 lg:px-8 py-3 no-print">
+        <div class="max-w-[1750px] mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand Identity -->
+            <div class="flex items-center gap-4">
+                <div class="w-13 h-13 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-900 flex items-center justify-center text-white shadow-lg p-3 border border-amber-400/40">
+                    <i class="fa-solid fa-feather-pointed text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                        <h1 id="ui-brand-title" class="text-xl lg:text-2xl font-extrabold tracking-tight text-emerald-700 dark:text-emerald-400 font-nastaliq">
+                            الغدیر ڈیجیٹل سروسز - چوک اعظم
+                        </h1>
+                        <span class="bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/40 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                            PRO ENTERPRISE v4.0
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                        <span><i class="fa-solid fa-user-tie text-emerald-600 ml-1"></i><strong>Junaid Ali Hussaini</strong></span>
+                        <span>|</span>
+                        <span dir="ltr"><i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i>+92 3287892826</span>
+                        <span>|</span>
+                        <span dir="ltr"><i class="fa-solid fa-envelope text-amber-600 mr-1"></i>info.alghadeer@yahoo.com</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Mode Navigation Tabs -->
+            <div class="flex items-center bg-slate-200/80 dark:bg-slate-800 p-1.5 rounded-xl border border-slate-300 dark:border-slate-700 gap-1">
+                <button onclick="switchStudioMode('composer')" id="modeBtn-composer" class="px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center gap-2 bg-emerald-700 text-white shadow">
+                    <i class="fa-solid fa-file-signature"></i>
+                    <span data-i18n="tab_composer">اردو کمپوزنگ اسٹوڈیو</span>
+                </button>
+                <button onclick="switchStudioMode('idcard')" id="modeBtn-idcard" class="px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center gap-2 hover:bg-emerald-600/10">
+                    <i class="fa-solid fa-id-card-clip"></i>
+                    <span data-i18n="tab_idcard">اسٹوڈنٹ کارڈ میکر</span>
+                </button>
+                <button onclick="switchStudioMode('invoice')" id="modeBtn-invoice" class="px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center gap-2 hover:bg-emerald-600/10">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span data-i18n="tab_invoice">بلنگ اور رسید</span>
+                </button>
+            </div>
+
+            <!-- Global Action Buttons -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <button onclick="toggleTheme()" class="px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-emerald-500 text-xs sm:text-sm font-bold flex items-center gap-2 transition">
+                    <i id="themeIcon" class="fa-solid fa-moon text-amber-500"></i>
+                    <span data-i18n="btn_theme">تھیم</span>
+                </button>
+
+                <button onclick="toggleUILanguage()" class="px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-emerald-500 text-xs sm:text-sm font-bold flex items-center gap-2 transition">
+                    <i class="fa-solid fa-language text-emerald-600 text-base"></i>
+                    <span id="langBtnText">English UI</span>
+                </button>
+
+                <button onclick="exportAsJPEG()" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow transition">
+                    <i class="fa-solid fa-image"></i>
+                    <span data-i18n="btn_jpeg">JPEG تصویر</span>
+                </button>
+
+                <button onclick="exportAsWord()" class="px-3.5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow transition">
+                    <i class="fa-solid fa-file-word"></i>
+                    <span data-i18n="btn_word">Word فائل</span>
+                </button>
+
+                <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold flex items-center gap-2 shadow-lg transition">
+                    <i class="fa-solid fa-print"></i>
+                    <span data-i18n="btn_print">پرنٹ / PDF</span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Workspace -->
-    <div class="workspace">
-        <!-- Control Panel -->
-        <div class="panel">
-            <h3 id="ui-settings"><span>کمپوزنگ ٹولز اور سیٹنگز</span> ⚙️</h3>
+    <!-- =====================================================================
+         MODE 1: MULTI-PAGE URDU DOCUMENT & LEGAL COMPOSING STUDIO
+         ===================================================================== -->
+    <main id="studioMode-composer" class="max-w-[1750px] mx-auto px-4 lg:px-8 py-6">
+        
+        <!-- REAL-TIME GULABI URDU (ROMAN URDU) TRANSLITERATION BAR -->
+        <section class="studio-panel p-4 mb-6 border-2 border-emerald-600/50 bg-gradient-to-l from-emerald-950/5 via-transparent to-amber-500/5 no-print">
+            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+                
+                <div class="flex items-center gap-3 min-w-[260px]">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow live-badge">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-extrabold text-sm sm:text-base text-emerald-700 dark:text-emerald-400" data-i18n="roman_title">
+                                گلابی اردو (Roman Urdu) سے اصلی اردو کنورٹر
+                            </h2>
+                            <span class="text-[11px] bg-emerald-600 text-white px-2 py-0.5 rounded font-bold">100% ACTIVE</span>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="roman_sub">
+                            انگلش حروف میں لکھیں اور Space یا Enter دبائیں — خودکار نستعلیق اردو میں تبدیل ہو کر صفحے میں شامل ہو جائے گا!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Roman Input Field & Live Suggestions -->
+                <div class="flex-grow relative">
+                    <div class="flex gap-2">
+                        <div class="relative flex-grow">
+                            <input 
+                                type="text" 
+                                id="romanFastInput" 
+                                dir="ltr"
+                                class="studio-input !py-3 !px-4 !text-base font-semibold border-2 border-emerald-500/60 shadow-inner"
+                                placeholder="Type Roman Urdu here e.g.: ba khidmat janab sho sahib thana chowk azam ... (Press Space or Enter)"
+                                autocomplete="off"
+                            >
+                            <!-- Floating Suggestions Bar -->
+                            <div id="romanSuggestionsBox" class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-slate-800 border-2 border-emerald-600 rounded-xl shadow-2xl z-50 p-2 flex items-center gap-2 flex-wrap" dir="rtl">
+                                <span class="text-xs text-slate-400 font-semibold px-2">انتخاب کریں:</span>
+                                <div id="suggestionItems" class="flex items-center gap-2 flex-wrap"></div>
+                            </div>
+                        </div>
+                        <button onclick="convertFullRomanSentence()" class="px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm whitespace-nowrap shadow flex items-center gap-2">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span data-i18n="btn_insert_urdu">اردو میں داخل کریں</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inline Direct Editor Roman Mode Toggle -->
+                <div class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800/90 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700">
+                    <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                        <input type="checkbox" id="inlineRomanToggle" checked class="w-5 h-5 accent-emerald-600 rounded cursor-pointer">
+                        <div>
+                            <span class="text-xs sm:text-sm font-bold block" data-i18n="inline_roman_lbl">ڈائریکٹ ایڈیٹر رومن موڈ</span>
+                            <span class="text-[11px] text-emerald-600 dark:text-emerald-400 block">صفحے کے اندر بھی رومن لکھنے پر اردو بنے گی</span>
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WORKSPACE GRID: CONTROLS ON ONE SIDE, PAPER PREVIEW ON OTHER -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
             
-            <div class="form-group">
-                <label id="lbl-template">دستاویز کی کیٹیگری / ٹیمپلیٹ:</label>
-                <select id="templateSelect" onchange="loadTemplate()">
-                    <option value="police">پولیس شکایت / ایف آئی آر (Police Application)</option>
-                    <option value="court">حلف نامہ / اسٹامپ پیپر (Court Affidavit)</option>
-                    <option value="rental">معاہدہ کرایہ نامہ (Rental Agreement)</option>
-                    <option value="stamp">اسٹامپ پیپر اسٹینڈرڈ دستاویز</option>
-                    <option value="application">سرکاری و پرائیویٹ درخواست</option>
-                    <option value="idcard">اسٹوڈنٹ شناختی کارڈ فارمیٹ</option>
-                </select>
-            </div>
+            <!-- LEFT/RIGHT SIDEBAR CONTROLS (5 Cols on XL) -->
+            <aside class="xl:col-span-5 flex flex-col gap-5 no-print">
+                
+                <!-- 1. Templates & Categories Card -->
+                <div class="studio-panel p-5">
+                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
+                        <h3 class="font-extrabold text-base flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                            <i class="fa-solid fa-folder-open text-amber-500"></i>
+                            <span data-i18n="sec_templates">تیار شدہ قانونی و دفتری ٹیمپلیٹس (12+)</span>
+                        </h3>
+                        <span class="text-xs font-bold text-slate-400">فوری لوڈ کریں</span>
+                    </div>
 
-            <div class="form-group">
-                <label id="lbl-font">پروفیشنل اردو فونٹس:</label>
-                <select id="fontSelect" onchange="updateFont()">
-                    <option value="'Noto Nastaliq Urdu', serif">نوٹو نستعلیق اردو (Nastaliq)</option>
-                    <option value="'Gulzar', serif">خطِ گلزار (Gulzar)</option>
-                    <option value="'Amiri', serif">خطِ امیری (Amiri)</option>
-                    <option value="'Lateef', serif">خطِ لطیف (Lateef)</option>
-                    <option value="'Scheherazade New', serif">شہر زاد (Scheherazade)</option>
-                    <option value="'Tajawal', sans-serif">تجاول (Modern Sans)</option>
-                </select>
-            </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="text-xs font-bold mb-1.5 block" data-i18n="lbl_select_template">دستاویز کی قسم منتخب کریں:</label>
+                            <select id="templateSelector" onchange="applySelectedTemplate()" class="studio-input font-semibold">
+                                <option value="police_fir">1. پولیس درخواست / اندراج مقدمہ (SHO)</option>
+                                <option value="affidavit">2. بیانِ حلفی / اسٹامپ پیپر (Affidavit)</option>
+                                <option value="rental_deed">3. معاہدہ کرایہ نامہ (مکان / دکان)</option>
+                                <option value="vehicle_sale">4. اقرار نامہ بیع موٹر سائیکل / گاڑی</option>
+                                <option value="mepco_meter">5. درخواست برائے بجلی میٹر (MEPCO)</option>
+                                <option value="nadra_correction">6. درخواست درستگی ریکارڈ (NADRA)</option>
+                                <option value="school_leave">7. درخواست برائے رخصت / فیس معافی</option>
+                                <option value="character_cert">8. کریکٹر و تجربہ سرٹیفکیٹ</option>
+                                <option value="legal_notice">9. قانونی نوٹس / اقرار نامہ قرضہ</option>
+                                <option value="job_app">10. درخواست برائے ملازمت (Job Application)</option>
+                                <option value="letterhead">11. آفیشل کاروباری لیٹر ہیڈ (Al Ghadeer)</option>
+                                <option value="blank_doc">12. سادہ نیا صفحہ (Blank Document)</option>
+                            </select>
+                        </div>
 
-            <div class="form-group">
-                <label id="lbl-pagesize">کاغذ کا سائز اور مارجن:</label>
-                <div style="display: flex; gap: 10px;">
-                    <select id="paperSize" onchange="updatePaperSize()">
-                        <option value="297mm">A4 سائز (Standard)</option>
-                        <option value="356mm">Legal سائز (14 Inch)</option>
-                        <option value="279mm">Letter سائز</option>
-                    </select>
-                    <select id="topMargin" onchange="updateMargin()">
-                        <option value="40px">عام مارجن</option>
-                        <option value="120px">اسٹامپ پیپر (اوپر جگہ)</option>
-                        <option value="200px">بڑا اسٹامپ مارجن</option>
-                    </select>
+                        <div>
+                            <label class="text-xs font-bold mb-1.5 block" data-i18n="lbl_font_family">پروفیشنل اردو فونٹ منتخب کریں:</label>
+                            <select id="fontSelector" onchange="updateTypography()" class="studio-input font-semibold">
+                                <option value="font-nastaliq">نستعلیق اردو (Noto Nastaliq - Best)</option>
+                                <option value="font-gulzar">خطِ گلزار نستعلیق (Gulzar Lahori)</option>
+                                <option value="font-amiri">خطِ امیری نسخ (Amiri Quranic/Legal)</option>
+                                <option value="font-lateef">خطِ لطیف سندھی/اردو (Lateef Classic)</option>
+                                <option value="font-scheherazade">خطِ شہر زاد (Scheherazade Royal)</option>
+                                <option value="font-kufi">خطِ کوفی ہیڈنگ (Reem Kufi Modern)</option>
+                                <option value="font-tajawal">تجاول ماڈرن (Tajawal Clean)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quick Legal Phrase Chips -->
+                    <div>
+                        <label class="text-xs font-bold mb-2 block text-slate-500 dark:text-slate-400" data-i18n="lbl_quick_chips">
+                            فوری قانونی الفاظ (کلک کر کے درج کریں):
+                        </label>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="insertPhrase('بخدمت جناب ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">بخدمت جناب</button>
+                            <button onclick="insertPhrase('جنابِ عالی! ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">جنابِ عالی!</button>
+                            <button onclick="insertPhrase('نہایت ادب سے گزارش ہے کہ ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">گزارش ہے کہ</button>
+                            <button onclick="insertPhrase('سائل التماس کرتا ہے کہ ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">التماس ہے کہ</button>
+                            <button onclick="insertPhrase('منکہ مسمی ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">منکہ مسمی</button>
+                            <button onclick="insertPhrase('حلفاً اقرار کرتا ہوں کہ ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">حلفاً اقرار</button>
+                            <button onclick="insertPhrase('تحصیل چوک اعظم ضلع لیہ ')" class="px-2.5 py-1 rounded-lg bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 dark:text-emerald-300 border border-emerald-600/30 text-xs font-bold transition">چوک اعظم ضلع لیہ</button>
+                            <button onclick="insertPhrase('\nالعارض:\n')" class="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-600 hover:text-white text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-bold transition">العارض</button>
+                            <button onclick="insertPhrase('گواہ شد اول: ________________    گواہ شد دوم: ________________')" class="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-600 hover:text-white text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-bold transition">گواہان کی لائن</button>
+                            <button onclick="insertTodayDate()" class="px-2.5 py-1 rounded-lg bg-blue-600/15 hover:bg-blue-600 hover:text-white text-blue-700 dark:text-blue-300 border border-blue-500/30 text-xs font-bold transition">آج کی تاریخ ڈالیں</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label id="lbl-translit">رومن سے اردو کنورٹر (Roman Urdu to Urdu):</label>
-                <input type="text" id="romanInput" placeholder="Misal: ba khidmat janab sho..." onkeyup="smartTransliterate(event)">
-                <small style="opacity: 0.7; font-size: 11px;">(انگلش میں لکھ کر Space دبائیں، خودکار اردو میں بدل جائے گا)</small>
-            </div>
+                <!-- 2. Paper Setup, Stamp Paper Margin & Styling -->
+                <div class="studio-panel p-5">
+                    <h3 class="font-extrabold text-base flex items-center gap-2 text-emerald-700 dark:text-emerald-400 border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
+                        <i class="fa-solid fa-sliders text-amber-500"></i>
+                        <span data-i18n="sec_pagesetup">کاغذ کا سائز، اسٹامپ مارجن اور فونٹ سیٹنگز</span>
+                    </h3>
 
-            <div class="form-group">
-                <label id="lbl-content">متن لکھیں (Main Document Content):</label>
-                <div class="chips-container">
-                    <span class="chip" onclick="insertText('بخدمت جناب ')">بخدمت جناب</span>
-                    <span class="chip" onclick="insertText('جناب عالی، ')">جناب عالی</span>
-                    <span class="chip" onclick="insertText('التماس ہے کہ ')">التماس ہے کہ</span>
-                    <span class="chip" onclick="insertText('العارض: ')">العارض</span>
-                    <span class="chip" onclick="insertText('مورخہ: ')">مورخہ</span>
-                    <span class="chip" onclick="insertText('دستخط: ')">دستخط</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                        <div>
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_paper_size">کاغذ کا سائز:</label>
+                            <select id="paperSizeSelect" onchange="updatePaperLayout()" class="studio-input text-xs font-bold">
+                                <option value="size-a4">A4 سائز (Standard)</option>
+                                <option value="size-legal">Legal سائز (14 انچ اسٹامپ)</option>
+                                <option value="size-letter">Letter سائز</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_stamp_margin">اسٹامپ پیپر مارجن (اوپر جگہ):</label>
+                            <select id="stampMarginSelect" onchange="updatePaperLayout()" class="studio-input text-xs font-bold">
+                                <option value="0">عام صفحہ (0 انچ)</option>
+                                <option value="120">چھوٹا اسٹامپ مارجن (1.5 انچ)</option>
+                                <option value="210">اسٹینڈرڈ اسٹامپ پیپر (2.5 انچ)</option>
+                                <option value="310">بڑا اسٹامپ پیپر (3.8 انچ)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-2 sm:col-span-1">
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_page_border">صفحے کا بارڈر (Border):</label>
+                            <select id="pageBorderSelect" onchange="updatePaperLayout()" class="studio-input text-xs font-bold">
+                                <option value="border-none">بغیر بارڈر کے (Plain)</option>
+                                <option value="border-classic" selected>ڈبل قانونی بارڈر (Classic)</option>
+                                <option value="border-royal">شاہی سنہری بارڈر (Royal)</option>
+                                <option value="border-official">سنگل آفیشل لائن</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sliders for Font Size & Line Height -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 bg-slate-100 dark:bg-slate-800/60 p-3 rounded-xl">
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span data-i18n="lbl_fontsize">فونٹ سائز (Font Size):</span>
+                                <span id="fontSizeVal" class="text-emerald-600">18px</span>
+                            </div>
+                            <input type="range" id="fontSizeSlider" min="13" max="32" value="18" oninput="updateTypography()" class="w-full accent-emerald-600 cursor-pointer">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span data-i18n="lbl_lineheight">لائن کا فاصلہ (Line Spacing):</span>
+                                <span id="lineHeightVal" class="text-emerald-600">2.3</span>
+                            </div>
+                            <input type="range" id="lineHeightSlider" min="1.5" max="3.5" step="0.1" value="2.3" oninput="updateTypography()" class="w-full accent-emerald-600 cursor-pointer">
+                        </div>
+                    </div>
+
+                    <!-- Formatting & Checkboxes -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="execFormat('bold')" title="Bold" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-emerald-600 hover:text-white font-bold"><i class="fa-solid fa-bold"></i></button>
+                            <button onclick="execFormat('underline')" title="Underline" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-emerald-600 hover:text-white font-bold"><i class="fa-solid fa-underline"></i></button>
+                            <button onclick="setDocAlign('right')" title="Align Right" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-emerald-600 hover:text-white"><i class="fa-solid fa-align-right"></i></button>
+                            <button onclick="setDocAlign('center')" title="Align Center" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-emerald-600 hover:text-white"><i class="fa-solid fa-align-center"></i></button>
+                            <button onclick="setDocAlign('justify')" title="Justify" class="w-9 h-9 rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-emerald-600 hover:text-white"><i class="fa-solid fa-align-justify"></i></button>
+                        </div>
+
+                        <div class="flex items-center gap-4 text-xs font-bold">
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" id="toggleHeaderCheck" checked onchange="updatePaperLayout()" class="accent-emerald-600 w-4 h-4">
+                                <span data-i18n="chk_header">ہیڈر دکھائیں</span>
+                            </label>
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" id="toggleWatermarkCheck" checked onchange="updatePaperLayout()" class="accent-emerald-600 w-4 h-4">
+                                <span data-i18n="chk_watermark">واٹر مارک</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <textarea id="mainContent" oninput="liveUpdate()"></textarea>
-            </div>
 
-            <div class="form-group">
-                <label id="lbl-footer">فوٹر / سائل کا نام:</label>
-                <input type="text" id="signInput" value="العارض: محمد جنید علی (Al Ghadeer Digital Services)" oninput="liveUpdate()">
+                <!-- 3. Document Header, Main Text Editor & Footer Controls -->
+                <div class="studio-panel p-5">
+                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
+                        <h3 class="font-extrabold text-base flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                            <i class="fa-solid fa-pen-nib text-amber-500"></i>
+                            <span data-i18n="sec_editor">مضمون اور ہیڈر ایڈیٹر (موجودہ صفحہ)</span>
+                        </h3>
+                        <button onclick="clearCurrentPageText()" class="text-xs text-red-500 hover:underline font-bold">
+                            <i class="fa-solid fa-eraser"></i> صفحہ صاف کریں
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_doc_title">سرخی / عنوان (Header Title):</label>
+                            <input type="text" id="docHeaderTitleInput" value="بخدمت جناب ایس ایچ او صاحب، تھانہ چوک اعظم" oninput="syncEditorToPage()" class="studio-input font-bold">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_doc_sub">ذیلی سرخی (Subtitle / Address):</label>
+                            <input type="text" id="docHeaderSubInput" value="تحصیل چوک اعظم، ضلع لیہ" oninput="syncEditorToPage()" class="studio-input">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-bold" data-i18n="lbl_main_textarea">مکمل تحریر (یہاں لکھیں یا سیدھا سفید صفحے پر کلک کر کے لکھیں):</label>
+                            <span id="wordCountBadge" class="text-[11px] font-bold text-emerald-600">الفاظ: 0</span>
+                        </div>
+                        <textarea 
+                            id="mainTextareaEditor" 
+                            rows="8" 
+                            oninput="syncTextareaToActivePage()"
+                            class="studio-input font-nastaliq !text-base !leading-loose"
+                            placeholder="اپنی درخواست یا معاہدے کی تحریر یہاں ٹائپ کریں..."
+                        ></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_footer_right">دائیں فوٹر (العارض / دستخط):</label>
+                            <input type="text" id="docFooterRightInput" value="العارض: محمد جنید علی حسینی" oninput="syncEditorToPage()" class="studio-input">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold mb-1 block" data-i18n="lbl_footer_left">بائیں فوٹر (کمپوزنگ کریڈٹ):</label>
+                            <input type="text" id="docFooterLeftInput" value="Al Ghadeer Digital Services (+92 3287892826)" oninput="syncEditorToPage()" class="studio-input" dir="ltr">
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- RIGHT/MAIN LIVE MULTI-PAGE PAPER PREVIEW AREA (7 Cols on XL) -->
+            <section class="xl:col-span-7 flex flex-col items-center print-full-width">
+                
+                <!-- Multi-Page Controller Bar -->
+                <div class="w-full studio-panel p-3.5 mb-5 flex flex-wrap items-center justify-between gap-3 no-print">
+                    <div class="flex items-center gap-2 flex-wrap" id="pageTabsContainer">
+                        <!-- Dynamic Page Tabs Rendered Here -->
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="addNewPage()" class="px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1.5 shadow transition">
+                            <i class="fa-solid fa-plus"></i>
+                            <span data-i18n="btn_add_page">نیا صفحہ شامل کریں (+)</span>
+                        </button>
+                        <button onclick="duplicateCurrentPage()" class="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-emerald-600 hover:text-white text-xs font-bold flex items-center gap-1.5 transition" title="موجودہ صفحہ ڈپلیکیٹ کریں">
+                            <i class="fa-solid fa-copy"></i>
+                            <span class="hidden sm:inline" data-i18n="btn_dup_page">ڈپلیکیٹ</span>
+                        </button>
+                        <button onclick="deleteCurrentPage()" class="px-3 py-2 rounded-xl bg-red-500/15 text-red-600 hover:bg-red-600 hover:text-white text-xs font-bold flex items-center gap-1.5 transition" title="صفحہ حذف کریں">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Pages Render Container -->
+                <div id="pagesRenderWrapper" class="w-full overflow-x-auto flex flex-col items-center pb-10 print-full-width">
+                    <!-- Realistic A4/Legal Pages Injected by JS -->
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- =====================================================================
+         MODE 2: HEAVY DESIGN STUDENT & EMPLOYEE ID CARD STUDIO
+         ===================================================================== -->
+    <main id="studioMode-idcard" class="hidden max-w-[1750px] mx-auto px-4 lg:px-8 py-6">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+            
+            <!-- ID Card Controls (5 Cols) -->
+            <aside class="xl:col-span-5 studio-panel p-6 no-print">
+                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-5">
+                    <h2 class="text-lg font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+                        <i class="fa-solid fa-id-badge text-amber-500"></i>
+                        <span>پروفیشنل اسٹوڈنٹ اینڈ اسٹاف کارڈ میکر</span>
+                    </h2>
+                    <span class="text-xs bg-amber-500/20 text-amber-600 px-2.5 py-1 rounded-full font-bold">فرنٹ + بیک ڈیزائن</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div class="sm:col-span-2">
+                        <label class="text-xs font-bold mb-1 block">ادارے / اسکول / کالج کا نام:</label>
+                        <input type="text" id="idInstName" value="الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی" oninput="updateIdCardPreview()" class="studio-input font-bold">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">ذیلی عنوان / شہر:</label>
+                        <input type="text" id="idInstSub" value="چوک اعظم، ضلع لیہ (پنجاب)" oninput="updateIdCardPreview()" class="studio-input">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">کارڈ کا رنگ (Card Theme):</label>
+                        <select id="idThemeSelect" onchange="updateIdCardPreview()" class="studio-input font-bold">
+                            <option value="emerald">زمرد سبز اور گولڈ (Royal Emerald)</option>
+                            <option value="navy">رائل نیوی بلیو (Oxford Navy)</option>
+                            <option value="crimson">کریمسن میرون (Executive Maroon)</option>
+                            <option value="darkgold">بلیک اینڈ گولڈ (VIP Luxury Dark)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">طالب علم / ملازم کا نام:</label>
+                        <input type="text" id="idStudentName" value="محمد جنید علی حسینی" oninput="updateIdCardPreview()" class="studio-input font-bold">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">والد کا نام (Father Name):</label>
+                        <input type="text" id="idFatherName" value="غلام عباس حسینی" oninput="updateIdCardPreview()" class="studio-input">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">کلاس / عہدہ (Class / Designation):</label>
+                        <input type="text" id="idCourse" value="ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)" oninput="updateIdCardPreview()" class="studio-input">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">رول نمبر / آئی ڈی نمبر:</label>
+                        <input type="text" id="idRollNo" value="AG-2026-089" oninput="updateIdCardPreview()" class="studio-input" dir="ltr">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">بلڈ گروپ (Blood Group):</label>
+                        <input type="text" id="idBlood" value="B+ Positive" oninput="updateIdCardPreview()" class="studio-input" dir="ltr">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">تاریخِ اجرا تا میعاد (Validity):</label>
+                        <input type="text" id="idValidity" value="Oct 2026 - Oct 2027" oninput="updateIdCardPreview()" class="studio-input" dir="ltr">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">ایمرجنسی فون نمبر:</label>
+                        <input type="text" id="idPhone" value="+92 328 7892826" oninput="updateIdCardPreview()" class="studio-input" dir="ltr">
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">تصویر اپ لوڈ کریں (Student Photo):</label>
+                        <input type="file" id="idPhotoUpload" accept="image/*" onchange="handleIdPhotoUpload(event)" class="studio-input !p-1.5 text-xs">
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label class="text-xs font-bold mb-1 block">مکمل پتہ (Back Side Address):</label>
+                        <input type="text" id="idAddress" value="لیہ روڈ نزد حافظ فارمیسی بالمقابل اوپو موبائل مارکیٹ، چوک اعظم ضلع لیہ" oninput="updateIdCardPreview()" class="studio-input">
+                    </div>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <button onclick="exportIdCardJPEG()" class="flex-1 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i>
+                        <span>ایچ ڈی کارڈ تصویر ڈاؤن لوڈ کریں (JPEG)</span>
+                    </button>
+                    <button onclick="window.print()" class="px-5 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-print"></i>
+                        <span>پرنٹ کارڈ</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- ID Card Front & Back Live Preview (7 Cols) -->
+            <section class="xl:col-span-7 flex flex-col items-center">
+                <div id="idCardsCaptureArea" class="flex flex-wrap items-center justify-center gap-8 p-6 rounded-2xl bg-slate-200/60 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-800">
+                    
+                    <!-- FRONT ID CARD -->
+                    <div id="idCardFrontBox" class="id-card-box border border-slate-200">
+                        <!-- Top Curved Header -->
+                        <div id="idHeaderBg" class="bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-900 text-white pt-5 pb-14 px-4 text-center relative">
+                            <div class="w-10 h-10 rounded-full bg-white/15 border border-amber-300/60 flex items-center justify-center mx-auto mb-1.5">
+                                <i class="fa-solid fa-graduation-cap text-amber-300 text-lg"></i>
+                            </div>
+                            <h3 id="prevIdInstName" class="font-nastaliq font-bold text-base leading-relaxed">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</h3>
+                            <p id="prevIdInstSub" class="text-[11px] text-amber-200 font-semibold mt-0.5">چوک اعظم، ضلع لیہ (پنجاب)</p>
+                            <!-- Decorative Wave -->
+                            <div class="absolute -bottom-6 left-0 right-0 h-12 bg-white rounded-t-[50%]"></div>
+                        </div>
+
+                        <!-- Student Avatar & Name -->
+                        <div class="relative -mt-14 flex flex-col items-center px-5 z-10">
+                            <div class="w-28 h-28 rounded-full border-4 border-amber-500 shadow-xl overflow-hidden bg-slate-100 flex items-center justify-center">
+                                <img id="prevIdPhoto" src="https://placehold.co/200x200/047857/ffffff?text=STUDENT" alt="Student" class="w-full h-full object-cover">
+                            </div>
+                            <span id="prevIdRollBadge" class="mt-2 px-3 py-0.5 rounded-full bg-emerald-700 text-white font-bold text-xs tracking-wider shadow" dir="ltr">
+                                ID: AG-2026-089
+                            </span>
+                            <h4 id="prevIdStudentName" class="font-nastaliq font-extrabold text-xl text-slate-900 mt-1 text-center">
+                                محمد جنید علی حسینی
+                            </h4>
+                            <p id="prevIdCourse" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200 mt-1 text-center">
+                                ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)
+                            </p>
+                        </div>
+
+                        <!-- Details Table -->
+                        <div class="px-6 py-3 text-xs space-y-2 border-t border-slate-100 mt-1">
+                            <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-1">
+                                <span class="text-slate-500 font-bold">والد کا نام:</span>
+                                <span id="prevIdFather" class="font-bold text-slate-800">غلام عباس حسینی</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-1">
+                                <span class="text-slate-500 font-bold">بلڈ گروپ:</span>
+                                <span id="prevIdBlood" class="font-extrabold text-red-600" dir="ltr">B+ Positive</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-dashed border-slate-200 pb-1">
+                                <span class="text-slate-500 font-bold">میعاد کارڈ:</span>
+                                <span id="prevIdValidity" class="font-bold text-slate-800" dir="ltr">Oct 2026 - Oct 2027</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500 font-bold">رابطہ نمبر:</span>
+                                <span id="prevIdPhone" class="font-bold text-emerald-800" dir="ltr">+92 328 7892826</span>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Bar -->
+                        <div id="idFooterBg" class="bg-emerald-900 text-white py-2.5 px-4 text-center text-[11px] font-semibold flex justify-between items-center">
+                            <span>دستخط اتھارٹی: _____________</span>
+                            <span class="text-amber-300 font-bold">AL GHADEER</span>
+                        </div>
+                    </div>
+
+                    <!-- BACK ID CARD -->
+                    <div class="id-card-box border border-slate-200 p-6 flex flex-col justify-between bg-slate-50">
+                        <div>
+                            <div class="text-center border-b-2 border-emerald-700 pb-3 mb-4">
+                                <h4 class="font-bold text-sm text-emerald-800">ضروری ہدایات و معلومات</h4>
+                                <p class="text-[11px] text-slate-500">Instructions & Verification</p>
+                            </div>
+
+                            <ul class="text-xs text-slate-700 space-y-2.5 leading-relaxed list-disc pr-4">
+                                <li>یہ کارڈ ادارے کی ملکیت ہے اور ناقابلِ انتقال ہے۔</li>
+                                <li>ادارے کے اندر ہر وقت کارڈ آویزاں رکھنا لازمی ہے۔</li>
+                                <li>گمشدگی کی صورت میں فوری طور پر آفس میں اطلاع دیں۔</li>
+                            </ul>
+
+                            <div class="mt-4 p-3 rounded-xl bg-white border border-slate-200 text-center">
+                                <p class="text-[11px] font-bold text-slate-500 mb-1">پتہ (Address):</p>
+                                <p id="prevIdAddress" class="text-xs font-bold text-slate-800 leading-relaxed">
+                                    لیہ روڈ نزد حافظ فارمیسی بالمقابل اوپو موبائل مارکیٹ، چوک اعظم ضلع لیہ
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic QR Code Verification -->
+                        <div class="flex flex-col items-center my-2">
+                            <div class="p-2 bg-white rounded-xl border-2 border-emerald-600 shadow">
+                                <img id="prevIdQr" src="https://api.qrserver.com/v1/create-qr-code/?size=95x95&data=AlGhadeer-AG-2026-089" alt="QR Code" class="w-20 h-20">
+                            </div>
+                            <span class="text-[10px] text-slate-500 mt-1 font-semibold">اسکین برائے تصدیق ریکارڈ</span>
+                        </div>
+
+                        <div class="border-t border-slate-300 pt-3 text-center">
+                            <p class="text-xs font-extrabold text-emerald-800">Al Ghadeer Digital Services</p>
+                            <p class="text-[11px] text-slate-600" dir="ltr">+92 3287892826 | info.alghadeer@yahoo.com</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- =====================================================================
+         MODE 3: OFFICIAL RECEIPT & INVOICE GENERATOR FOR AL GHADEER
+         ===================================================================== -->
+    <main id="studioMode-invoice" class="hidden max-w-[1400px] mx-auto px-4 lg:px-8 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Invoice Form Controls -->
+            <aside class="lg:col-span-5 studio-panel p-6 no-print">
+                <h2 class="text-lg font-extrabold text-emerald-700 dark:text-emerald-400 border-b border-slate-200 dark:border-slate-700 pb-3 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice-dollar text-amber-500"></i>
+                    <span>الغدیر ڈیجیٹل سروسز - کسٹمر بلنگ و رسید</span>
+                </h2>
+
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-bold mb-1 block">رسید نمبر (Invoice #):</label>
+                            <input type="text" id="invNumber" value="AG-INV-1042" oninput="renderInvoice()" class="studio-input font-bold" dir="ltr">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold mb-1 block">تاریخ (Date):</label>
+                            <input type="text" id="invDate" value="31-10-2026" oninput="renderInvoice()" class="studio-input" dir="ltr">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold mb-1 block">کسٹمر کا نام (Customer Name):</label>
+                        <input type="text" id="invCustomer" value="محترم محمد کامران صاحب" oninput="renderInvoice()" class="studio-input font-bold">
+                    </div>
+
+                    <!-- Add New Item Row -->
+                    <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700">
+                        <label class="text-xs font-bold mb-2 block text-emerald-700 dark:text-emerald-400">نئی سروس شامل کریں:</label>
+                        <div class="grid grid-cols-12 gap-2">
+                            <input type="text" id="newItemDesc" placeholder="اردو کمپوزنگ / اسٹامپ پیپر پرنٹ..." class="col-span-6 studio-input !text-xs">
+                            <input type="number" id="newItemQty" value="1" min="1" class="col-span-2 studio-input !text-xs text-center" placeholder="تعداد">
+                            <input type="number" id="newItemPrice" value="300" min="0" class="col-span-4 studio-input !text-xs" placeholder="قیمت (Rs)">
+                        </div>
+                        <button onclick="addInvoiceItem()" class="mt-2.5 w-full py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> بل میں شامل کریں
+                        </button>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="window.print()" class="flex-1 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-print"></i> پرنٹ رسید
+                        </button>
+                        <button onclick="resetInvoiceItems()" class="px-4 py-3 rounded-xl bg-red-500/15 text-red-600 hover:bg-red-600 hover:text-white font-bold text-xs">
+                            صاف کریں
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Live Printable Receipt Preview -->
+            <section class="lg:col-span-7 flex justify-center print-full-width">
+                <div id="invoiceCaptureBox" class="bg-white text-slate-900 p-8 rounded-2xl shadow-2xl border-2 border-emerald-800 w-full max-w-[700px]">
+                    <div class="flex justify-between items-start border-b-4 border-double border-emerald-800 pb-4 mb-5">
+                        <div>
+                            <h2 class="font-nastaliq text-2xl font-extrabold text-emerald-800">الغدیر ڈیجیٹل سروسز - چوک اعظم</h2>
+                            <p class="text-xs font-bold text-slate-600 mt-1">اردو، انگلش کمپوزنگ، اسٹامپ پیپر، آن لائن فارم، نادرا و پرنٹنگ سروسز</p>
+                            <p class="text-xs text-slate-500 mt-0.5">لیہ روڈ نزد حافظ فارمیسی بالمقابل اوپو موبائل مارکیٹ، چوک اعظم ضلع لیہ</p>
+                        </div>
+                        <div class="text-left" dir="ltr">
+                            <span class="bg-emerald-800 text-white px-3 py-1 rounded-lg font-extrabold text-sm">CASH RECEIPT</span>
+                            <p class="text-xs font-bold mt-2">Prop: Junaid Ali Hussaini</p>
+                            <p class="text-xs text-emerald-700 font-bold">+92 3287892826</p>
+                            <p class="text-[11px] text-slate-500">info.alghadeer@yahoo.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-100 p-3 rounded-xl mb-5 text-sm font-bold">
+                        <div>نام کسٹمر: <span id="prevInvCustomer" class="text-emerald-800">محترم محمد کامران صاحب</span></div>
+                        <div dir="ltr">Invoice: <span id="prevInvNumber">AG-INV-1042</span> | Date: <span id="prevInvDate">31-10-2026</span></div>
+                    </div>
+
+                    <table class="w-full text-sm border-collapse mb-6">
+                        <thead>
+                            <tr class="bg-emerald-800 text-white">
+                                <th class="p-2.5 text-right rounded-tr-lg">#</th>
+                                <th class="p-2.5 text-right">تفصیل سروس / کام (Description)</th>
+                                <th class="p-2.5 text-center">تعداد</th>
+                                <th class="p-2.5 text-center">نرخ (Rate)</th>
+                                <th class="p-2.5 text-left rounded-tl-lg">کل رقم (Rs)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoiceTableBody" class="divide-y divide-slate-200">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+
+                    <div class="flex justify-between items-center border-t-2 border-slate-800 pt-4">
+                        <div class="text-xs text-slate-600 space-y-1">
+                            <p class="font-bold text-emerald-800">شکریہ! آپ کی تشریف آوری ہمارے لیے باعثِ مسرت ہے۔</p>
+                            <p>دستخط بمعہ مہر: _______________________</p>
+                        </div>
+                        <div class="bg-emerald-900 text-white px-6 py-3 rounded-xl text-left" dir="ltr">
+                            <span class="text-xs text-amber-300 block font-bold">GRAND TOTAL</span>
+                            <span id="prevInvTotal" class="text-2xl font-extrabold">Rs. 0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ENTERPRISE FOOTER -->
+    <footer class="mt-12 border-t border-slate-300 dark:border-slate-800 py-6 px-4 text-center text-xs sm:text-sm text-slate-600 dark:text-slate-400 no-print">
+        <div class="max-w-[1750px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="font-bold text-emerald-700 dark:text-emerald-400">
+                © 2026 الغدیر ڈیجیٹل سروسز (Al Ghadeer Digital Services) — تمام حقوق محفوظ ہیں۔
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-3 font-medium">
+                <span><i class="fa-solid fa-code text-amber-500 mr-1"></i>Developed by: <strong>Junaid Ali Hussaini</strong></span>
+                <span>|</span>
+                <span dir="ltr"><i class="fa-solid fa-phone text-emerald-600 mr-1"></i>+92 3287892826</span>
+                <span>|</span>
+                <span dir="ltr"><i class="fa-solid fa-envelope text-amber-500 mr-1"></i>info.alghadeer@yahoo.com</span>
+                <span>|</span>
+                <span>لیہ روڈ نزد حافظ فارمیسی بالمقابل اوپو موبائل مارکیٹ، چوک اعظم</span>
             </div>
         </div>
+    </footer>
 
-        <!-- Live Preview Panel -->
-        <div class="panel preview-wrapper" id="previewPanel">
-            <h3><span>لائیو پروفیشنل پریویو (Live Preview Studio)</span> 📄</h3>
-            <div class="page-tabs">
-                <div class="page-tab active" onclick="switchPage(1)">صفحہ نمبر 1</div>
-                <div class="page-tab" onclick="switchPage(2)">صفحہ نمبر 2 (باقی ماندہ)</div>
-            </div>
+    <!-- =====================================================================
+         APPLICATION JAVASCRIPT ENGINE
+         ===================================================================== -->
+    <script>
+        /* -------------------------------------------------------------------
+           1. MASSIVE ROMAN URDU TO REAL URDU DICTIONARY + PHONETIC ENGINE
+           ------------------------------------------------------------------- */
+        const ROMAN_DICTIONARY = {
+            // Multi-word official phrases
+            "ba khidmat": "بخدمت", "bakhidmat": "بخدمت", "ba khidmat janab": "بخدمت جناب",
+            "janab e aali": "جنابِ عالی", "janab aali": "جناب عالی", "guzarish hai ke": "گزارش ہے کہ",
+            "altamas hai ke": "التماس ہے کہ", "iltimas hai ke": "التماس ہے کہ", "kia haal hai": "کیا حال ہے",
+            "kya haal hai": "کیا حال ہے", "assalam o alaikum": "السلام علیکم", "asalam o alaikum": "السلام علیکم",
+            "wa alaikum assalam": "وعلیکم السلام", "insha allah": "ان شاء اللہ", "masha allah": "ماشاء اللہ",
+            "alhamdulillah": "الحمد للہ", "chowk azam": "چوک اعظم", "zila layyah": "ضلع لیہ",
+            "tehsil chowk azam": "تحصیل چوک اعظم", "halaf nama": "حلف نامہ", "kiraya nama": "کرایہ نامہ",
+            "iqrar nama": "اقرار نامہ", "bayan e halfi": "بیانِ حلفی", "al ghadeer": "الغدیر",
+            "junaid ali": "جنید علی", "junaid ali hussaini": "جنید علی حسینی",
 
-            <div id="previewBox" class="document-page" style="font-family: 'Noto Nastaliq Urdu', serif;">
-                <div class="doc-header">
-                    <h2 id="docHeaderTitle">الغدیر ڈیجیٹل سروسز - چوک اعظم</h2>
-                    <p id="docHeaderSub">فون: 3287892826 92+ | ای میل: info.alghadeer@yahoo.com</p>
-                </div>
-                <div id="docBodyContent" class="doc-body"></div>
-                <div class="doc-footer">
-                    <div>دستخط: <span id="prevSign">محمد جنید علی</span></div>
-                    <div>Al Ghadeer Digital Services - Layyah</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            // Single words - Official, Legal, Police, Everyday
+            "janab": "جناب", "sahib": "صاحب", "sahiba": "صاحبہ", "sho": "ایس ایچ او",
+            "dpo": "ڈی پی او", "dc": "ڈپٹی کمشنر", "ac": "اسسٹنٹ کمشنر", "judge": "جج",
+            "thana": "تھانہ", "police": "پولیس", "चौकी": "چوکی", "chowki": "چوکی",
+            "darkhwast": "درخواست", "baraye": "برائے", "anderaj": "اندراج", "muqadma": "مقدمہ",
+            "fir": "ایف آئی آر", "qanooni": "قانونی", "karwai": "کارروائی", "tahafuz": "تحفظ",
+            "unwan": "عنوان", "mozoo": "موضوع", "mozu": "موضوع", "guzarish": "گزارش",
+            "altamas": "التماس", "iltimas": "التماس", "adab": "ادب", "nihayat": "نہایت",
+            "saael": "سائل", "sail": "سائل", "saaela": "سائلہ", "alarz": "العارض", "al-arz": "العارض",
+            "morakha": "مورخہ", "moraikha": "مورخہ", "tareekh": "تاریخ", "tarikh": "تاریخ",
+            "dastakhat": "دستخط", "angootha": "انگوٹھا", "nishan": "نشان", "gawah": "گواہ",
+            "gawahan": "گواہان", "shud": "شد", "awal": "اول", "doam": "دوم", "fareeq": "فریق",
+            "malik": "مالک", "makan": "مکان", "dukan": "دکان", "kirayadar": "کرایہ دار",
+            "mahana": "ماہانہ", "kiraya": "کرایہ", "advance": "ایڈوانس", "security": "سیکیورٹی",
+            "rupay": "روپے", "raqam": "رقم", "naqad": "نقد", "wasool": "وصول", "ada": "ادا",
+            "halaf": "حلف", "halfan": "حلفاً", "bayan": "بیان", "karta": "کرتا", "karti": "کرتی",
+            "hoon": "ہوں", "hon": "ہوں", "hai": "ہے", "hain": "ہیں", "tha": "تھا", "thi": "تھی",
+            "the": "تھے", "ke": "کہ", "ka": "کا", "ki": "کی", "ko": "کو", "se": "سے", "mein": "میں",
+            "main": "میں", "par": "پر", "aur": "اور", "ya": "یا", "bhi": "بھی", "nahi": "نہیں",
+            "na": "نہ", "ek": "ایک", "do": "دو", "teen": "تین", "char": "چار", "panch": "پانچ",
+            "mera": "میرا", "meri": "میری", "mere": "میرے", "ap": "آپ", "aap": "آپ", "hum": "ہم",
+            "hamara": "ہمارا", "woh": "وہ", "wo": "وہ", "yeh": "یہ", "ye": "یہ", "is": "اس", "us": "اس",
+            "in": "ان", "un": "ان", "jo": "جو", "jab": "جب", "tab": "تب", "ab": "اب", "kab": "کب",
+            "kahan": "کہاں", "kyun": "کیوں", "kaise": "کیسے", "kya": "کیا", "kia": "کیا", "kon": "کون",
+            "naam": "نام", "nam": "نام", "walid": "والد", "wald": "ولد", "bint": "بنت", "zoja": "زوجہ",
+            "qaum": "قوم", "qoum": "قوم", "rehaishi": "رہائشی", "sakna": "ساکنہ", "mohalla": "محلہ",
+            "ward": "وارڈ", "gali": "گلی", "road": "روڈ", "bazar": "بازار", "market": "مارکیٹ",
+            "tehsil": "تحصیل", "zila": "ضلع", "layyah": "لیہ", "multan": "ملتان", "lahore": "لاہور",
+            "islamabad": "اسلام آباد", "karachi": "کراچی", "punjab": "پنجاب", "pakistan": "پاکستان",
+            "shanakhti": "شناختی", "card": "کارڈ", "number": "نمبر", "no": "نمبر", "mobile": "موبائل",
+            "phone": "فون", "daftar": "دفتر", "school": "اسکول", "college": "کالج", "principal": "پرنسپل",
+            "meter": "میٹر", "bijli": "بجلی", "wapda": "واپڈا", "mepco": "میپکو", "nadra": "نادرا",
+            "record": "ریکارڈ", "durustagi": "درستگی", "rukhsat": "رخصت", "chuti": "چھٹی",
+            "bimari": "بیماری", "zaroori": "ضروری", "kaam": "کام", "kam": "کام", "fee": "فیس",
+            "muafi": "معافی", "shukriya": "شکریہ", "meharbani": "مہربانی", "nawazish": "نوازش",
+            "hogi": "ہوگی", "hoga": "ہوگا", "muhammad": "محمد", "ali": "علی", "hassan": "حسن",
+            "hussain": "حسین", "hussaini": "حسینی", "ahmed": "احمد", "khan": "خان", "malik": "ملک",
+            "choudhary": "چوہدری", "sheikh": "شیخ", "syed": "سید", "qazi": "قاضی", "hafiz": "حافظ",
+            "chori": "چوری", "daketi": "ڈکیتی", "dhamki": "دھمکی", "zulm": "ظلم", "insaf": "انصاف",
+            "عدالت": "عدالت", "adalat": "عدالت", "wakeel": "وکیل", "gadi": "گاڑی", "motorcycle": "موٹر سائیکل",
+            "model": "ماڈل", "engine": "انجن", "chassis": "چیسز", "registration": "رجسٹریشن",
+            "farokht": "فروخت", "khareed": "خرید", "gawahi": "گواہی", "tasdeeq": "تصدیق",
+            "sach": "سچ", "jhoot": "جھوٹ", "chupaya": "چھپایا", "gaya": "گیا", "gayi": "گئی",
+            "ilm": "علم", "yaqeen": "یقین", "mutabiq": "مطابق", "bilkul": "بالکل", "durust": "درست"
+        };
 
-<script>
-    const dictionary = {
-        'ba khidmat': 'بخدمت', 'janab': 'جناب', 'sho': 'ایس ایچ او', 'dpo': 'ڈسٹرکٹ پولیس آفیسر',
-        'guzarish': 'گزارش ہے کہ', 'altawas': 'التماس ہے کہ', 'morakha': 'مورخہ', 'azarz': 'العارض',
-        'darkhwast': 'درخواست', 'thana': 'تھانہ', 'chowk azam': 'چوک اعظم', 'layyah': 'لیہ',
-        'hallaf': 'حلف نامہ', 'kiraya': 'کرایہ نامہ', 'pakistan': 'پاکستان', 'applicant': 'سائل'
-    };
+        // Phonetic Fallback Mapper so ANY Roman word converts into Urdu script (Never leaves English!)
+        function phoneticRomanToUrdu(word) {
+            if (!word) return "";
+            let w = word.toLowerCase().trim();
+            if (ROMAN_DICTIONARY[w]) return ROMAN_DICTIONARY[w];
 
-    let page1Content = "";
-    let page2Content = "";
-    let activePage = 1;
+            // If already Urdu or numbers/punctuation, return as-is
+            if (!/[a-z]/i.test(w)) return word;
 
-    function smartTransliterate(e) {
-        if (e.key === ' ' || e.keyCode === 32) {
-            let input = document.getElementById('romanInput');
-            let val = input.value.trim().toLowerCase();
-            let converted = dictionary[val] || val;
-            
-            let mainArea = document.getElementById('mainContent');
-            mainArea.value += converted + ' ';
-            input.value = '';
-            liveUpdate();
+            // Multi-character digrams first
+            const digrams = [
+                [/sh/g, 'ش'], [/ch/g, 'چ'], [/kh/g, 'خ'], [/gh/g, 'غ'],
+                [/ph/g, 'پھ'], [/th/g, 'تھ'], [/dh/g, 'دھ'], [/bh/g, 'بھ'],
+                [/jh/g, 'جھ'], [/rh/g, 'ڑھ'], [/zh/g, 'ژ'],
+                [/aa/g, 'ا'], [/ee/g, 'ی'], [/oo/g, 'و'], [/ou/g, 'و'],
+                [/ai/g, 'ے'], [/ay/g, 'ے'], [/ia/g, 'یہ'], [/iy/g, 'ی']
+            ];
+
+            // Handle starting vowel sounds
+            if (w.startsWith("aa")) w = "آ" + w.slice(2);
+            else if (w.startsWith("a")) w = "ا" + w.slice(1);
+            else if (w.startsWith("i") || w.startsWith("e")) w = "اِ" + w.slice(1);
+            else if (w.startsWith("u") || w.startsWith("o")) w = "اُ" + w.slice(1);
+
+            for (const [regex, rep] of digrams) {
+                w = w.replace(regex, rep);
+            }
+
+            const singleChars = {
+                'a': 'ا', 'b': 'ب', 'c': 'ک', 'd': 'د', 'e': 'ی',
+                'f': 'ف', 'g': 'گ', 'h': 'ہ', 'i': 'ی', 'j': 'ج',
+                'k': 'ک', 'l': 'ل', 'm': 'م', 'n': 'ن', 'o': 'و',
+                'p': 'پ', 'q': 'ق', 'r': 'ر', 's': 'س', 't': 'ت',
+                'u': 'و', 'v': 'و', 'w': 'و', 'x': 'کس', 'y': 'ی', 'z': 'ز'
+            };
+
+            let out = "";
+            for (let ch of w) {
+                out += singleChars[ch] !== undefined ? singleChars[ch] : ch;
+            }
+            return out;
         }
-    }
 
-    function liveUpdate() {
-        let text = document.getElementById('mainContent').value;
-        if(activePage === 1) {
-            page1Content = text;
-        } else {
-            page2Content = text;
+        // Async Google Transliteration API + Instant Offline Fallback
+        async function fetchUrduSuggestions(romanWord) {
+            const clean = romanWord.trim().toLowerCase();
+            if (!clean) return [];
+
+            const localCandidates = [];
+            if (ROMAN_DICTIONARY[clean]) {
+                localCandidates.push(ROMAN_DICTIONARY[clean]);
+            }
+            const phoneticWord = phoneticRomanToUrdu(clean);
+            if (!localCandidates.includes(phoneticWord)) {
+                localCandidates.push(phoneticWord);
+            }
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 900);
+                const url = `https://inputtools.google.com/request?text=${encodeURIComponent(clean)}&itc=ur-t-i0-und&num=5&cp=0&cs=1&ie=utf-8&oe=utf-8`;
+                const res = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                const data = await res.json();
+                if (data && data[0] === "SUCCESS" && data[1] && data[1][0] && data[1][0][1]) {
+                    const apiWords = data[1][0][1];
+                    for (let w of apiWords) {
+                        if (!localCandidates.includes(w)) localCandidates.push(w);
+                    }
+                }
+            } catch (err) {
+                // Offline or blocked: local dictionary + phonetic already ready
+            }
+            return localCandidates;
         }
-        document.getElementById('docBodyContent').innerText = text;
-        document.getElementById('prevSign').innerText = document.getElementById('signInput').value;
-    }
 
-    function switchPage(pg) {
-        activePage = pg;
-        document.querySelectorAll('.page-tab').forEach((t, i) => {
-            t.classList.toggle('active', i + 1 === pg);
-        });
-        document.getElementById('mainContent').value = (pg === 1) ? page1Content : page2Content;
-        document.getElementById('docBodyContent').innerText = document.getElementById('mainContent').value;
-    }
+        // Convert an entire sentence of Roman Urdu into Nastaliq Urdu
+        async function transliterateSentence(sentence) {
+            if (!sentence.trim()) return "";
+            let lower = sentence.trim().toLowerCase();
 
-    function updateFont() {
-        document.getElementById('previewBox').style.fontFamily = document.getElementById('fontSelect').value;
-    }
+            // Replace multi-word dictionary matches first
+            const multiKeys = Object.keys(ROMAN_DICTIONARY).filter(k => k.includes(" ")).sort((a, b) => b.length - a.length);
+            for (let phrase of multiKeys) {
+                const reg = new RegExp(`\\b${phrase}\\b`, 'gi');
+                lower = lower.replace(reg, ROMAN_DICTIONARY[phrase]);
+            }
 
-    function updatePaperSize() {
-        document.getElementById('previewBox').style.minHeight = document.getElementById('paperSize').value;
-    }
-
-    function updateMargin() {
-        let margin = document.getElementById('topMargin').value;
-        document.getElementById('previewBox').style.paddingTop = (parseInt(margin) + 20) + 'px';
-    }
-
-    function insertText(txt) {
-        let area = document.getElementById('mainContent');
-        area.value += txt;
-        liveUpdate();
-    }
-
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-    }
-
-    let isUrduUI = true;
-    function toggleLanguage() {
-        isUrduUI = !isUrduUI;
-        document.getElementById('ui-title').innerText = isUrduUI ? 
-            "الغدیر ڈیجیٹل سروسز - پروفیشنل اردو اسٹوڈیو" : 
-            "Al Ghadeer Digital Services - Professional Urdu Studio";
-    }
-
-    function loadTemplate() {
-        let type = document.getElementById('templateSelect').value;
-        let content = "";
-        if(type === 'police') {
-            content = "بخدمت جناب ایس ایچ او صاحب،\nتھانہ چوک اعظم، ضلع لیہ۔\n\nموضوع: درخواست برائے قانونی کارروائی و تحفظ۔\n\nجناب عالی،\nگزارش ہے کہ سائل کا نام محمد جنید علی ہے اور...";
-        } else if(type === 'court') {
-            content = "حلف نامہ (Affidavit):\n\nمشمولہ حلف بیان کرتا ہوں کہ درج بالا تمام کوائف میرے علم و یقین کے مطابق بالکل درست ہیں۔";
-        } else if(type === 'rental') {
-            content = "معاہدہ کرایہ نامہ (Rental Agreement):\n\nیہ معاہدہ فریق اول (مالک مکان) اور فریق دوم (کرایہ دار) کے درمیان طے پایا...";
-        } else if(type === 'idcard') {
-            content = "اسٹوڈنٹ شناختی کارڈ فارمیٹ:\nنام: \nوالد کا نام: \nرول نمبر: \nدارالحکومت / ادارہ: Al Ghadeer Digital Services";
-        } else {
-            content = "بخدمت جناب عالی،\n\nموضوع: درخواست برائے...\n\nگزارش ہے کہ...";
+            // Split remaining words
+            const tokens = lower.split(/\s+/);
+            const resultWords = [];
+            for (let token of tokens) {
+                if (!/[a-z]/i.test(token)) {
+                    resultWords.push(token);
+                } else {
+                    const cleanWord = token.replace(/[^a-z]/gi, '');
+                    if (ROMAN_DICTIONARY[cleanWord]) {
+                        resultWords.push(ROMAN_DICTIONARY[cleanWord]);
+                    } else {
+                        const candidates = await fetchUrduSuggestions(cleanWord);
+                        resultWords.push(candidates[0] || phoneticRomanToUrdu(cleanWord));
+                    }
+                }
+            }
+            return resultWords.join(" ");
         }
-        document.getElementById('mainContent').value = content;
-        page1Content = content;
-        liveUpdate();
-    }
 
-    function exportWord() {
-        let content = document.getElementById('mainContent').value;
-        let blob = new Blob(['\ufeff' + content], { type: 'application/msword' });
-        let url = URL.createObjectURL(blob);
-        let a = document.createElement('a');
-        a.href = url;
-        a.download = 'AlGhadeer_Document.doc';
-        a.click();
-    }
+        /* -------------------------------------------------------------------
+           2. APPLICATION STATE & MULTI-PAGE DOCUMENT STORE
+           ------------------------------------------------------------------- */
+        let appState = {
+            activePageIndex: 0,
+            fontClass: 'font-nastaliq',
+            fontSize: 18,
+            lineHeight: 2.3,
+            textAlign: 'right',
+            paperSize: 'size-a4',
+            stampMargin: 0,
+            pageBorder: 'border-classic',
+            showHeader: true,
+            showWatermark: true,
+            pages: []
+        };
 
-    loadTemplate();
-</script>
+        // 12+ Professional Urdu Templates
+        const URDU_TEMPLATES = {
+            police_fir: {
+                title: "بخدمت جناب ایس ایچ او صاحب، تھانہ چوک اعظم",
+                sub: "تحصیل چوک اعظم، ضلع لیہ (پنجاب)",
+                body: `موضوع: درخواست برائے اندراجِ مقدمہ و قانونی کارروائی۔\n\nجنابِ عالی!\nنہایت ادب سے گزارش ہے کہ سائل محمد جنید علی حسینی ولد غلام عباس حسینی قوم سید، مستقل رہائشی چوک اعظم ضلع لیہ کا امن پسند شہری ہے۔\n\nیہ کہ مورخہ 31-10-2026 بوقت تقریباً شام 5 بجے سائل اپنی دکان واقع لیہ روڈ چوک اعظم پر موجود تھا کہ اچانک ملزمان نے بلاوجہ داخل ہو کر سنگین نتائج کی دھمکیاں دیں اور قیمتی سامان و نقدی کو نقصان پہنچایا۔ موقع پر موجود گواہان نے پورا واقعہ اپنی آنکھوں سے دیکھا۔\n\nلہٰذا جنابِ عالی سے دست بستہ التماس ہے کہ ملزمان کے خلاف فوری طور پر مقدمہ درج کر کے قانونی کارروائی عمل میں لائی جائے اور سائل کو جان و مال کا تحفظ فراہم کیا جائے۔ عین نوازش ہوگی۔\n\nمورخہ: 31 اکتوبر 2026ء\nگواہ شد اول: _____________________          گواہ شد دوم: _____________________`,
+                footerRight: "العارض: محمد جنید علی حسینی (شناختی کارڈ نمبر: _______________)"
+            },
+            affidavit: {
+                title: "بیانِ حلفی (AFFIDAVIT / حلف نامہ)",
+                sub: "بمقام: تحصیل چوک اعظم، ضلع لیہ",
+                body: `منکہ مسمی محمد جنید علی حسینی ولد غلام عباس حسینی ساکن چوک اعظم، تحصیل چوک اعظم، ضلع لیہ، شناختی کارڈ نمبر 32201-0000000-1 بقائمی ہوش و حواس خمسہ بلا جبر و اکراہ حلفاً اقرار و بیان کرتا ہوں کہ:\n\n1۔ یہ کہ من مظہر مندرجہ بالا پتے کا مستقل رہائشی اور پاکستانی شہری ہوں۔\n2۔ یہ کہ من مظہر کی جانب سے جمع کروائے گئے تمام کاغذات، اسناد اور کوائف بالکل درست اور اصل ہیں۔\n3۔ یہ کہ مندرجہ بالا بیان میں کوئی امر مخفی یا پوشیدہ نہیں رکھا گیا۔ اگر کوئی بات خلافِ واقعہ یا جھوٹ ثابت ہو تو من مظہر خود ہر قسم کی قانونی کارروائی کا ذمہ دار ہوگا۔\n\nالمشتہر / بیان دہندہ: _________________________\nتصدیق شدہ بحلف کہ مندرجہ بالا بیان میرے علم و یقین کے مطابق بالکل درست اور صحیح ہے۔`,
+                footerRight: "دستخط و نشانِ انگوٹھا حلف دہندہ: ___________________"
+            },
+            rental_deed: {
+                title: "معاہدہ کرایہ نامہ (دکان / مکان)",
+                sub: "تحصیل چوک اعظم، ضلع لیہ",
+                body: `یہ معاہدہ کرایہ نامہ آج مورخہ 31-10-2026 کو مابین:\nفریقِ اول (مالک): _________________ ولد _________________ ساکن چوک اعظم ضلع لیہ۔\nفریقِ دوم (کرایہ دار): _________________ ولد _________________ ساکن چوک اعظم ضلع لیہ۔\n\nشرائطِ معاہدہ درج ذیل ہیں:\n1۔ یہ کہ فریقِ اول کی ملکیتی دکان/مکان واقع لیہ روڈ چوک اعظم، فریقِ دوم نے مبلغ 15,000 روپے ماہانہ کرایہ پر حاصل کی ہے۔\n2۔ یہ کہ فریقِ دوم ہر ماہ کی 5 تاریخ تک ماہانہ کرایہ ادا کرنے کا پابند ہوگا اور بجلی کا بل الگ سے ادا کرے گا۔\n3۔ یہ کہ فریقِ دوم نے بطور ایڈوانس سیکیورٹی مبلغ 50,000 روپے فریقِ اول کے پاس جمع کروا دیے ہیں جو دکان خالی کرتے وقت واپس ہوں گے۔\n4۔ یہ کہ معاہدے کی مدت 11 ماہ مقرر ہوئی ہے۔ دکان خالی کرنے سے ایک ماہ قبل دونوں فریقین نوٹس دینے کے پابند ہوں گے۔\n\nدستخط مالک مکان (فریقِ اول): _______________     دستخط کرایہ دار (فریقِ دوم): _______________\nگواہ اول: _________________________              گواہ دوم: _________________________`,
+                footerRight: "کمپوزنگ: الغدیر ڈیجیٹل سروسز چوک اعظم"
+            },
+            vehicle_sale: {
+                title: "اقرار نامہ بیع موٹر سائیکل / گاڑی",
+                sub: "تحصیل چوک اعظم، ضلع لیہ",
+                body: `منکہ فریقِ اول (فروخت کنندہ): ________________ ولد ________________ ساکن چوک اعظم ضلع لیہ۔\nفریقِ دوم (خریدار): ________________ ولد ________________ ساکن چوک اعظم ضلع لیہ۔\n\nاقرار کرتا ہوں کہ میں نے اپنی ملکیتی موٹر سائیکل / گاڑی رجسٹریشن نمبر __________ ماڈل ______ انجن نمبر ____________ چیسز نمبر ____________ رنگ ________ بقیمت مبلغ ____________ روپے فریقِ دوم کے ہاتھ فروخت کر دی ہے اور کل رقم نقد روبرو گواہان وصول پا کر گاڑی بمعہ اصل کاغذات قبضہ فریقِ دوم میں دے دی ہے۔\n\nآج کی تاریخ سے قبل گاڑی کے کسی بھی چالان، ایکسیڈنٹ یا قانونی مسئلے کا ذمہ دار فریقِ اول ہوگا، اور آج مورخہ 31-10-2026 بوقت ________ کے بعد تمام ذمہ داری فریقِ دوم پر عائد ہوگی۔\n\nدستخط فروخت کنندہ: ____________________          دستخط خریدار: ____________________\nگواہ شد اول: ________________________            گواہ شد دوم: ________________________`,
+                footerRight: "وثیقہ نویس / کمپوزنگ: الغدیر ڈیجیٹل سروسز"
+            },
+            mepco_meter: {
+                title: "بخدمت جناب ایس ڈی او صاحب (MEPCO / واپڈا)",
+                sub: "سب ڈویژن چوک اعظم، ضلع لیہ",
+                body: `موضوع: درخواست برائے تنصیب نیا گھریلو / کمرشل بجلی میٹر۔\n\nجنابِ عالی!\nنہایت ادب سے گزارش ہے کہ سائل چوک اعظم کا مستقل رہائشی ہے اور سائل نے اپنا نیا مکان / دکان تعمیر کیا ہے جہاں بجلی کے کنکشن کی اشد ضرورت ہے۔\n\nسائل نے محکمہ کے تمام مطلوبہ کاغذات، شناختی کارڈ کی کاپی اور ملکیتی ثبوت درخواست ہذا کے ساتھ لف کر دیے ہیں اور سائل محکمہ کا مقرر کردہ ڈیمانڈ نوٹس ادا کرنے کے لیے تیار ہے۔\n\nلہٰذا جناب سے التماس ہے کہ سائل کے نام پر نیا بجلی کا میٹر منظور فرما کر جلد از جلد نصب کرنے کے احکامات صادر فرمائے جائیں۔ عین نوازش ہوگی۔\n\nمورخہ: 31-10-2026`,
+                footerRight: "العارض: محمد جنید علی حسینی (فون: 03287892826)"
+            },
+            nadra_correction: {
+                title: "بخدمت جناب انچارج صاحب نادرا آفس (NADRA)",
+                sub: "تحصیل چوک اعظم، ضلع لیہ",
+                body: `موضوع: درخواست برائے درستگی ریکارڈ قومی شناختی کارڈ / ب فارم۔\n\nجنابِ عالی!\nگزارش ہے کہ سائل کے قومی شناختی کارڈ نمبر ____________________ میں سہواً نام / تاریخِ پیدائش غلط درج ہو گئی ہے جبکہ سائل کے میٹرک سرٹیفکیٹ اور خاندانی ریکارڈ کے مطابق درست اندراج ____________ ہے۔\n\nتمام ثبوتی کاغذات درخواست کے ہمراہ منسلک ہیں۔ مہربانی فرما کر نادرا ریکارڈ میں درستگی فرما کر نیا شناختی کارڈ جاری کیا جائے۔\n\nمورخہ: 31-10-2026`,
+                footerRight: "العارض: سائل بمعہ دستخط"
+            },
+            school_leave: {
+                title: "بخدمت جناب پرنسپل صاحب",
+                sub: "گورنمنٹ ڈگری کالج / ہائی اسکول چوک اعظم، ضلع لیہ",
+                body: `موضوع: درخواست برائے رخصت بوجہ ضروری کام / فیس معافی۔\n\nجنابِ عالی!\nنہایت ادب سے گزارش ہے کہ فدوی آپ کے ادارے میں جماعت ____________ کا باقاعدہ طالب علم ہے۔ گھر پر ایک نہایت ضروری امر پیش آ جانے کی وجہ سے فدوی آج کالج حاضر ہونے سے قاصر ہے۔\n\nلہٰذا مہربانی فرما کر فدوی کو دو یوم کی رخصت عنایت فرمائی جائے۔ آپ کی عین نوازش ہوگی۔\n\nمورخہ: 31-10-2026`,
+                footerRight: "آپ کا تابعدار شاگرد: ___________________"
+            },
+            character_cert: {
+                title: "کریکٹر اینڈ ایکسپیرینس سرٹیفکیٹ (توصیفی اسناد)",
+                sub: "الغدیر ڈیجیٹل سروسز اینڈ کمپیوٹر انسٹیٹیوٹ، چوک اعظم",
+                body: `تصدیق کی جاتی ہے کہ مسٹر / مس ________________________ ولد ________________________ نے ہمارے ادارے الغدیر ڈیجیٹل سروسز چوک اعظم میں بطور کمپیوٹر آپریٹر و کمپوزر عرصہ ایک سال نہایت ایمانداری، محنت اور خوش اسلوبی سے اپنے فرائض سرانجام دیے ہیں۔\n\nاپنے دورانیہ کار میں ان کا اخلاق و کردار بے داغ اور قابلِ ستائش رہا۔ ہم ان کے روشن مستقبل کے لیے دعا گو ہیں۔\n\nجاری کردہ بتاریخ: 31 اکتوبر 2026ء`,
+                footerRight: "دستخط و مہر چیف ایگزیکٹو: جنید علی حسینی"
+            },
+            legal_notice: {
+                title: "قانونی نوٹس برائے ادائیگی بقایا رقم",
+                sub: "منجانب: قانونی مشیر چوک اعظم، ضلع لیہ",
+                body: `مرسل الیہ: ______________________ ساکن چوک اعظم ضلع لیہ۔\n\nذریعہ قانونی نوٹس ہذا آپ کو مطلع کیا جاتا ہے کہ آپ نے میرے موکل سے مبلغ ______________ روپے بطورِ قرض حسنہ وصول کیے تھے جس کی واپسی کا وعدہ گزر چکا ہے۔\n\nلہٰذا نوٹس ہذا ملنے کے 15 یوم کے اندر اندر کل رقم میرے موکل کو ادا کریں، بصورتِ دیگر آپ کے خلاف دیوانی و فوجداری عدالت میں باضابطہ مقدمہ دائر کر دیا جائے گا جس کے تمام تر خرچے اور ہرجانے کے آپ خود ذمہ دار ہوں گے۔`,
+                footerRight: "دستخط نوٹس دہندہ: ___________________"
+            },
+            job_app: {
+                title: "بخدمت جناب مینیجر / ڈائریکٹر صاحب",
+                sub: "چوک اعظم، ضلع لیہ",
+                body: `موضوع: درخواست برائے تقرری بطور کمپیوٹر آپریٹر / آفس اسسٹنٹ۔\n\nجنابِ عالی!\nمؤدبانہ گزارش ہے کہ سائل کو معلوم ہوا ہے کہ آپ کے موقر ادارے میں کمپیوٹر آپریٹر کی آسامی خالی ہے۔ سائل نے کمپیوٹر ڈپلومہ مکمل کیا ہوا ہے اور اردو و انگلش کمپوزنگ میں بہترین مہارت اور تجربہ رکھتا ہے۔\n\nسائل کی تعلیمی اسناد اور سی وی درخواست ہذا کے ساتھ منسلک ہے۔ اگر سائل کو خدمت کا موقع دیا جائے تو سائل پوری محنت اور دیانتداری سے کام کرے گا۔\n\nمورخہ: 31-10-2026`,
+                footerRight: "العارض: محمد جنید علی حسینی"
+            },
+            letterhead: {
+                title: "الغدیر ڈیجیٹل سروسز - چوک اعظم (ضلع لیہ)",
+                sub: "لیہ روڈ نزد حافظ فارمیسی بالمقابل اوپو موبائل مارکیٹ | فون: 03287892826",
+                body: `حوالہ نمبر: AGDS/2026/01                                                تاریخ: 31 اکتوبر 2026ء\n\nمحترم جناب _________________________ صاحب!\nالسلام علیکم ورحمۃ اللہ وبرکاتہ\n\nالغدیر ڈیجیٹل سروسز چوک اعظم کی جانب سے آپ کو خوش آمدید کہتے ہیں۔ ہمارے ہاں اردو، انگلش، عربی کمپوزنگ، اسٹامپ پیپر ڈرافٹنگ، اسٹوڈنٹ شناختی کارڈز، آن لائن بلنگ اور کلر پرنٹنگ کی جدید ترین سہولیات انتہائی مناسب نرخوں پر دستیاب ہیں۔\n\nکسی بھی قسم کی دفتری یا قانونی دستاویز کی فوری تیاری کے لیے تشریف لائیں۔\n\nوالسلام،`,
+                footerRight: "پروپرائیٹر: جنید علی حسینی (+92 3287892826)"
+            },
+            blank_doc: {
+                title: "الغدیر ڈیجیٹل سروسز - چوک اعظم",
+                sub: "تحصیل چوک اعظم، ضلع لیہ",
+                body: `بخدمت جناب عالی!\n\nیہاں اپنی نئی تحریر ٹائپ کریں...`,
+                footerRight: "العارض: محمد جنید علی حسینی"
+            }
+        };
 
+        /* -------------------------------------------------------------------
+           3. MULTI-PAGE RENDERING & SYNCHRONIZATION
+           ------------------------------------------------------------------- */
+        function initStudio() {
+            // Load saved state or initialize first page with Police FIR template
+            const saved = localStorage.getItem('alghadeer_studio_v4');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed && parsed.pages && parsed.pages.length > 0) {
+                        appState = parsed;
+                    }
+                } catch (e) {}
+            }
+
+            if (appState.pages.length === 0) {
+                const tpl = URDU_TEMPLATES.police_fir;
+                appState.pages.push({
+                    id: Date.now(),
+                    headerTitle: tpl.title,
+                    headerSub: tpl.sub,
+                    content: tpl.body,
+                    footerRight: tpl.footerRight,
+                    footerLeft: "Al Ghadeer Digital Services (+92 3287892826)"
+                });
+            }
+
+            loadActivePageIntoInputs();
+            renderAllPages();
+            setupRomanFastBarListeners();
+            renderInvoice();
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('alghadeer_studio_v4', JSON.stringify(appState));
+            } catch (e) {}
+        }
+
+        function loadActivePageIntoInputs() {
+            const pg = appState.pages[appState.activePageIndex] || appState.pages[0];
+            if (!pg) return;
+            document.getElementById('docHeaderTitleInput').value = pg.headerTitle || "";
+            document.getElementById('docHeaderSubInput').value = pg.headerSub || "";
+            document.getElementById('mainTextareaEditor').value = pg.content || "";
+            document.getElementById('docFooterRightInput').value = pg.footerRight || "";
+            document.getElementById('docFooterLeftInput').value = pg.footerLeft || "";
+            updateWordCounter(pg.content || "");
+        }
+
+        function updateWordCounter(text) {
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('wordCountBadge').innerText = `الفاظ: ${words} | صفحات: ${appState.pages.length}`;
+        }
+
+        function renderPageTabs() {
+            const container = document.getElementById('pageTabsContainer');
+            container.innerHTML = "";
+            appState.pages.forEach((pg, idx) => {
+                const isAct = idx === appState.activePageIndex;
+                const btn = document.createElement('button');
+                btn.className = `px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-2 transition ${
+                    isAct 
+                    ? 'bg-emerald-700 text-white shadow-md ring-2 ring-amber-400' 
+                    : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-600/20'
+                }`;
+                btn.innerHTML = `<i class="fa-regular fa-file-lines"></i> <span>صفحہ نمبر ${idx + 1}</span>`;
+                btn.onclick = () => selectPage(idx);
+                container.appendChild(btn);
+            });
+        }
+
+        function renderAllPages() {
+            renderPageTabs();
+            const wrapper = document.getElementById('pagesRenderWrapper');
+            wrapper.innerHTML = "";
+
+            const total = appState.pages.length;
+            appState.pages.forEach((pg, idx) => {
+                const sheet = document.createElement('div');
+                sheet.id = `paperSheet-${idx}`;
+                sheet.className = `paper-sheet ${appState.paperSize} ${appState.pageBorder} ${appState.fontClass} ${
+                    idx === appState.activePageIndex ? 'ring-4 ring-emerald-500/40' : 'opacity-95'
+                }`;
+                sheet.onclick = () => {
+                    if (appState.activePageIndex !== idx) {
+                        selectPage(idx);
+                    }
+                };
+
+                // Stamp Paper Margin Space
+                let stampHtml = "";
+                if (parseInt(appState.stampMargin) > 0) {
+                    stampHtml = `
+                        <div class="stamp-banner hide-on-print" style="height: ${appState.stampMargin}px;">
+                            <i class="fa-solid fa-stamp text-2xl text-emerald-700 mb-1"></i>
+                            <span class="font-bold text-xs">اسٹامپ پیپر ہیڈر کے لیے خالی جگہ (${appState.stampMargin}px)</span>
+                            <span class="text-[10px] text-slate-400">پرنٹ نکالتے وقت یہ باکس خودکار غائب ہو جائے گا اور جگہ خالی رہے گی</span>
+                        </div>
+                        <div class="hidden print:block" style="height: ${appState.stampMargin}px;"></div>
+                    `;
+                }
+
+                // Watermark
+                const watermarkHtml = appState.showWatermark ? `
+                    <div class="paper-watermark">
+                        الغدیر ڈیجیٹل سروسز چوک اعظم<br>
+                        <span style="font-size: 1.4rem;">Al Ghadeer Digital Services | +92 3287892826</span>
+                    </div>
+                ` : '';
+
+                // Header
+                const headerHtml = appState.showHeader ? `
+                    <div class="border-b-4 border-double border-slate-900 pb-4 mb-5 text-center relative z-10">
+                        <h2 class="font-extrabold text-xl sm:text-2xl text-slate-900">${escapeHtml(pg.headerTitle)}</h2>
+                        <p class="text-xs sm:text-sm font-bold text-slate-700 mt-1">${escapeHtml(pg.headerSub)}</p>
+                    </div>
+                ` : '';
+
+                sheet.innerHTML = `
+                    ${watermarkHtml}
+                    <div>
+                        ${stampHtml}
+                        ${headerHtml}
+                        <div 
+                            id="editablePageBody-${idx}"
+                            contenteditable="true"
+                            class="doc-editable-body"
+                            style="font-size: ${appState.fontSize}px; line-height: ${appState.lineHeight}; text-align: ${appState.textAlign};"
+                        >${escapeHtml(pg.content)}</div>
+                    </div>
+                    <div class="border-t-2 border-slate-800 pt-3 mt-8 flex items-center justify-between text-xs font-bold text-slate-800 relative z-10">
+                        <div>${escapeHtml(pg.footerRight)}</div>
+                        <div class="text-slate-500">صفحہ نمبر ${idx + 1} از ${total}</div>
+                        <div dir="ltr">${escapeHtml(pg.footerLeft)}</div>
+                    </div>
+                `;
+
+                wrapper.appendChild(sheet);
+
+                // Attach live inline editing & inline Roman-to-Urdu conversion inside the paper sheet
+                const editableDiv = sheet.querySelector(`#editablePageBody-${idx}`);
+                editableDiv.addEventListener('input', () => {
+                    appState.pages[idx].content = editableDiv.innerText;
+                    if (idx === appState.activePageIndex) {
+                        document.getElementById('mainTextareaEditor').value = editableDiv.innerText;
+                        updateWordCounter(editableDiv.innerText);
+                    }
+                    saveToLocalStorage();
+                });
+
+                // Inline Roman Urdu Conversion on Spacebar inside the Paper Sheet
+                editableDiv.addEventListener('keyup', async (e) => {
+                    const inlineEnabled = document.getElementById('inlineRomanToggle').checked;
+                    if (!inlineEnabled) return;
+                    if (e.key === ' ' || e.code === 'Space') {
+                        await convertLastRomanWordInContentEditable(editableDiv, idx);
+                    }
+                });
+            });
+        }
+
+        // Converts last English/Roman word typed directly inside the contenteditable sheet
+        async function convertLastRomanWordInContentEditable(el, pageIdx) {
+            const sel = window.getSelection();
+            if (!sel.rangeCount) return;
+            const range = sel.getRangeAt(0);
+            const node = range.startContainer;
+            if (node.nodeType !== Node.TEXT_NODE) return;
+
+            const textBefore = node.textContent.slice(0, range.startOffset);
+            const match = textBefore.match(/([a-zA-Z]+)\s$/);
+            if (!match) return;
+
+            const romanWord = match[1];
+            const candidates = await fetchUrduSuggestions(romanWord);
+            const urduWord = candidates[0] || phoneticRomanToUrdu(romanWord);
+
+            const startPos = range.startOffset - match[0].length;
+            const newText = textBefore.slice(0, startPos) + urduWord + " " + node.textContent.slice(range.startOffset);
+            node.textContent = newText;
+
+            // Restore cursor position right after converted Urdu word
+            const newCursorOffset = startPos + urduWord.length + 1;
+            const newRange = document.createRange();
+            newRange.setStart(node, Math.min(newCursorOffset, node.textContent.length));
+            newRange.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(newRange);
+
+            appState.pages[pageIdx].content = el.innerText;
+            if (pageIdx === appState.activePageIndex) {
+                document.getElementById('mainTextareaEditor').value = el.innerText;
+                updateWordCounter(el.innerText);
+            }
+            saveToLocalStorage();
+        }
+
+        function selectPage(idx) {
+            appState.activePageIndex = idx;
+            loadActivePageIntoInputs();
+            renderAllPages();
+        }
+
+        function addNewPage() {
+            const currentPg = appState.pages[appState.activePageIndex] || appState.pages[0];
+            appState.pages.push({
+                id: Date.now(),
+                headerTitle: currentPg ? currentPg.headerTitle : "الغدیر ڈیجیٹل سروسز - چوک اعظم",
+                headerSub: currentPg ? currentPg.headerSub : "تحصیل چوک اعظم، ضلع لیہ",
+                content: "بقیہ تحریر صفحہ نمبر " + (appState.pages.length + 1) + " ...\n\n",
+                footerRight: currentPg ? currentPg.footerRight : "العارض: محمد جنید علی حسینی",
+                footerLeft: "Al Ghadeer Digital Services (+92 3287892826)"
+            });
+            appState.activePageIndex = appState.pages.length - 1;
+            loadActivePageIntoInputs();
+            renderAllPages();
+            saveToLocalStorage();
+            showToast(`نیا صفحہ نمبر ${appState.pages.length} شامل کر دیا گیا ہے!`);
+        }
+
+        function duplicateCurrentPage() {
+            const cur = appState.pages[appState.activePageIndex];
+            if (!cur) return;
+            appState.pages.splice(appState.activePageIndex + 1, 0, {
+                ...cur,
+                id: Date.now()
+            });
+            appState.activePageIndex += 1;
+            loadActivePageIntoInputs();
+            renderAllPages();
+            saveToLocalStorage();
+            showToast("صفحہ کامیابی سے ڈپلیکیٹ ہو گیا!");
+        }
+
+        function deleteCurrentPage() {
+            if (appState.pages.length <= 1) {
+                showToast("کم از کم ایک صفحہ ہونا ضروری ہے!");
+                return;
+            }
+            appState.pages.splice(appState.activePageIndex, 1);
+            appState.activePageIndex = Math.max(0, appState.activePageIndex - 1);
+            loadActivePageIntoInputs();
+            renderAllPages();
+            saveToLocalStorage();
+            showToast("صفحہ حذف کر دیا گیا ہے!");
+        }
+
+        function clearCurrentPageText() {
+            appState.pages[appState.activePageIndex].content = "";
+            loadActivePageIntoInputs();
+            renderAllPages();
+            saveToLocalStorage();
+            showToast("صفحے کی تحریر صاف کر دی گئی!");
+        }
+
+        function syncEditorToPage() {
+            const pg = appState.pages[appState.activePageIndex];
+            if (!pg) return;
+            pg.headerTitle = document.getElementById('docHeaderTitleInput').value;
+            pg.headerSub = document.getElementById('docHeaderSubInput').value;
+            pg.footerRight = document.getElementById('docFooterRightInput').value;
+            pg.footerLeft = document.getElementById('docFooterLeftInput').value;
+            renderAllPages();
+            saveToLocalStorage();
+        }
+
+        function syncTextareaToActivePage() {
+            const val = document.getElementById('mainTextareaEditor').value;
+            const pg = appState.pages[appState.activePageIndex];
+            if (!pg) return;
+            pg.content = val;
+            const editableDiv = document.getElementById(`editablePageBody-${appState.activePageIndex}`);
+            if (editableDiv) {
+                editableDiv.innerText = val;
+            }
+            updateWordCounter(val);
+            saveToLocalStorage();
+        }
+
+        /* -------------------------------------------------------------------
+           4. FAST ROMAN URDU BAR & SUGGESTIONS LOGIC
+           ------------------------------------------------------------------- */
+        function setupRomanFastBarListeners() {
+            const romanInput = document.getElementById('romanFastInput');
+            const suggBox = document.getElementById('romanSuggestionsBox');
+            const suggItems = document.getElementById('suggestionItems');
+
+            romanInput.addEventListener('input', async () => {
+                const val = romanInput.value;
+                const words = val.trim().split(/\s+/);
+                const lastWord = words[words.length - 1] || "";
+
+                if (!lastWord || !/[a-zA-Z]/.test(lastWord)) {
+                    suggBox.classList.add('hidden');
+                    return;
+                }
+
+                const candidates = await fetchUrduSuggestions(lastWord);
+                if (candidates.length > 0) {
+                    suggItems.innerHTML = "";
+                    candidates.slice(0, 5).forEach((cand, idx) => {
+                        const btn = document.createElement('button');
+                        btn.className = `px-3 py-1 rounded-lg font-nastaliq text-sm font-bold transition ${
+                            idx === 0 
+                            ? 'bg-emerald-700 text-white shadow' 
+                            : 'bg-slate-100 dark:bg-slate-700 hover:bg-emerald-600 hover:text-white'
+                        }`;
+                        btn.innerText = cand;
+                        btn.onclick = () => {
+                            words[words.length - 1] = cand;
+                            romanInput.value = words.join(" ") + " ";
+                            suggBox.classList.add('hidden');
+                            romanInput.focus();
+                        };
+                        suggItems.appendChild(btn);
+                    });
+                    suggBox.classList.remove('hidden');
+                }
+            });
+
+            romanInput.addEventListener('keydown', async (e) => {
+                // On Spacebar: convert last word in-place inside the Roman input bar
+                if (e.key === ' ' || e.code === 'Space') {
+                    const val = romanInput.value.trim();
+                    if (!val) return;
+                    const parts = val.split(/\s+/);
+                    const last = parts[parts.length - 1];
+                    if (/[a-zA-Z]/.test(last)) {
+                        e.preventDefault();
+                        const converted = await transliterateSentence(val);
+                        romanInput.value = converted + " ";
+                        suggBox.classList.add('hidden');
+                    }
+                }
+                // On Enter: convert full sentence and append into active document page
+                else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    await convertFullRomanSentence();
+                }
+            });
+
+            // Also support Roman-to-Urdu inside the sidebar mainTextareaEditor on Spacebar
+            const mainTa = document.getElementById('mainTextareaEditor');
+            mainTa.addEventListener('keyup', async (e) => {
+                if (!document.getElementById('inlineRomanToggle').checked) return;
+                if (e.key === ' ' || e.code === 'Space') {
+                    const cursorPos = mainTa.selectionStart;
+                    const textBefore = mainTa.value.slice(0, cursorPos);
+                    const match = textBefore.match(/([a-zA-Z]+)\s$/);
+                    if (match) {
+                        const engWord = match[1];
+                        const cands = await fetchUrduSuggestions(engWord);
+                        const urduWord = cands[0] || phoneticRomanToUrdu(engWord);
+                        const startIdx = cursorPos - match[0].length;
+                        mainTa.value = mainTa.value.slice(0, startIdx) + urduWord + " " + mainTa.value.slice(cursorPos);
+                        const newPos = startIdx + urduWord.length + 1;
+                        mainTa.setSelectionRange(newPos, newPos);
+                        syncTextareaToActivePage();
+                    }
+                }
+            });
+        }
+
+        async function convertFullRomanSentence() {
+            const romanInput = document.getElementById('romanFastInput');
+            const raw = romanInput.value.trim();
+            if (!raw) return;
+
+            const urduSentence = await transliterateSentence(raw);
+            insertPhrase(urduSentence + " ");
+            romanInput.value = "";
+            document.getElementById('romanSuggestionsBox').classList.add('hidden');
+            showToast("رومن اردو کو اصلی نستعلیق اردو میں تبدیل کر دیا گیا!");
+        }
+
+        /* -------------------------------------------------------------------
+           5. TEMPLATES, TYPOGRAPHY & FORMATTING CONTROLS
+           ------------------------------------------------------------------- */
+        function applySelectedTemplate() {
+            const key = document.getElementById('templateSelector').value;
+            const tpl = URDU_TEMPLATES[key];
+            if (!tpl) return;
+
+            const pg = appState.pages[appState.activePageIndex];
+            pg.headerTitle = tpl.title;
+            pg.headerSub = tpl.sub;
+            pg.content = tpl.body;
+            pg.footerRight = tpl.footerRight;
+
+            loadActivePageIntoInputs();
+            renderAllPages();
+            saveToLocalStorage();
+            showToast("نیا ٹیمپلیٹ کامیابی سے لوڈ ہو گیا ہے!");
+        }
+
+        function insertPhrase(phrase) {
+            const ta = document.getElementById('mainTextareaEditor');
+            const start = ta.selectionStart || ta.value.length;
+            const end = ta.selectionEnd || ta.value.length;
+            ta.value = ta.value.substring(0, start) + phrase + ta.value.substring(end);
+            syncTextareaToActivePage();
+            ta.focus();
+            ta.setSelectionRange(start + phrase.length, start + phrase.length);
+        }
+
+        function insertTodayDate() {
+            const d = new Date();
+            const formatted = `مورخہ: ${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}ء `;
+            insertPhrase(formatted);
+        }
+
+        function updateTypography() {
+            appState.fontClass = document.getElementById('fontSelector').value;
+            appState.fontSize = parseInt(document.getElementById('fontSizeSlider').value);
+            appState.lineHeight = parseFloat(document.getElementById('lineHeightSlider').value);
+
+            document.getElementById('fontSizeVal').innerText = appState.fontSize + "px";
+            document.getElementById('lineHeightVal').innerText = appState.lineHeight;
+
+            renderAllPages();
+            saveToLocalStorage();
+        }
+
+        function updatePaperLayout() {
+            appState.paperSize = document.getElementById('paperSizeSelect').value;
+            appState.stampMargin = parseInt(document.getElementById('stampMarginSelect').value);
+            appState.pageBorder = document.getElementById('pageBorderSelect').value;
+            appState.showHeader = document.getElementById('toggleHeaderCheck').checked;
+            appState.showWatermark = document.getElementById('toggleWatermarkCheck').checked;
+
+            renderAllPages();
+            saveToLocalStorage();
+        }
+
+        function setDocAlign(align) {
+            appState.textAlign = align;
+            renderAllPages();
+            saveToLocalStorage();
+        }
+
+        function execFormat(cmd) {
+            document.execCommand(cmd, false, null);
+        }
+
+        /* -------------------------------------------------------------------
+           6. STUDENT ID CARD STUDIO LOGIC
+           ------------------------------------------------------------------- */
+        function updateIdCardPreview() {
+            const inst = document.getElementById('idInstName').value;
+            const sub = document.getElementById('idInstSub').value;
+            const name = document.getElementById('idStudentName').value;
+            const father = document.getElementById('idFatherName').value;
+            const course = document.getElementById('idCourse').value;
+            const roll = document.getElementById('idRollNo').value;
+            const blood = document.getElementById('idBlood').value;
+            const valid = document.getElementById('idValidity').value;
+            const phone = document.getElementById('idPhone').value;
+            const addr = document.getElementById('idAddress').value;
+            const theme = document.getElementById('idThemeSelect').value;
+
+            document.getElementById('prevIdInstName').innerText = inst;
+            document.getElementById('prevIdInstSub').innerText = sub;
+            document.getElementById('prevIdStudentName').innerText = name;
+            document.getElementById('prevIdFather').innerText = father;
+            document.getElementById('prevIdCourse').innerText = course;
+            document.getElementById('prevIdRollBadge').innerText = "ID: " + roll;
+            document.getElementById('prevIdBlood').innerText = blood;
+            document.getElementById('prevIdValidity').innerText = valid;
+            document.getElementById('prevIdPhone').innerText = phone;
+            document.getElementById('prevIdAddress').innerText = addr;
+
+            // Update QR Code dynamically
+            const qrData = encodeURIComponent(`AlGhadeer|${name}|${roll}|${phone}`);
+            document.getElementById('prevIdQr').src = `https://api.qrserver.com/v1/create-qr-code/?size=95x95&data=${qrData}`;
+
+            // Theme Colors
+            const headerEl = document.getElementById('idHeaderBg');
+            const footerEl = document.getElementById('idFooterBg');
+            const badgeEl = document.getElementById('prevIdRollBadge');
+
+            const themes = {
+                emerald: {
+                    hdr: "bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-900",
+                    ftr: "bg-emerald-900",
+                    bdg: "bg-emerald-700"
+                },
+                navy: {
+                    hdr: "bg-gradient-to-br from-blue-950 via-blue-800 to-indigo-900",
+                    ftr: "bg-blue-950",
+                    bdg: "bg-blue-800"
+                },
+                crimson: {
+                    hdr: "bg-gradient-to-br from-rose-950 via-red-800 to-amber-900",
+                    ftr: "bg-rose-950",
+                    bdg: "bg-red-800"
+                },
+                darkgold: {
+                    hdr: "bg-gradient-to-br from-slate-950 via-slate-800 to-amber-900",
+                    ftr: "bg-slate-950",
+                    bdg: "bg-amber-600"
+                }
+            };
+
+            const t = themes[theme] || themes.emerald;
+            headerEl.className = `${t.hdr} text-white pt-5 pb-14 px-4 text-center relative`;
+            footerEl.className = `${t.ftr} text-white py-2.5 px-4 text-center text-[11px] font-semibold flex justify-between items-center`;
+            badgeEl.className = `mt-2 px-3 py-0.5 rounded-full ${t.bdg} text-white font-bold text-xs tracking-wider shadow`;
+        }
+
+        function handleIdPhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('prevIdPhoto').src = e.target.result;
+                showToast("تصویر کامیابی سے کارڈ میں اپ لوڈ ہو گئی!");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function exportIdCardJPEG() {
+            const el = document.getElementById('idCardsCaptureArea');
+            showToast("ایچ ڈی کارڈ تصویر تیار ہو رہی ہے...");
+            html2canvas(el, { scale: 2, useCORS: true }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `AlGhadeer_StudentCard_${Date.now()}.jpg`;
+                link.href = canvas.toDataURL('image/jpeg', 0.95);
+                link.click();
+                showToast("اسٹوڈنٹ کارڈ JPEG ڈاؤن لوڈ ہو گیا!");
+            });
+        }
+
+        /* -------------------------------------------------------------------
+           7. OFFICIAL INVOICE & RECEIPT GENERATOR LOGIC
+           ------------------------------------------------------------------- */
+        let invoiceItems = [
+            { desc: "اردو قانونی درخواست و اسٹامپ پیپر کمپوزنگ", qty: 1, price: 300 },
+            { desc: "لیزر پرنٹنگ (A4 / Legal)", qty: 2, price: 50 }
+        ];
+
+        function renderInvoice() {
+            document.getElementById('prevInvNumber').innerText = document.getElementById('invNumber').value;
+            document.getElementById('prevInvDate').innerText = document.getElementById('invDate').value;
+            document.getElementById('prevInvCustomer').innerText = document.getElementById('invCustomer').value;
+
+            const tbody = document.getElementById('invoiceTableBody');
+            tbody.innerHTML = "";
+            let grandTotal = 0;
+
+            invoiceItems.forEach((item, index) => {
+                const sub = item.qty * item.price;
+                grandTotal += sub;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2.5 font-bold">${index + 1}</td>
+                    <td class="p-2.5 font-bold">${escapeHtml(item.desc)}</td>
+                    <td class="p-2.5 text-center">${item.qty}</td>
+                    <td class="p-2.5 text-center">${item.price}</td>
+                    <td class="p-2.5 text-left font-extrabold">Rs. ${sub}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('prevInvTotal').innerText = `Rs. ${grandTotal.toLocaleString()}`;
+        }
+
+        function addInvoiceItem() {
+            const desc = document.getElementById('newItemDesc').value.trim();
+            const qty = parseInt(document.getElementById('newItemQty').value) || 1;
+            const price = parseInt(document.getElementById('newItemPrice').value) || 0;
+            if (!desc) {
+                showToast("براہ کرم سروس کی تفصیل لکھیں!");
+                return;
+            }
+            invoiceItems.push({ desc, qty, price });
+            document.getElementById('newItemDesc').value = "";
+            renderInvoice();
+            showToast("آئٹم بل میں شامل ہو گیا!");
+        }
+
+        function resetInvoiceItems() {
+            invoiceItems = [];
+            renderInvoice();
+        }
+
+        /* -------------------------------------------------------------------
+           8. EXPORT SUITE: JPEG, MS WORD (.DOC) & PRINT/PDF
+           ------------------------------------------------------------------- */
+        function exportAsJPEG() {
+            let targetEl = document.getElementById(`paperSheet-${appState.activePageIndex}`);
+            if (!document.getElementById('studioMode-idcard').classList.contains('hidden')) {
+                exportIdCardJPEG();
+                return;
+            }
+            if (!document.getElementById('studioMode-invoice').classList.contains('hidden')) {
+                targetEl = document.getElementById('invoiceCaptureBox');
+            }
+            if (!targetEl) return;
+
+            showToast("ہائی ریزولوشن JPEG تصویر بن رہی ہے...");
+            html2canvas(targetEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+                const a = document.createElement('a');
+                a.download = `AlGhadeer_Document_Page${appState.activePageIndex + 1}.jpg`;
+                a.href = canvas.toDataURL('image/jpeg', 0.95);
+                a.click();
+                showToast("JPEG تصویر کامیابی سے ڈاؤن لوڈ ہو گئی!");
+            });
+        }
+
+        function exportAsWord() {
+            let fullHtml = `
+                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40' dir='rtl'>
+                <head><meta charset='utf-8'><title>Al Ghadeer Document</title>
+                <style>
+                    body { font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', 'Arial', serif; direction: rtl; text-align: right; padding: 30px; }
+                    h2 { text-align: center; margin-bottom: 4px; }
+                    h4 { text-align: center; margin-top: 0; border-bottom: 2px solid #000; padding-bottom: 10px; }
+                    p { font-size: 16pt; line-height: 2.2; white-space: pre-wrap; }
+                    .footer { border-top: 1px solid #000; margin-top: 40px; padding-top: 10px; font-weight: bold; }
+                </style>
+                </head><body>
+            `;
+
+            appState.pages.forEach((pg, i) => {
+                fullHtml += `
+                    <div>
+                        <h2>${escapeHtml(pg.headerTitle)}</h2>
+                        <h4>${escapeHtml(pg.headerSub)}</h4>
+                        <p>${escapeHtml(pg.content).replace(/\n/g, '<br>')}</p>
+                        <div class="footer">${escapeHtml(pg.footerRight)} — (${escapeHtml(pg.footerLeft)})</div>
+                    </div>
+                    ${i < appState.pages.length - 1 ? '<br clear="all" style="page-break-before:always" />' : ''}
+                `;
+            });
+
+            fullHtml += `</body></html>`;
+            const blob = new Blob(['\ufeff', fullHtml], { type: 'application/msword;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `AlGhadeer_Urdu_Document_${Date.now()}.doc`;
+            link.click();
+            showToast("MS Word (.doc) فائل ڈاؤن لوڈ ہو گئی!");
+        }
+
+        /* -------------------------------------------------------------------
+           9. THEME SWITCHER, MODE SWITCHER & BILINGUAL UI
+           ------------------------------------------------------------------- */
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            const icon = document.getElementById('themeIcon');
+            icon.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon text-amber-500';
+            showToast(isDark ? "ڈارک تھیم آن کر دی گئی ہے!" : "لائٹ تھیم آن کر دی گئی ہے!");
+        }
+
+        function switchStudioMode(mode) {
+            const modes = ['composer', 'idcard', 'invoice'];
+            modes.forEach(m => {
+                const mainEl = document.getElementById(`studioMode-${m}`);
+                const btnEl = document.getElementById(`modeBtn-${m}`);
+                if (m === mode) {
+                    mainEl.classList.remove('hidden');
+                    btnEl.className = "px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center gap-2 bg-emerald-700 text-white shadow";
+                } else {
+                    mainEl.classList.add('hidden');
+                    btnEl.className = "px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all flex items-center gap-2 hover:bg-emerald-600/10";
+                }
+            });
+        }
+
+        let currentUILang = 'ur';
+        const UI_TRANSLATIONS = {
+            ur: {
+                tab_composer: "اردو کمپوزنگ اسٹوڈیو",
+                tab_idcard: "اسٹوڈنٹ کارڈ میکر",
+                tab_invoice: "بلنگ اور رسید",
+                btn_theme: "تھیم",
+                btn_jpeg: "JPEG تصویر",
+                btn_word: "Word فائل",
+                btn_print: "پرنٹ / PDF",
+                roman_title: "گلابی اردو (Roman Urdu) سے اصلی اردو کنورٹر",
+                roman_sub: "انگلش حروف میں لکھیں اور Space یا Enter دبائیں — خودکار نستعلیق اردو میں تبدیل ہو کر صفحے میں شامل ہو جائے گا!",
+                btn_insert_urdu: "اردو میں داخل کریں",
+                inline_roman_lbl: "ڈائریکٹ ایڈیٹر رومن موڈ",
+                sec_templates: "تیار شدہ قانونی و دفتری ٹیمپلیٹس (12+)",
+                lbl_select_template: "دستاویز کی قسم منتخب کریں:",
+                lbl_font_family: "پروفیشنل اردو فونٹ منتخب کریں:",
+                lbl_quick_chips: "فوری قانونی الفاظ (کلک کر کے درج کریں):",
+                sec_pagesetup: "کاغذ کا سائز، اسٹامپ مارجن اور فونٹ سیٹنگز",
+                lbl_paper_size: "کاغذ کا سائز:",
+                lbl_stamp_margin: "اسٹامپ پیپر مارجن (اوپر جگہ):",
+                lbl_page_border: "صفحے کا بارڈر (Border):",
+                lbl_fontsize: "فونٹ سائز (Font Size):",
+                lbl_lineheight: "لائن کا فاصلہ (Line Spacing):",
+                chk_header: "ہیڈر دکھائیں",
+                chk_watermark: "واٹر مارک",
+                sec_editor: "مضمون اور ہیڈر ایڈیٹر (موجودہ صفحہ)",
+                lbl_doc_title: "سرخی / عنوان (Header Title):",
+                lbl_doc_sub: "ذیلی سرخی (Subtitle / Address):",
+                lbl_main_textarea: "مکمل تحریر (یہاں لکھیں یا سیدھا سفید صفحے پر کلک کر کے لکھیں):",
+                lbl_footer_right: "دائیں فوٹر (العارض / دستخط):",
+                lbl_footer_left: "بائیں فوٹر (کمپوزنگ کریڈٹ):",
+                btn_add_page: "نیا صفحہ شامل کریں (+)",
+                btn_dup_page: "ڈپلیکیٹ"
+            },
+            en: {
+                tab_composer: "Document Studio",
+                tab_idcard: "ID Card Maker",
+                tab_invoice: "Receipt & Billing",
+                btn_theme: "Theme",
+                btn_jpeg: "Save JPEG",
+                btn_word: "Export Word",
+                btn_print: "Print / PDF",
+                roman_title: "Roman Urdu (Gulabi Urdu) to Real Nastaliq Converter",
+                roman_sub: "Type in Roman Urdu and press Space or Enter — auto-transliterates into real Urdu script!",
+                btn_insert_urdu: "Insert to Page",
+                inline_roman_lbl: "Inline Editor Roman Mode",
+                sec_templates: "Ready-to-Use Legal & Official Templates (12+)",
+                lbl_select_template: "Select Document Template:",
+                lbl_font_family: "Select Urdu Font Family:",
+                lbl_quick_chips: "Quick Legal Phrases (Click to insert):",
+                sec_pagesetup: "Paper Size, Stamp Margin & Typography",
+                lbl_paper_size: "Paper Size:",
+                lbl_stamp_margin: "Stamp Paper Top Margin:",
+                lbl_page_border: "Page Frame Border:",
+                lbl_fontsize: "Font Size:",
+                lbl_lineheight: "Line Spacing:",
+                chk_header: "Show Header",
+                chk_watermark: "Watermark",
+                sec_editor: "Content & Header Editor (Active Page)",
+                lbl_doc_title: "Document Header Title:",
+                lbl_doc_sub: "Header Subtitle / Location:",
+                lbl_main_textarea: "Main Document Body (Type here or directly on the paper):",
+                lbl_footer_right: "Right Footer (Applicant / Sign):",
+                lbl_footer_left: "Left Footer (Business Credit):",
+                btn_add_page: "Add New Page (+)",
+                btn_dup_page: "Duplicate"
+            }
+        };
+
+        function toggleUILanguage() {
+            currentUILang = currentUILang === 'ur' ? 'en' : 'ur';
+            document.getElementById('langBtnText').innerText = currentUILang === 'ur' ? 'English UI' : 'اردو UI';
+            const dict = UI_TRANSLATIONS[currentUILang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.innerText = dict[key];
+            });
+            showToast(currentUILang === 'ur' ? "انٹرفیس کی زبان اردو کر دی گئی ہے!" : "UI Language switched to English!");
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toastBox');
+            document.getElementById('toastMsg').innerText = msg;
+            box.classList.remove('hidden');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                box.classList.add('hidden');
+            }, 2800);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+        window.onload = initStudio;
+    </script>
 </body>
 </html>
