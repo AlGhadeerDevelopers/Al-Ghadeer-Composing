@@ -6,20 +6,314 @@
     <title>Al Ghadeer Digital Services — Enterprise Urdu Composing & Digital Studio</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Gulzar&family=Lateef:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- External Libraries for 300-DPI Export & QR Code -->
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- Link to Part 1 Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --emerald-950: #022015;
+            --emerald-900: #043927;
+            --emerald-800: #064e3b;
+            --emerald-700: #047857;
+            --emerald-glow: rgba(16, 185, 129, 0.14);
+            --gold-500: #d4af37;
+            --gold-400: #f59e0b;
+            --gold-200: #fde68a;
+            --bg-main: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-muted: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-clr: #cbd5e1;
+            --ui-font: 'Tajawal', 'Plus Jakarta Sans', sans-serif;
+            --nastaliq-font: 'Noto Nastaliq Urdu', 'Amiri', serif;
+        }
+
+        body.dark-mode {
+            --bg-main: #020c08;
+            --bg-card: #061b13;
+            --bg-muted: #0b291e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-clr: #154532;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--ui-font);
+            background: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        .ltr {
+            direction: ltr !important;
+            unicode-bidi: isolate !important;
+            display: inline-block;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Royal Header */
+        .top-header {
+            background: linear-gradient(135deg, var(--emerald-950) 0%, var(--emerald-800) 60%, var(--emerald-900) 100%);
+            color: #ffffff;
+            padding: 12px 24px;
+            border-bottom: 3px solid var(--gold-500);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 950;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .brand-box { display: flex; align-items: center; gap: 14px; }
+        .logo-circle {
+            width: 55px; height: 55px; border-radius: 50%; background: #ffffff;
+            border: 2px solid var(--gold-500); box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; overflow: hidden;
+        }
+        .logo-circle img, .logo-circle svg { width: 100%; height: 100%; object-fit: cover; }
+        .brand-text h1 { font-size: 19px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .badge-gold {
+            background: linear-gradient(135deg, var(--gold-500), #b48a1e); color: #022014;
+            font-size: 10.5px; padding: 2px 9px; border-radius: 20px; font-weight: 800;
+            direction: ltr !important; unicode-bidi: isolate !important; display: inline-block;
+        }
+        .brand-text p { font-size: 12px; color: #d1fae5; margin-top: 2px; }
+
+        /* Search & Actions */
+        .search-wrap { flex: 1; max-width: 360px; position: relative; }
+        .search-input {
+            width: 100%; padding: 8px 16px; border-radius: 30px;
+            border: 1.5px solid rgba(212,175,55,0.6); background: rgba(255,255,255,0.14);
+            color: #ffffff; font-size: 13px; font-family: var(--ui-font);
+        }
+        .search-input::placeholder { color: #e2e8f0; }
+        .search-input:focus { outline: none; background: #ffffff; color: #0f172a; }
+        .search-dropdown {
+            position: absolute; top: 42px; right: 0; left: 0; background: var(--bg-card);
+            border: 2px solid var(--gold-500); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+            max-height: 280px; overflow-y: auto; display: none; z-index: 1000;
+        }
+        .search-item { padding: 10px 14px; border-bottom: 1px solid var(--border-clr); color: var(--text-main); cursor: pointer; font-size: 13px; font-weight: 700; }
+        .search-item:hover { background: var(--emerald-glow); color: var(--emerald-700); }
+
+        .hdr-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .top-btn {
+            background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(212,175,55,0.5);
+            padding: 7px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 700; font-family: var(--ui-font); cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .top-btn:hover { background: var(--gold-500); color: #022015; }
+        .top-btn.gold-solid { background: linear-gradient(135deg, var(--gold-500), var(--gold-400)); color: #022015; border: none; }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: var(--bg-card); border-bottom: 2px solid var(--border-clr);
+            padding: 8px 24px; display: flex; gap: 8px; overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 9px 15px; border-radius: 10px; font-size: 13.5px; font-weight: 700;
+            font-family: var(--ui-font); color: var(--text-muted); background: transparent; border: 1.5px solid transparent;
+            cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 7px;
+        }
+        .tab-btn:hover { background: var(--bg-muted); color: var(--emerald-700); }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--emerald-800), var(--emerald-950));
+            color: #ffffff; border-color: var(--gold-500);
+        }
+
+        /* Hub Layouts */
+        .hub-view { display: none; padding: 20px 24px; max-width: 1700px; margin: 0 auto; }
+        .hub-view.active { display: block; }
+
+        .panel-box {
+            background: var(--bg-card); border: 1px solid var(--border-clr);
+            border-radius: 16px; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+        .panel-title {
+            font-size: 16.5px; font-weight: 800; color: var(--emerald-800);
+            border-bottom: 2px solid var(--border-clr); padding-bottom: 10px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+        }
+        body.dark-mode .panel-title { color: var(--gold-500); }
+
+        label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 4px; color: var(--text-muted); }
+        input, select, textarea {
+            width: 100%; padding: 8px 12px; border-radius: 8px; border: 1.5px solid var(--border-clr);
+            background: var(--bg-muted); color: var(--text-main); font-family: var(--ui-font); font-size: 13.5px;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--emerald-700); }
+
+        .btn-emerald {
+            background: linear-gradient(135deg, var(--emerald-800), var(--emerald-950)); color: #ffffff;
+            border: 1px solid var(--gold-500); padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 13px;
+            font-family: var(--ui-font); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .btn-emerald:hover { filter: brightness(1.15); }
+
+        .btn-gold-action {
+            background: linear-gradient(135deg, var(--gold-500), #ca8a04); color: #022015; border: none;
+            padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 13px; font-family: var(--ui-font);
+            cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        .btn-light {
+            background: var(--bg-muted); color: var(--text-main); border: 1px solid var(--border-clr);
+            padding: 7px 12px; border-radius: 7px; font-size: 12.5px; font-weight: 700; font-family: var(--ui-font); cursor: pointer;
+        }
+        .btn-light:hover { border-color: var(--gold-500); background: var(--emerald-glow); }
+
+        /* Dashboard */
+        .hero-banner {
+            background: linear-gradient(125deg, var(--emerald-950) 0%, var(--emerald-800) 55%, var(--emerald-900) 100%);
+            border: 2px solid var(--gold-500); border-radius: 20px; padding: 24px; color: #ffffff;
+            display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: center; margin-bottom: 20px;
+        }
+        @media(max-width: 900px) { .hero-banner { grid-template-columns: 1fr; } }
+
+        .clock-card {
+            background: rgba(0,0,0,0.35); padding: 16px; border-radius: 14px; border: 1.5px solid var(--gold-500); text-align: center;
+        }
+        .clock-digits {
+            font-size: 30px; font-weight: 800; color: var(--gold-500);
+            direction: ltr !important; unicode-bidi: isolate !important; display: inline-block; font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 20px; }
+        .kpi-item {
+            background: var(--bg-card); border: 1px solid var(--border-clr); border-right: 5px solid var(--emerald-700);
+            border-radius: 14px; padding: 16px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .kpi-item.gold-bdr { border-right-color: var(--gold-500); }
+        .kpi-num {
+            font-size: 23px; font-weight: 800; color: var(--emerald-800); margin-top: 3px;
+            direction: ltr !important; unicode-bidi: isolate !important; display: inline-block; font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        body.dark-mode .kpi-num { color: var(--gold-500); }
+
+        .portals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 10px; }
+        .portal-card {
+            background: var(--bg-muted); border: 1px solid var(--border-clr); border-radius: 12px; padding: 12px;
+            text-align: center; text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 13px;
+            display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.2s;
+        }
+        .portal-card:hover { border-color: var(--gold-500); background: var(--emerald-glow); transform: translateY(-2px); }
+
+        /* Composing Studio & A4 Paper */
+        .workspace-grid { display: grid; grid-template-columns: 445px 1fr; gap: 20px; align-items: start; }
+        @media(max-width: 1180px) { .workspace-grid { grid-template-columns: 1fr; } }
+
+        .chips-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+        .urdu-chip {
+            background: var(--bg-muted); border: 1px solid var(--border-clr); padding: 4px 9px;
+            border-radius: 6px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+        }
+        .urdu-chip:hover { background: var(--emerald-800); color: #fff; border-color: var(--gold-500); }
+
+        .paper-toolbar {
+            background: var(--bg-card); border: 1px solid var(--border-clr); border-radius: 12px;
+            padding: 10px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+        }
+
+        .paper-stage {
+            background: #cbd5e1; padding: 24px; border-radius: 16px; overflow-x: auto;
+            display: flex; flex-direction: column; align-items: center; min-height: 800px;
+        }
+        body.dark-mode .paper-stage { background: #0f172a; }
+
+        .doc-sheet {
+            width: 210mm; min-height: 297mm; background: #ffffff; color: #000000;
+            padding: 20mm 18mm; box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative;
+            font-family: var(--nastaliq-font); line-height: 2.38; font-size: 18px;
+        }
+        .doc-sheet.legal-mode { min-height: 356mm; }
+        .doc-sheet.landscape-mode { width: 297mm; min-height: 210mm; }
+        .doc-sheet.bdr-kachehri { border: 4px double #0f172a; outline: 1px solid #0f172a; outline-offset: -8px; }
+        .doc-sheet.bdr-royal { border: 8px solid #043927; box-shadow: inset 0 0 0 3px #d4af37, 0 20px 50px rgba(0,0,0,0.3); }
+        .doc-sheet.bdr-barat { border: 10px ridge #d4af37; background: radial-gradient(circle, #ffffff 82%, #fef9c3 100%); }
+
+        .doc-editable { min-height: 500px; outline: none; white-space: pre-wrap; text-align: justify; position: relative; z-index: 2; }
+        .movable-node {
+            position: absolute; cursor: move; padding: 6px 14px; border: 1.5px dashed #059669;
+            background: rgba(255,255,255,0.92); z-index: 25; user-select: none;
+        }
+        .movable-node .del-btn {
+            position: absolute; top: -10px; left: -10px; background: #dc2626; color: #fff;
+            border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+
+        .doc-table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; font-family: var(--ui-font); }
+        .doc-table th, .doc-table td { border: 1.5px solid #0f172a; padding: 9px; vertical-align: top; }
+
+        /* Graphic & Card Studio */
+        .graphic-stage {
+            background: var(--bg-muted); border: 1.5px dashed var(--border-clr); border-radius: 16px;
+            padding: 24px; display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; align-items: center; min-height: 540px;
+        }
+        .id-card-box {
+            width: 340px; min-height: 525px; background: #ffffff; color: #0f172a; border-radius: 16px;
+            overflow: hidden; box-shadow: 0 18px 40px rgba(0,0,0,0.25); border: 2.5px solid #d4af37;
+            display: flex; flex-direction: column; justify-content: space-between; font-family: var(--ui-font);
+        }
+        .id-card-top {
+            background: linear-gradient(135deg, #022015 0%, #059669 100%); color: #ffffff;
+            padding: 16px 14px 48px 14px; text-align: center; border-bottom: 4px solid #d4af37; clip-path: ellipse(130% 100% at 50% 0%);
+        }
+        .id-photo-holder {
+            width: 120px; height: 120px; border-radius: 50%; border: 4px solid #d4af37;
+            background: #ffffff; margin: -56px auto 8px auto; overflow: hidden; position: relative; z-index: 5; box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+        }
+        .id-photo-holder.square-mode { border-radius: 12px; }
+
+        .visiting-card-box {
+            width: 520px; height: 295px; background: linear-gradient(135deg, #022015 0%, #064e3b 65%, #032b1d 100%);
+            color: #ffffff; border-radius: 14px; border: 3px solid #d4af37; box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+            padding: 24px; display: none; flex-direction: column; justify-content: space-between;
+        }
+        .shadi-card-box {
+            width: 450px; min-height: 600px; background: radial-gradient(circle, #fffbeb 0%, #fef3c7 100%); color: #451a03;
+            border: 10px double #b45309; outline: 3px solid #d4af37; outline-offset: -12px; border-radius: 12px;
+            padding: 30px 24px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.28); display: none; flex-direction: column; justify-content: space-between; font-family: var(--nastaliq-font);
+        }
+        .mug-wrap-box {
+            width: 660px; height: 280px; background: linear-gradient(90deg, #022015 0%, #065f46 50%, #022015 100%);
+            color: #ffffff; border: 4px solid #d4af37; border-radius: 12px; padding: 22px; display: none;
+            grid-template-columns: 170px 1fr 170px; gap: 18px; align-items: center; box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(2, 12, 8, 0.85); backdrop-filter: blur(6px);
+            display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-card { background: var(--bg-card); border: 2px solid var(--gold-500); border-radius: 18px; max-width: 440px; width: 100%; padding: 24px; }
+
+        @media print {
+            body { background: #ffffff !important; }
+            .top-header, .nav-bar, .studio-controls-col, .paper-toolbar, .movable-node .del-btn { display: none !important; }
+            .hub-view { padding: 0 !important; }
+            .workspace-grid { display: block !important; }
+            .paper-stage { background: transparent !important; padding: 0 !important; }
+            .doc-sheet { box-shadow: none !important; margin: 0 !important; width: 100% !important; }
+            .movable-node { border: none !important; background: transparent !important; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- =====================================================
-         ROYAL TOP HEADER (AL GHADEER DIGITAL SERVICES)
-         ===================================================== -->
+    <!-- TOP HEADER -->
     <header class="top-header">
         <div class="brand-box">
-            <div class="logo-circle" onclick="document.getElementById('customBrandLogoInput').click()" title="اپنا الغدیر لوگو اپ لوڈ کرنے کے لیے کلک کریں">
+            <div class="logo-circle" onclick="document.getElementById('customBrandLogoInput').click()" title="अपना लोगो बदलने के लिए क्लिक करें">
                 <img id="globalBrandLogoImg" style="display:none;" alt="Al Ghadeer Logo">
                 <svg id="globalBrandLogoSvg" viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="56" fill="#ffffff" stroke="#d4af37" stroke-width="4"/>
@@ -27,7 +321,7 @@
                     <circle cx="60" cy="60" r="43" fill="none" stroke="#d4af37" stroke-width="2"/>
                     <polygon points="60,17 65,23 60,29 55,23" fill="#d4af37"/>
                     <polygon points="60,91 65,97 60,103 55,97" fill="#d4af37"/>
-                    <text x="60" y="64" text-anchor="middle" fill="#04432b" font-family="'Noto Nastaliq Urdu', 'Amiri', serif" font-size="28" font-weight="bold">الغدیر</text>
+                    <text x="60" y="64" text-anchor="middle" fill="#04432b" font-family="'Noto Nastaliq Urdu', serif" font-size="28" font-weight="bold">الغدیر</text>
                     <text x="60" y="84" text-anchor="middle" fill="#04432b" font-family="sans-serif" font-size="8" font-weight="800">DIGITAL SERVICES</text>
                 </svg>
                 <input type="file" id="customBrandLogoInput" accept="image/*" style="display:none;" onchange="uploadGlobalBrandLogo(event)">
@@ -35,320 +329,220 @@
             <div class="brand-text">
                 <h1>
                     <span id="uiMainHeading">الغدیر ڈیجیٹل سروسز — انٹرپرائز اردو و ڈاکیومنٹ اسٹوڈیو</span>
-                    <span class="badge-gold">PRO EMPIRE v7.0</span>
+                    <span class="badge-gold">PRO EMPIRE v7.5</span>
                 </h1>
-                <p>
-                    <span class="ltr">Founder & Lead Developer: <strong>Junaid Ali Hussaini</strong> | Chowk Azam, District Layyah | Email: info.alghadeer@yahoo.com | +92 328 7892826</span>
-                </p>
+                <p><span class="ltr">Founder & Lead Developer: <strong>Junaid Ali Hussaini</strong> | Chowk Azam, Layyah | info.alghadeer@yahoo.com | +92 328 7892826</span></p>
             </div>
         </div>
 
-        <!-- Global Search Bar -->
         <div class="search-wrap">
-            <input type="text" id="globalSearchBox" class="search-input" placeholder="🔍 کوئی بھی فارم، کارڈ، درخواست یا کیلکولیٹر تلاش کریں (Ctrl+K)..." oninput="handleGlobalSearch(this.value)">
+            <input type="text" id="globalSearchBox" class="search-input" placeholder="🔍 کوئی بھی فارم، کارڈ یا کیلکولیٹر تلاش کریں (Ctrl+K)..." oninput="handleGlobalSearch(this.value)">
             <div id="globalSearchDropdown" class="search-dropdown"></div>
         </div>
 
-        <!-- Header Actions -->
         <div class="hdr-actions">
-            <button class="top-btn" onclick="document.body.classList.toggle('dark-mode')">🌓 تھیم موڈ</button>
+            <button class="top-btn" onclick="document.body.classList.toggle('dark-mode')">🌓 تھیم</button>
             <button class="top-btn" onclick="toggleInterfaceLang()">🌐 اردو / <span class="ltr">ENG</span></button>
-            <button class="top-btn" onclick="document.getElementById('lockScreenModal').classList.add('open')">🛡️ دکان لاک</button>
-            <button id="adminLoginTopBtn" class="top-btn gold-solid" onclick="openAdminModal()">🔒 <span class="ltr">Admin Login</span></button>
+            <button class="top-btn" onclick="document.getElementById('lockScreenModal').classList.add('open')">🛡️ لاک</button>
+            <button id="adminLoginTopBtn" class="top-btn gold-solid" onclick="openAdminModal()">🔒 <span class="ltr">Admin</span></button>
         </div>
     </header>
 
-    <!-- =====================================================
-         NAVIGATION BAR (7 MASTER HUBS)
-         ===================================================== -->
+    <!-- NAVIGATION TABS -->
     <nav class="nav-bar">
-        <button class="tab-btn active" data-target="hub-sea" onclick="switchHub('hub-sea')">🌊 دی سی ڈیش بورڈ (<span class="ltr">Sea Hub</span>)</button>
-        <button class="tab-btn" data-target="hub-composing" onclick="switchHub('hub-composing')">✍️ اردو و انگلش کمپوزنگ اسٹوڈیو</button>
-        <button class="tab-btn" data-target="hub-forms" onclick="switchHub('hub-forms')">🗂️ پرنٹ ایبل سرکاری فارمز بینک</button>
-        <button class="tab-btn" data-target="hub-cards" onclick="switchHub('hub-cards')">🪪 آئی ڈی کارڈ، وزٹنگ، شادی کارڈ و مگ اسٹوڈیو</button>
-        <button class="tab-btn" data-target="hub-photolab" onclick="switchHub('hub-photolab')">📸 پاسپورٹ فوٹو، کوٹ ٹائی و شناختی کارڈ کاپیئر</button>
-        <button class="tab-btn" data-target="hub-calculators" onclick="switchHub('hub-calculators')">🧮 شجرہ نسب، زمین، وراثت، نوٹ و فیصد کیلکولیٹرز</button>
-        <button class="tab-btn" data-target="hub-founder" onclick="switchHub('hub-founder')">👨‍💼 فاؤنڈر اور کسٹمر سپورٹ پروفائل</button>
-        <button id="adminVaultTabBtn" class="tab-btn" style="display:none; border-color:var(--gold-500);" data-target="hub-admin" onclick="switchHub('hub-admin')">👑 پرائیویٹ ایڈمن کمانڈ سینٹر</button>
+        <button class="tab-btn active" data-target="hub-sea" onclick="switchHub('hub-sea')">🌊 ڈیش بورڈ (<span class="ltr">Sea Hub</span>)</button>
+        <button class="tab-btn" data-target="hub-composing" onclick="switchHub('hub-composing')">✍️ اردو و انگلش کمپوزنگ</button>
+        <button class="tab-btn" data-target="hub-forms" onclick="switchHub('hub-forms')">🗂️ سرکاری فارمز بینک</button>
+        <button class="tab-btn" data-target="hub-cards" onclick="switchHub('hub-cards')">🪪 آئی ڈی، وزٹنگ، شادی کارڈ و مگ</button>
+        <button class="tab-btn" data-target="hub-photolab" onclick="switchHub('hub-photolab')">📸 پاسپورٹ فوٹو و شناختی کارڈ کاپیئر</button>
+        <button class="tab-btn" data-target="hub-calculators" onclick="switchHub('hub-calculators')">🧮 شجرہ نسب، زمین، وراثت و نوٹ کاؤنٹر</button>
+        <button class="tab-btn" data-target="hub-founder" onclick="switchHub('hub-founder')">👨‍💼 فاؤنڈر پروفائل</button>
+        <button id="adminVaultTabBtn" class="tab-btn" style="display:none; border-color:var(--gold-500);" data-target="hub-admin" onclick="switchHub('hub-admin')">👑 ایڈمن ڈیش بورڈ</button>
     </nav>
 
-    <!-- =====================================================
-         HUB 1: THE SEA DASHBOARD
-         ===================================================== -->
+    <!-- HUB 1: SEA DASHBOARD -->
     <section id="hub-sea" class="hub-view active">
         <div class="hero-banner">
             <div>
                 <span class="badge-gold">WELCOME TO AL GHADEER DIGITAL EMPIRE</span>
-                <h2 style="font-size: 28px; margin: 10px 0; font-weight: 800;">الغدیر ڈیجیٹل سروسز — چوک اعظم، ضلع لیہ</h2>
-                <p style="font-size: 15px; color: #e2e8f0; line-height: 1.85;">
-                    کچہری وثیقہ جات، تھانہ و سرکاری درخواستیں، نادرا و بینکنگ فارمز، اسٹوڈنٹ و ایمپلائی کارڈز، شادی کارڈز، مگ ڈیزائننگ، پاسپورٹ فوٹو لیب، شناختی کارڈ شیٹ میکر اور شجرہ نسب/وراثت کیلکولیٹرز کا مکمل پلیٹ فارم۔
+                <h2 style="font-size: 26px; margin: 10px 0; font-weight: 800;">الغدیر ڈیجیٹل سروسز — چوک اعظم، ضلع لیہ</h2>
+                <p style="font-size: 14.5px; color: #e2e8f0; line-height: 1.8;">
+                    کچہری وثیقہ جات، تھانہ و سرکاری درخواستیں، نادرا و بینکنگ فارمز، اسٹوڈنٹ/ایمپلائی کارڈز، شادی کارڈز، مگ ڈیزائننگ، پاسپورٹ فوٹو لیب اور شجرہ نسب/وراثت کیلکولیٹرز کا مکمل پلیٹ فارم۔
                 </p>
-                <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn-gold-action" onclick="switchHub('hub-composing')">✍️ نئی درخواست / اسٹامپ لکھیں</button>
-                    <button class="btn-emerald" onclick="switchHub('hub-forms')">🗂️ خالی سرکاری فارمز نکالیں</button>
-                    <button class="btn-emerald" onclick="switchHub('hub-cards')">🪪 اسٹوڈنٹ / وزٹنگ / شادی کارڈ بنائیں</button>
-                    <button class="btn-emerald" onclick="document.getElementById('customBrandLogoInput').click()">🖼️ اپنا اصلی لوگو اپ لوڈ کریں</button>
+                <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn-gold-action" onclick="switchHub('hub-composing')">✍️ نئی درخواست لکھیں</button>
+                    <button class="btn-emerald" onclick="switchHub('hub-forms')">🗂️ خالی فارمز نکالیں</button>
+                    <button class="btn-emerald" onclick="switchHub('hub-cards')">🪪 کارڈز اسٹوڈیو</button>
                 </div>
             </div>
-
-            <!-- Live Clock & Accurate System Date Box -->
             <div class="clock-card">
                 <div id="liveClockText" class="clock-digits">12:00:00 PM</div>
-                <div id="liveUrduDateText" style="font-size: 15.5px; margin-top: 6px; color: #a7f3d0; font-weight: 700;">اتوار، 1 نومبر 2026ء</div>
-                <div id="liveEngDateText" class="ltr" style="font-size: 12.5px; color: #cbd5e1; margin-top: 2px;">Sunday, November 1, 2026</div>
-                <div style="margin-top:8px; display:flex; justify-content:center; gap:6px;">
-                    <button class="btn-light" style="padding:2px 8px; font-size:11px;" onclick="adjustDateOffset(-1)">◀ پچھلا دن</button>
-                    <button class="btn-light" style="padding:2px 8px; font-size:11px;" onclick="adjustDateOffset(0)">آج کی تاریخ</button>
-                    <button class="btn-light" style="padding:2px 8px; font-size:11px;" onclick="adjustDateOffset(1)">اگلا دن ▶</button>
+                <div id="liveUrduDateText" style="font-size: 15px; margin-top: 5px; color: #a7f3d0; font-weight: 700;">اتوار، 1 نومبر 2026ء</div>
+                <div id="liveEngDateText" class="ltr" style="font-size: 12px; color: #cbd5e1; margin-top: 2px;">Sunday, November 1, 2026</div>
+                <div style="margin-top:7px; display:flex; justify-content:center; gap:5px;">
+                    <button class="btn-light" style="padding:2px 6px; font-size:10.5px;" onclick="adjustDateOffset(-1)">◀ پچھلا دن</button>
+                    <button class="btn-light" style="padding:2px 6px; font-size:10.5px;" onclick="adjustDateOffset(0)">آج</button>
+                    <button class="btn-light" style="padding:2px 6px; font-size:10.5px;" onclick="adjustDateOffset(1)">اگلا دن ▶</button>
                 </div>
                 <hr style="border-color: rgba(212,175,55,0.3); margin: 10px 0;">
-                <div style="display:flex; justify-content:space-around; font-size:13px; font-weight:700;">
-                    <span>📍 چوک اعظم، ضلع لیہ</span>
-                    <span>🎧 <span class="ltr">24/7</span> کسٹمر سپورٹ ایکٹیو</span>
+                <div style="display:flex; justify-content:space-around; font-size:12.5px; font-weight:700;">
+                    <span>📍 چوک اعظم، لیہ</span>
+                    <span>🎧 <span class="ltr">24/7</span> سپورٹ</span>
                 </div>
             </div>
         </div>
 
-        <!-- KPI Metrics with Strict LTR Isolation -->
         <div class="kpi-row">
             <div class="kpi-item">
-                <div>
-                    <div style="font-size:13px; color:var(--text-muted); font-weight:700;">بلٹ ان پروفیشنل ٹیمپلیٹس</div>
-                    <div class="kpi-num">120+ Ready</div>
-                </div>
-                <span style="font-size:32px;">📚</span>
+                <div><div style="font-size:12.5px; color:var(--text-muted); font-weight:700;">پروفیشنل ٹیمپلیٹس</div><div class="kpi-num">120+ Ready</div></div>
+                <span style="font-size:28px;">📚</span>
             </div>
             <div class="kpi-item gold-bdr">
-                <div>
-                    <div style="font-size:13px; color:var(--text-muted); font-weight:700;">آج کے تیار کردہ ڈاکیومنٹس</div>
-                    <div class="kpi-num" id="kpiTotalDocs">1</div>
-                </div>
-                <span style="font-size:32px;">📄</span>
+                <div><div style="font-size:12.5px; color:var(--text-muted); font-weight:700;">آج کے تیار کردہ ڈاکیومنٹس</div><div class="kpi-num" id="kpiTotalDocs">1</div></div>
+                <span style="font-size:28px;">📄</span>
             </div>
             <div class="kpi-item">
-                <div>
-                    <div style="font-size:13px; color:var(--text-muted); font-weight:700;">ایکسپورٹ کوالٹی انجن</div>
-                    <div class="kpi-num">300 DPI HD</div>
-                </div>
-                <span style="font-size:32px;">🖨️</span>
+                <div><div style="font-size:12.5px; color:var(--text-muted); font-weight:700;">ایکسپورٹ کوالٹی انجن</div><div class="kpi-num">300 DPI HD</div></div>
+                <span style="font-size:28px;">🖨️</span>
             </div>
             <div class="kpi-item gold-bdr" style="cursor:pointer;" onclick="openAdminModal()">
-                <div>
-                    <div style="font-size:13px; color:var(--text-muted); font-weight:700;">ایڈمن سیکیورٹی اسٹیٹس</div>
-                    <div class="kpi-num" id="kpiAdminLockText" style="font-size:18px;">🔒 Locked (Private)</div>
-                </div>
-                <span style="font-size:32px;">🛡️</span>
+                <div><div style="font-size:12.5px; color:var(--text-muted); font-weight:700;">ایڈمن سیکیورٹی اسٹیٹس</div><div class="kpi-num" id="kpiAdminLockText" style="font-size:16px;">🔒 Locked</div></div>
+                <span style="font-size:28px;">🛡️</span>
             </div>
         </div>
 
-        <!-- Quick Verification Portals -->
         <div class="panel-box">
             <div class="panel-title">
-                <span>🌐 پنجاب اور چوک اعظم آن لائن تصدیقی پورٹلز — <span class="ltr">1-Click Official Portals</span></span>
-                <small style="font-size:12.5px; color:var(--text-muted);">کلک کرنے پر نئی ٹیب میں سرکاری ویب سائٹ کھل جائے گی</small>
+                <span>🌐 آن لائن تصدیقی پورٹلز — <span class="ltr">1-Click Official Portals</span></span>
+                <small style="font-size:12px; color:var(--text-muted);">نئی ٹیب میں سرکاری سائٹ کھل جائے گی</small>
             </div>
             <div class="portals-grid">
-                <a href="https://bill.pitc.com.pk/mepcobill" target="_blank" class="portal-card">
-                    <span>⚡ میپکو آن لائن بل</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">MEPCO Bill Check</span>
-                </a>
-                <a href="https://www.punjab-zameen.gov.pk/" target="_blank" class="portal-card">
-                    <span>🌾 پنجاب لینڈ ریکارڈ</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">PLRA Fard / Intiqal</span>
-                </a>
-                <a href="https://mtmis.excise.punjab.gov.pk/" target="_blank" class="portal-card">
-                    <span>🚗 گاڑی و موٹرسائیکل تصدیق</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">MTMIS Punjab</span>
-                </a>
-                <a href="https://es.punjab.gov.pk/" target="_blank" class="portal-card">
-                    <span>📜 ای اسٹامپ پیپر پنجاب</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">e-Stamp Verification</span>
-                </a>
-                <a href="https://www.aiou.edu.pk/" target="_blank" class="portal-card">
-                    <span>🎓 علامہ اقبال اوپن یونیورسٹی</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">AIOU Official Portal</span>
-                </a>
-                <a href="https://www.bisedgkhan.edu.pk/" target="_blank" class="portal-card">
-                    <span>🏫 ڈیرہ غازی خان بورڈ</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">BISE DG Khan</span>
-                </a>
-                <a href="https://8171.bisp.gov.pk/" target="_blank" class="portal-card">
-                    <span>💳 بینظیر انکم سپورٹ</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">8171 BISP Portal</span>
-                </a>
-                <a href="https://iris.fbr.gov.pk/" target="_blank" class="portal-card">
-                    <span>🏛️ ایف بی آر ٹیکس پورٹل</span>
-                    <span class="ltr" style="font-size:11.5px; color:var(--text-muted);">FBR Iris 2.0</span>
-                </a>
+                <a href="https://bill.pitc.com.pk/mepcobill" target="_blank" class="portal-card"><span>⚡ میپکو آن لائن بل</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">MEPCO Bill</span></a>
+                <a href="https://www.punjab-zameen.gov.pk/" target="_blank" class="portal-card"><span>🌾 پنجاب لینڈ ریکارڈ</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">PLRA Fard</span></a>
+                <a href="https://mtmis.excise.punjab.gov.pk/" target="_blank" class="portal-card"><span>🚗 گاڑی و موٹرسائیکل</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">MTMIS Punjab</span></a>
+                <a href="https://es.punjab.gov.pk/" target="_blank" class="portal-card"><span>📜 ای اسٹامپ پیپر</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">e-Stamp</span></a>
+                <a href="https://www.aiou.edu.pk/" target="_blank" class="portal-card"><span>🎓 اوپن یونیورسٹی</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">AIOU Portal</span></a>
+                <a href="https://www.bisedgkhan.edu.pk/" target="_blank" class="portal-card"><span>🏫 ڈی جی خان بورڈ</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">BISE DGK</span></a>
+                <a href="https://8171.bisp.gov.pk/" target="_blank" class="portal-card"><span>💳 بینظیر انکم سپورٹ</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">8171 BISP</span></a>
+                <a href="https://iris.fbr.gov.pk/" target="_blank" class="portal-card"><span>🏛️ ایف بی آر پورٹل</span><span class="ltr" style="font-size:11px; color:var(--text-muted);">FBR Iris</span></a>
             </div>
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 2: PRO URDU & ENGLISH COMPOSING STUDIO
-         ===================================================== -->
+    <!-- HUB 2: PRO COMPOSING STUDIO -->
     <section id="hub-composing" class="hub-view">
         <div class="workspace-grid">
-            <!-- Controls Column -->
             <div class="panel-box studio-controls-col">
                 <div class="panel-title">
-                    <span>⚙️ ماسٹر کمپوزنگ اور ٹیمپلیٹ کنٹرولز</span>
+                    <span>⚙️ کمپوزنگ اور ٹیمپلیٹ کنٹرولز</span>
                     <button class="btn-light" id="voiceBtn" onclick="triggerVoiceTyping()">🎤 بول کر لکھیں</button>
                 </div>
-
                 <div style="margin-bottom: 10px;">
-                    <label>📂 1. دستاویز کی کیٹیگری منتخب کریں:</label>
+                    <label>📂 کیٹیگری منتخب کریں:</label>
                     <select id="docCatSelect" onchange="updateDocTemplatesDropdown()">
-                        <option value="kachehri">⚖️ کچہری، بیانِ حلفی، اقرار نامہ و اسٹامپ پیپر</option>
-                        <option value="police">🚓 تھانہ، پولیس، ڈی پی او اور ایف آئی آر درخواستیں</option>
-                        <option value="chowkazam">📍 چوک اعظم و ضلع لیہ لوکل دفاتر (TDA / میونسپل / میپکو)</option>
-                        <option value="banking">🏦 بینکنگ، اکاؤنٹ، راسٹ آئی ڈی اور BISP درخواستیں</option>
-                        <option value="education">🎓 اسکول، کالج، AIOU اور اردو/انگلش درخواستیں</option>
-                        <option value="posters">🪧 روزمرہ دکان پوسٹرز، فوتگی نوٹس اور بارات گاڑی اسٹیکرز</option>
-                        <option value="business">💼 ایکسپیرینس سرٹیفکیٹ، بل بک، سی وی اور کلینک نسخہ پیڈ</option>
+                        <option value="kachehri">⚖️ کچہری، بیانِ حلفی، اقرار نامہ و اسٹامپ</option>
+                        <option value="police">🚓 تھانہ، پولیس اور ایف آئی آر درخواستیں</option>
+                        <option value="chowkazam">📍 چوک اعظم لوکل دفاتر (TDA / میونسپل / میپکو)</option>
+                        <option value="banking">🏦 بینکنگ، اکاؤنٹ اور BISP درخواستیں</option>
+                        <option value="education">🎓 اسکول، کالج، AIOU درخواستیں</option>
+                        <option value="posters">🪧 دکان پوسٹرز، فوتگی نوٹس اور بارات اسٹیکرز</option>
+                        <option value="business">💼 ایکسپیرینس سرٹیفکیٹ، بل بک و نسخہ پیڈ</option>
                     </select>
                 </div>
-
                 <div style="margin-bottom: 12px;">
-                    <label>📄 2. بنا بنایا پروفیشنل ٹیمپلیٹ منتخب کریں:</label>
+                    <label>📄 ٹیمپلیٹ منتخب کریں:</label>
                     <select id="docTplSelect" onchange="applySelectedDocTemplate()"></select>
                 </div>
-
-                <!-- Smooth Roman Urdu Converter -->
-                <div style="background: var(--bg-muted); padding: 12px; border-radius: 10px; border: 1.5px solid var(--gold-500); margin-bottom: 12px;">
+                <div style="background: var(--bg-muted); padding: 10px; border-radius: 10px; border: 1.5px solid var(--gold-500); margin-bottom: 10px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                        <label style="color: var(--emerald-700); margin:0;">⌨️ گلابی اردو (Roman Urdu) سے نستعلیق کنورٹر:</label>
-                        <label style="font-size:11.5px; cursor:pointer; display:flex; align-items:center; gap:4px; color:var(--text-main);">
-                            <input type="checkbox" id="directPaperRomanToggle" checked style="width:auto;"> کاغذ پر ڈائریکٹ رومن اردو
+                        <label style="color: var(--emerald-700); margin:0;">⌨️ گلابی اردو سے نستعلیق کنورٹر:</label>
+                        <label style="font-size:11px; cursor:pointer; display:flex; align-items:center; gap:3px;">
+                            <input type="checkbox" id="directPaperRomanToggle" checked style="width:auto;"> کاغذ پر ڈائریکٹ
                         </label>
                     </div>
-                    <input type="text" id="romanInputBox" class="ltr" placeholder="Misal: ba khidmat janab sho sahib (Press Space/Enter)..." onkeyup="processRomanInput(event)">
-                    <div id="romanSugBar" style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;"></div>
+                    <input type="text" id="romanInputBox" class="ltr" placeholder="Misal: ba khidmat janab sho..." onkeyup="processRomanInput(event)">
                 </div>
-
-                <!-- Islami Rumooz, Lamba Kashida & Aeraab -->
-                <div style="margin-bottom: 12px;">
-                    <label>🕌 اسلامی رموز، لمبا کشیدہ اور اعراب (کرسر کی جگہ پر درج ہوں گے):</label>
+                <div style="margin-bottom: 10px;">
+                    <label>🕌 اسلامی رموز اور اعراب:</label>
                     <div class="chips-wrap">
                         <span class="urdu-chip" onclick="insertAtCursor('بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ\n')">﷽ بسم اللہ</span>
-                        <span class="urdu-chip" onclick="insertAtCursor(' اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ ')">صلوات</span>
                         <span class="urdu-chip" onclick="insertAtCursor(' ﷺ ')">ﷺ</span>
                         <span class="urdu-chip" onclick="insertAtCursor(' علیہ السلام ')">علیہ السلام (ع)</span>
                         <span class="urdu-chip" onclick="insertAtCursor(' رضی اللہ تعالیٰ عنہ ')">رضی اللہ (رض)</span>
                         <span class="urdu-chip" onclick="insertAtCursor(' رحمۃ اللہ علیہ ')">رحمۃ اللہ (رح)</span>
-                        <span class="urdu-chip" onclick="insertAtCursor('بخدمتِ جنابِ عالی، ')">بخدمتِ جنابِ عالی</span>
-                        <span class="urdu-chip" onclick="insertAtCursor('\n\t\t\t\t\tالــــعــــارض\n')">الــــعــــارض</span>
-                        <span class="urdu-chip" onclick="insertAtCursor('َ')">زبر (َ)</span>
-                        <span class="urdu-chip" onclick="insertAtCursor('ِ')">زیر (ِ)</span>
-                        <span class="urdu-chip" onclick="insertAtCursor('ُ')">پیش (ُ)</span>
-                        <span class="urdu-chip" onclick="insertAtCursor('ّ')">تشدید (ّ)</span>
+                        <span class="urdu-chip" onclick="insertAtCursor('بخدمتِ جنابِ عالی، ')">بخدمتِ عالی</span>
+                        <span class="urdu-chip" onclick="insertAtCursor('\n\t\t\t\t\tالــــعــــارض\n')">العارض</span>
+                        <span class="urdu-chip" onclick="insertAtCursor('َ')">زبر</span>
+                        <span class="urdu-chip" onclick="insertAtCursor('ِ')">زیر</span>
+                        <span class="urdu-chip" onclick="insertAtCursor('ُ')">پیش</span>
                     </div>
                 </div>
-
-                <!-- Smart CNIC Formatter -->
                 <div style="margin-bottom: 10px; display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end;">
                     <div>
-                        <label>🆔 سمارٹ شناختی کارڈ فارمیٹر (13 ہندسے لکھیں):</label>
+                        <label>🆔 شناختی کارڈ فارمیٹر (13 ہندسے):</label>
                         <input type="text" id="cnicSmartField" class="ltr" maxlength="15" placeholder="32203-5121785-1" oninput="autoFormatCNIC(this)">
                     </div>
-                    <button class="btn-emerald" onclick="insertAtCursor(' ' + document.getElementById('cnicSmartField').value + ' ')">درج کریں</button>
+                    <button class="btn-emerald" onclick="insertAtCursor(' ' + document.getElementById('cnicSmartField').value + ' ')">درج</button>
                 </div>
-                <div id="cnicGenderInfo" style="font-size:12px; font-weight:700; color:var(--emerald-700); margin-bottom:10px;"></div>
-
-                <!-- Font, Size & Margin Controls -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <div id="cnicGenderInfo" style="font-size:11.5px; font-weight:700; color:var(--emerald-700); margin-bottom:8px;"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
                     <div>
                         <label>ڈاکیومنٹ فونٹ:</label>
                         <select id="sheetFontFam" onchange="refreshSheetVisuals()">
-                            <option value="'Noto Nastaliq Urdu', serif">نوٹو نستعلیق اردو (Nastaliq)</option>
-                            <option value="'Gulzar', serif">خطِ گلزار (Calligraphy)</option>
-                            <option value="'Amiri', serif">خطِ امیری (Classic)</option>
-                            <option value="'Tajawal', sans-serif">تجاول (Modern Clean)</option>
-                            <option value="'Plus Jakarta Sans', sans-serif">English Corporate</option>
+                            <option value="'Noto Nastaliq Urdu', serif">نوٹو نستعلیق (Nastaliq)</option>
+                            <option value="'Gulzar', serif">خطِ گلزار</option>
+                            <option value="'Amiri', serif">خطِ امیری</option>
+                            <option value="'Tajawal', sans-serif">تجاول</option>
                         </select>
                     </div>
                     <div>
                         <label>فونٹ سائز (<span id="lblFontSize" class="ltr">18px</span>):</label>
-                        <input type="range" id="sheetFontSize" min="13" max="42" value="18" oninput="refreshSheetVisuals()">
+                        <input type="range" id="sheetFontSize" min="13" max="40" value="18" oninput="refreshSheetVisuals()">
                     </div>
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                    <div>
-                        <label>کاغذ کا سائز:</label>
-                        <select id="sheetPaperSize" onchange="refreshSheetVisuals()">
-                            <option value="a4">A4 اسٹینڈرڈ سائز</option>
-                            <option value="legal">Legal (14 انچ اسٹامپ پیپر)</option>
-                            <option value="landscape">A4 Landscape (پوسٹر)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>اسٹامپ پیپر ٹاپ مارجن:</label>
-                        <select id="sheetTopMargin" onchange="refreshSheetVisuals()">
-                            <option value="20mm">عام مارجن (Normal)</option>
-                            <option value="75mm">اسٹامپ مارجن (3 انچ خالی)</option>
-                            <option value="115mm">بڑا اسٹامپ (4.5 انچ خالی)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--border-clr); padding-top: 12px;">
-                    <button class="btn-light" onclick="addMovableTextBox()">🖐️ موویبل ٹیکسٹ باکس (+)</button>
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--border-clr); padding-top: 10px;">
+                    <button class="btn-light" onclick="addMovableTextBox()">🖐️ موویبل باکس</button>
                     <button class="btn-light" onclick="toggleDocHeader()">لیٹر ہیڈ آن/آف</button>
-                    <button class="btn-light" onclick="toggleDocWitness()">گواہان و انگوٹھا ٹیبل</button>
+                    <button class="btn-light" onclick="toggleDocWitness()">گواہان ٹیبل</button>
                     <button class="btn-light" onclick="cycleDocBorder()">بارڈر ڈیزائن</button>
                 </div>
             </div>
 
-            <!-- Live Sheet Preview Column -->
             <div>
                 <div class="paper-toolbar">
-                    <div id="multiPageTabs" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <div id="multiPageTabs" style="display:flex; gap:5px; flex-wrap:wrap;"></div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
                         <button class="btn-light" onclick="addDocPage()">➕ نیا صفحہ</button>
-                        <button class="btn-emerald" onclick="window.print()">🖨️ پرنٹ / <span class="ltr">Vector PDF</span></button>
-                        <button class="btn-gold-action" onclick="downloadElementAsHD('printableDocSheet', 'AlGhadeer_Document')">🖼️ <span class="ltr">300-DPI HD PNG</span></button>
-                        <button class="btn-emerald" onclick="downloadAsWordDoc()">📘 <span class="ltr">MS Word (.doc)</span></button>
+                        <button class="btn-emerald" onclick="window.print()">🖨️ پرنٹ / <span class="ltr">PDF</span></button>
+                        <button class="btn-gold-action" onclick="downloadElementAsHD('printableDocSheet', 'AlGhadeer_Document')">🖼️ <span class="ltr">300-DPI</span> تصویر</button>
+                        <button class="btn-emerald" onclick="downloadAsWordDoc()">📘 <span class="ltr">Word</span></button>
                     </div>
                 </div>
-
                 <div class="paper-stage">
                     <div id="printableDocSheet" class="doc-sheet">
-                        <!-- Official Letterhead -->
-                        <div id="docLetterheadBlock" style="border-bottom: 3px double #043927; padding-bottom: 12px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; font-family: var(--ui-font);">
-                            <div style="display:flex; align-items:center; gap:12px;">
-                                <div style="width:48px; height:48px; border-radius:50%; border:2px solid #d4af37; display:flex; align-items:center; justify-content:center; font-weight:800; color:#043927; background:#ecfdf5;">الغدیر</div>
+                        <div id="docLetterheadBlock" style="border-bottom: 3px double #043927; padding-bottom: 10px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; font-family: var(--ui-font);">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:44px; height:44px; border-radius:50%; border:2px solid #d4af37; display:flex; align-items:center; justify-content:center; font-weight:800; color:#043927; background:#ecfdf5; font-size:13px;">الغدیر</div>
                                 <div>
-                                    <h2 style="font-size:21px; color:#043927; margin:0;">الغدیر ڈیجیٹل سروسز — چوک اعظم</h2>
-                                    <p class="ltr" style="font-size:12px; color:#334155; margin:0;">Founder: Junaid Ali Hussaini | District Layyah | +92 328 7892826 | info.alghadeer@yahoo.com</p>
+                                    <h2 style="font-size:19px; color:#043927; margin:0;">الغدیر ڈیجیٹل سروسز — چوک اعظم</h2>
+                                    <p class="ltr" style="font-size:11.5px; color:#334155; margin:0;">Founder: Junaid Ali Hussaini | Layyah | +92 328 7892826</p>
                                 </div>
                             </div>
-                            <div class="ltr" style="text-align:left; font-size:12px; color:#334155;">
-                                <strong>Ref:</strong> AGDS/2026/108<br>
+                            <div class="ltr" style="text-align:left; font-size:11.5px; color:#334155;">
+                                <strong>Ref:</strong> AGDS/2026<br>
                                 <strong>Date:</strong> <span id="sheetLiveDate">01-11-2026</span>
                             </div>
                         </div>
-
-                        <!-- Main Editable Area -->
                         <div id="docEditableArea" class="doc-editable" contenteditable="true" onkeyup="handleDirectPaperRoman(event)" oninput="saveCurrentPageContent()"></div>
-
-                        <!-- Witness & Thumb Table -->
                         <div id="docWitnessBlock" style="display:none;">
                             <table class="doc-table">
                                 <tr>
-                                    <th style="width:50%; background:#f8fafc;">فریق اول / المقر (دستخط و نشانِ انگوٹھا)</th>
+                                    <th style="width:50%; background:#f8fafc;">فریق اول / المقر (دستخط و انگوٹھا)</th>
                                     <th style="width:50%; background:#f8fafc;">فریق دوم / گواہان (نام و شناختی کارڈ)</th>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        نام: ___________________________<br>
-                                        شناختی کارڈ: _____________________<br>
-                                        دستخط / انگوٹھا: _________________
-                                    </td>
-                                    <td>
-                                        <strong>گواہ نمبر 1:</strong> _____________________<br><br>
-                                        <strong>گواہ نمبر 2:</strong> _____________________
-                                    </td>
+                                    <td>نام: ___________________________<br>CNIC: _____________________<br>انگوٹھا: </td>
+                                    <td><strong>گواہ 1:</strong> _____________________<br><br><strong>گواہ 2:</strong> _____________________</td>
                                 </tr>
                             </table>
                         </div>
@@ -358,24 +552,22 @@
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 3: PRINTABLE BLANK OFFICIAL PDF FORMS BANK
-         ===================================================== -->
+    <!-- HUB 3: PRINTABLE BLANK FORMS BANK -->
     <section id="hub-forms" class="hub-view">
-        <div class="panel-box" style="margin-bottom:20px;">
+        <div class="panel-box" style="margin-bottom:16px;">
             <div class="panel-title">
-                <span>🗂️ ریڈی ٹو پرنٹ خالی سرکاری اور دفتری فارمز بینک — <span class="ltr">Printable Blank Official Forms</span></span>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn-emerald" onclick="window.print()">🖨️ فارم پرنٹ / <span class="ltr">PDF</span></button>
-                    <button class="btn-gold-action" onclick="downloadElementAsHD('officialBlankFormSheet', 'AlGhadeer_Official_Form')">🖼️ <span class="ltr">300-DPI</span> فارم ڈاؤن لوڈ</button>
+                <span>🗂️ خالی سرکاری اور دفتری فارمز بینک — <span class="ltr">Printable Forms</span></span>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn-emerald" onclick="window.print()">🖨️ پرنٹ</button>
+                    <button class="btn-gold-action" onclick="downloadElementAsHD('officialBlankFormSheet', 'AlGhadeer_Form')">🖼️ ڈاؤن لوڈ</button>
                 </div>
             </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button class="btn-light" onclick="loadBlankForm('birth')">👶 فارم اندراجِ پیدائش</button>
-                <button class="btn-light" onclick="loadBlankForm('death')">🕊️ فارم اندراجِ وفات</button>
-                <button class="btn-light" onclick="loadBlankForm('zakat')">🌙 فارم مستحقِ زکوٰۃ و وظیفہ</button>
-                <button class="btn-light" onclick="loadBlankForm('domicile')">🏛️ ڈومیسائل فارم <span class="ltr">P-1</span></button>
-                <button class="btn-light" onclick="loadBlankForm('nikah')">💍 نکاح رجسٹریشن پرفارما</button>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="btn-light" onclick="loadBlankForm('birth')">👶 پیدائش فارم</button>
+                <button class="btn-light" onclick="loadBlankForm('death')">🕊️ وفات فارم</button>
+                <button class="btn-light" onclick="loadBlankForm('zakat')">🌙 زکوٰۃ و وظیفہ</button>
+                <button class="btn-light" onclick="loadBlankForm('domicile')">🏛️ ڈومیسائل <span class="ltr">P-1</span></button>
+                <button class="btn-light" onclick="loadBlankForm('nikah')">💍 نکاح نامہ پرفارما</button>
                 <button class="btn-light" onclick="loadBlankForm('aiou')">🎓 <span class="ltr">AIOU</span> اسائنمنٹ پرت</button>
             </div>
         </div>
@@ -384,225 +576,167 @@
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 4: MULTI-MODE CARD, VISITING, SHADI CARD & MUG STUDIO
-         ===================================================== -->
+    <!-- HUB 4: MULTI-MODE CARD, VISITING, SHADI & MUG STUDIO -->
     <section id="hub-cards" class="hub-view">
         <div class="workspace-grid">
             <div class="panel-box">
-                <div class="panel-title">
-                    <span>🪪 کارڈ، وزٹنگ کارڈ، شادی کارڈ اور مگ ڈیزائنر</span>
-                </div>
-
+                <div class="panel-title"><span>🪪 کارڈ، وزٹنگ کارڈ، شادی کارڈ و مگ اسٹوڈیو</span></div>
                 <div style="margin-bottom: 10px;">
-                    <label>🎨 1. اسٹوڈیو موڈ منتخب کریں (<span class="ltr">Select Design Type</span>):</label>
+                    <label>🎨 اسٹوڈیو موڈ:</label>
                     <select id="graphicModeSelect" onchange="switchGraphicStudioMode()">
-                        <option value="idcard">🪪 اسٹوڈنٹ / ایمپلائی آئی ڈی کارڈ (Front + Back ID Card)</option>
-                        <option value="visiting">💼 پروفیشنل بزنس وزٹنگ کارڈ (Business Visiting Card)</option>
-                        <option value="shadi">🌹 شاہی شادی / ولیمہ کارڈ (Royal Shadi Invitation Card)</option>
-                        <option value="mug">☕ کسٹم مگ پرنٹنگ ڈیزائن (Mug Wrap 8.5x3.5 Studio)</option>
+                        <option value="idcard">🪪 اسٹوڈنٹ / ایمپلائی آئی ڈی کارڈ</option>
+                        <option value="visiting">💼 بزنس وزٹنگ کارڈ</option>
+                        <option value="shadi">🌹 شاہی شادی / ولیمہ کارڈ</option>
+                        <option value="mug">☕ کسٹم مگ پرنٹنگ ڈیزائن</option>
                     </select>
                 </div>
-
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom: 10px;">
                     <div>
                         <label>کلر تھیم:</label>
                         <select id="cardThemeColor" onchange="applyCardThemeColor()">
-                            <option value="emerald">الغدیر رائل ایمرالڈ اینڈ گولڈ</option>
-                            <option value="navy">ایگزیکٹو نیوی بلیو اینڈ گولڈ</option>
-                            <option value="maroon">شاہی میرون اینڈ گولڈ</option>
-                            <option value="dark">پریمیم آبسیڈین بلیک اینڈ گولڈ</option>
+                            <option value="emerald">ایمرالڈ اینڈ گولڈ</option>
+                            <option value="navy">نیوی بلیو</option>
+                            <option value="maroon">شاہی میرون</option>
+                            <option value="dark">آبسیڈین بلैक</option>
                         </select>
                     </div>
                     <div>
-                        <label>فوٹو فریم کی شکل:</label>
+                        <label>فوٹو فریم:</label>
                         <select id="cardPhotoShape" onchange="toggleCardPhotoShape()">
-                            <option value="circle">گول دائرہ (Circle)</option>
-                            <option value="square">چوکور راؤنڈڈ (Rounded Square)</option>
+                            <option value="circle">گول (Circle)</option>
+                            <option value="square">چوکور (Square)</option>
                         </select>
                     </div>
                 </div>
-
-                <div style="margin-bottom: 8px;">
-                    <label>ادارے / کاروبار / تقریب کا عنوان:</label>
-                    <input type="text" id="gTitle" value="الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی" oninput="syncAllGraphicCards()">
-                </div>
-
-                <div style="margin-bottom: 8px;">
-                    <label>سب ٹائٹل / مقام:</label>
-                    <input type="text" id="gSub" value="چوک اعظم، ضلع لیہ (پنجاب)" oninput="syncAllGraphicCards()">
-                </div>
-
+                <div style="margin-bottom: 8px;"><label>عنوان:</label><input type="text" id="gTitle" value="الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی" oninput="syncAllGraphicCards()"></div>
+                <div style="margin-bottom: 8px;"><label>مقام:</label><input type="text" id="gSub" value="چوک اعظم، ضلع لیہ (پنجاب)" oninput="syncAllGraphicCards()"></div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                    <div>
-                        <label>پورا نام (طالب علم / دولہا / اونر):</label>
-                        <input type="text" id="gName" value="محمد جنید علی حسینی" oninput="syncAllGraphicCards()">
-                    </div>
-                    <div>
-                        <label>والد کا نام:</label>
-                        <input type="text" id="gFather" value="جمشید عارف" oninput="syncAllGraphicCards()">
-                    </div>
+                    <div><label>نام:</label><input type="text" id="gName" value="محمد جنید علی حسینی" oninput="syncAllGraphicCards()"></div>
+                    <div><label>والد کا نام:</label><input type="text" id="gFather" value="جمشید عارف" oninput="syncAllGraphicCards()"></div>
                 </div>
-
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                    <div>
-                        <label>عہدہ / کورس / ڈپلومہ:</label>
-                        <input type="text" id="gRole" value="ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)" oninput="syncAllGraphicCards()">
-                    </div>
-                    <div>
-                        <label>آئی ڈی نمبر / میعاد:</label>
-                        <input type="text" id="gIdNum" class="ltr" value="AG-2026-089" oninput="syncAllGraphicCards()">
-                    </div>
+                    <div><label>عہدہ / کورس:</label><input type="text" id="gRole" value="ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)" oninput="syncAllGraphicCards()"></div>
+                    <div><label>آئی ڈی نمبر:</label><input type="text" id="gIdNum" class="ltr" value="AG-2026-089" oninput="syncAllGraphicCards()"></div>
                 </div>
-
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
-                    <div>
-                        <label>بلڈ گروپ / ای میل:</label>
-                        <input type="text" id="gExtra" class="ltr" value="B+ Positive" oninput="syncAllGraphicCards()">
+                    <div><label>بلڈ گروپ:</label><input type="text" id="gExtra" class="ltr" value="B+ Positive" oninput="syncAllGraphicCards()"></div>
+                    <div><label>رابطہ:</label><input type="text" id="gPhone" class="ltr" value="+92 328 7892826" oninput="syncAllGraphicCards()"></div>
+                </div>
+                <div style="background:var(--bg-muted); padding:10px; border-radius:10px; border:1.5px solid var(--gold-500); margin-bottom:12px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                        <label style="color:var(--emerald-700); margin:0;">📸 فوٹو اپ لوڈ اور فٹ سلائیڈرز:</label>
+                        <button class="btn-light" style="padding:2px 6px; font-size:10.5px;" onclick="resetPhotoSliders()">🔄 ری سیٹ</button>
                     </div>
-                    <div>
-                        <label>رابطہ نمبر:</label>
-                        <input type="text" id="gPhone" class="ltr" value="+92 328 7892826" oninput="syncAllGraphicCards()">
+                    <input type="file" accept="image/*" onchange="handleCardPhotoUpload(event)" style="margin-bottom:6px;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+                        <div><label>🔍 Zoom (<span id="lblZoom" class="ltr">100%</span>)</label><input type="range" id="photoZoomSlider" min="60" max="250" value="100" oninput="drawPhotoOnCanvases()"></div>
+                        <div><label>↕️ اوپر/نیچے</label><input type="range" id="photoPanYSlider" min="-90" max="90" value="0" oninput="drawPhotoOnCanvases()"></div>
+                        <div><label>↔️ دائیں/بائیں</label><input type="range" id="photoPanXSlider" min="-90" max="90" value="0" oninput="drawPhotoOnCanvases()"></div>
                     </div>
                 </div>
-
-                <!-- HTML5 Canvas Photo Pan & Zoom -->
-                <div style="background:var(--bg-muted); padding:12px; border-radius:10px; border:1.5px solid var(--gold-500); margin-bottom:12px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <label style="color:var(--emerald-700); margin:0;">📸 تصویر اپ لوڈ اور پرفیکٹ فٹ سلائیڈرز:</label>
-                        <button class="btn-light" style="padding:2px 8px; font-size:11px;" onclick="resetPhotoSliders()">🔄 ری سیٹ فٹ</button>
-                    </div>
-                    <input type="file" accept="image/*" onchange="handleCardPhotoUpload(event)" style="margin-bottom:8px;">
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
-                        <div>
-                            <label>🔍 Zoom (<span id="lblZoom" class="ltr">100%</span>)</label>
-                            <input type="range" id="photoZoomSlider" min="60" max="260" value="100" oninput="drawPhotoOnCanvases()">
-                        </div>
-                        <div>
-                            <label>↕️ اوپر/نیچے</label>
-                            <input type="range" id="photoPanYSlider" min="-110" max="110" value="0" oninput="drawPhotoOnCanvases()">
-                        </div>
-                        <div>
-                            <label>↔️ دائیں/بائیں</label>
-                            <input type="range" id="photoPanXSlider" min="-110" max="110" value="0" oninput="drawPhotoOnCanvases()">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-gold-action" style="width:100%;" onclick="downloadElementAsHD('graphicExportStage', 'AlGhadeer_Card_Design')">🖼️ <span class="ltr">300-DPI Ultra-HD</span> کارڈ ڈاؤن لوڈ کریں</button>
+                <button class="btn-gold-action" style="width:100%;" onclick="downloadElementAsHD('graphicExportStage', 'AlGhadeer_Card')">🖼️ <span class="ltr">300-DPI</span> کارڈ ڈاؤن لوڈ کریں</button>
             </div>
 
-            <!-- Live Multi-Mode Graphic Preview Stage -->
             <div class="panel-box">
-                <div class="panel-title">
-                    <span>لائیو ہائی ریزولیوشن پریویو (کارڈ کے اندر کسی بھی لفظ پر کلک کر کے ڈائریکٹ بھی ایڈٹ کر سکتے ہیں)</span>
-                </div>
-
+                <div class="panel-title"><span>لائیو پریویو (لفظوں پر کلک کر کے ڈائریکٹ ایڈٹ کریں)</span></div>
                 <div id="graphicExportStage" class="graphic-stage">
-                    <!-- MODE 1: ID CARD (FRONT & BACK) -->
-                    <div id="modeIdCardWrap" style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+                    <!-- MODE 1: ID CARD -->
+                    <div id="modeIdCardWrap" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
                         <div class="id-card-box">
                             <div>
                                 <div id="idCardHeaderBox" class="id-card-top">
-                                    <div style="width:42px; height:42px; border-radius:50%; background:#fff; border:2px solid #d4af37; margin:0 auto 6px auto; display:flex; align-items:center; justify-content:center; font-family:var(--nastaliq-font); color:#043927; font-weight:bold; font-size:14px;">الغدیر</div>
-                                    <div contenteditable="true" style="font-weight:800; font-size:18px; font-family:var(--nastaliq-font); line-height:1.5;" id="vIdTitle">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</div>
-                                    <div contenteditable="true" style="font-size:12.5px; color:#fde68a; margin-top:2px;" id="vIdSub">چوک اعظم، ضلع لیہ (پنجاب)</div>
+                                    <div style="width:38px; height:38px; border-radius:50%; background:#fff; border:2px solid #d4af37; margin:0 auto 5px auto; display:flex; align-items:center; justify-content:center; color:#043927; font-weight:bold; font-size:12px;">الغدیر</div>
+                                    <div contenteditable="true" style="font-weight:800; font-size:17px; line-height:1.4;" id="vIdTitle">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</div>
+                                    <div contenteditable="true" style="font-size:12px; color:#fde68a; margin-top:2px;" id="vIdSub">چوک اعظم، ضلع لیہ (پنجاب)</div>
                                 </div>
                                 <div id="idPhotoFrameHolder" class="id-photo-holder">
-                                    <canvas id="idPhotoCanvas" width="256" height="256" style="width:100%; height:100%; display:block;"></canvas>
+                                    <canvas id="idPhotoCanvas" width="240" height="240" style="width:100%; height:100%; display:block;"></canvas>
                                 </div>
-                                <div style="text-align:center; padding:0 14px;">
-                                    <span id="vIdBadge" class="badge-gold" style="background:#043927; color:#fff; border:1px solid #d4af37;">ID: AG-2026-089</span>
-                                    <h2 contenteditable="true" id="vIdName" style="font-size:23px; color:#022015; margin:6px 0 4px 0; font-family:var(--nastaliq-font); line-height:1.6;">محمد جنید علی حسینی</h2>
-                                    <div contenteditable="true" id="vIdRole" style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; padding:3px 12px; border-radius:6px; font-size:12.5px; font-weight:700;">ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)</div>
+                                <div style="text-align:center; padding:0 12px;">
+                                    <span id="vIdBadge" class="badge-gold" style="background:#043927; color:#fff;">ID: AG-2026-089</span>
+                                    <h2 contenteditable="true" id="vIdName" style="font-size:21px; color:#022015; margin:5px 0; font-weight:800;">محمد جنید علی حسینی</h2>
+                                    <div contenteditable="true" id="vIdRole" style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; padding:2px 10px; border-radius:6px; font-size:12px; font-weight:700;">ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)</div>
                                 </div>
-                                <div style="padding:14px 20px; font-size:13.5px; line-height:2.05;">
+                                <div style="padding:12px 18px; font-size:13px; line-height:1.9;">
                                     <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>والد کا نام:</span><strong contenteditable="true" id="vIdFather">جمشید عارف</strong></div>
                                     <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>بلڈ گروپ:</span><strong contenteditable="true" id="vIdExtra" class="ltr" style="color:#dc2626;">B+ Positive</strong></div>
-                                    <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>میعاد کارڈ:</span><strong contenteditable="true" class="ltr">Nov 2026 – Nov 2027</strong></div>
-                                    <div style="display:flex; justify-content:space-between;"><span>رابطہ نمبر:</span><strong contenteditable="true" id="vIdPhone" class="ltr" style="color:#043927;">+92 328 7892826</strong></div>
+                                    <div style="display:flex; justify-content:space-between; border-bottom:1px dashed #cbd5e1;"><span>میعاد:</span><strong contenteditable="true" class="ltr">Nov 2026 – Nov 2027</strong></div>
+                                    <div style="display:flex; justify-content:space-between;"><span>رابطہ:</span><strong contenteditable="true" id="vIdPhone" class="ltr">+92 328 7892826</strong></div>
                                 </div>
                             </div>
-                            <div style="background:#022015; color:#fff; padding:8px 16px; display:flex; justify-content:space-between; font-size:11.5px; border-top:2px solid #d4af37;">
-                                <span>دستخط اتھارٹی: ____________</span>
-                                <strong class="ltr" style="color:#d4af37;">AL GHADEER</strong>
+                            <div style="background:#022015; color:#fff; padding:7px 14px; display:flex; justify-content:space-between; font-size:11px; border-top:2px solid #d4af37;">
+                                <span>دستخط: ____________</span><strong class="ltr" style="color:#d4af37;">AL GHADEER</strong>
                             </div>
                         </div>
 
-                        <!-- Back Side of ID Card -->
-                        <div class="id-card-box" style="padding:22px; text-align:center;">
+                        <!-- ID Card Back -->
+                        <div class="id-card-box" style="padding:20px; text-align:center;">
                             <div>
-                                <div style="width:52px; height:52px; border-radius:50%; background:#043927; border:2px solid #d4af37; margin:0 auto 10px auto; display:flex; align-items:center; justify-content:center; font-family:var(--nastaliq-font); color:#fff; font-weight:bold; font-size:16px;">الغدیر</div>
-                                <h4 style="color:#022015; font-size:16px; border-bottom:2px solid #d4af37; padding-bottom:8px;">ضروری ہدایات و تصدیق کارڈ</h4>
-                                <p contenteditable="true" style="font-size:13px; color:#334155; line-height:1.9; margin-top:12px;">
-                                    یہ کارڈ الغدیر ڈیجیٹل سروسز چوک اعظم کی ملکیت ہے۔ گمشدگی کی صورت میں فوری طور پر نیچے دیے گئے پتے یا فون نمبر پر اطلاع دیں۔
-                                </p>
-                                <div id="idQrContainer" style="display:flex; justify-content:center; margin:16px 0;"></div>
-                                <div style="font-size:12.5px; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
-                                    <strong>آفیشل رابطہ:</strong> <span class="ltr" id="vIdBackPhone">+92 328 7892826</span><br>
-                                    <span class="ltr">info.alghadeer@yahoo.com</span>
+                                <div style="width:46px; height:46px; border-radius:50%; background:#043927; border:2px solid #d4af37; margin:0 auto 8px auto; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:14px;">الغدیر</div>
+                                <h4 style="color:#022015; font-size:15px; border-bottom:2px solid #d4af37; padding-bottom:6px;">ضروری ہدایات</h4>
+                                <p contenteditable="true" style="font-size:12px; color:#334155; line-height:1.8; margin-top:10px;">یہ کارڈ الغدیر ڈیجیٹل سروسز چوک اعظم کی ملکیت ہے۔ گمشدگی کی صورت میں فوری طور پر دفتر میں اطلاع دیں۔</p>
+                                <div id="idQrContainer" style="display:flex; justify-content:center; margin:14px 0;"></div>
+                                <div style="font-size:12px; background:#f8fafc; padding:8px; border-radius:6px; border:1px solid #cbd5e1;">
+                                    <strong>رابطہ:</strong> <span class="ltr" id="vIdBackPhone">+92 328 7892826</span><br><span class="ltr">info.alghadeer@yahoo.com</span>
                                 </div>
                             </div>
-                            <div class="ltr" style="font-size:11px; color:#64748b; border-top:1px solid #cbd5e1; padding-top:8px;">
-                                Verified by Al Ghadeer Digital Services — Chowk Azam
-                            </div>
+                            <div class="ltr" style="font-size:10.5px; color:#64748b; border-top:1px solid #cbd5e1; padding-top:6px;">Al Ghadeer Digital Services — Chowk Azam</div>
                         </div>
                     </div>
 
-                    <!-- MODE 2: BUSINESS VISITING CARD -->
+                    <!-- MODE 2: VISITING CARD -->
                     <div id="modeVisitingCardBox" class="visiting-card-box">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                             <div>
                                 <span class="badge-gold">AL GHADEER DIGITAL SERVICES</span>
-                                <h2 contenteditable="true" id="vVisTitle" style="font-size:23px; color:#ffffff; margin-top:6px;">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</h2>
-                                <p contenteditable="true" id="vVisSub" style="font-size:13px; color:#fde68a;">چوک اعظم، ضلع لیہ (پنجاب)</p>
+                                <h2 contenteditable="true" id="vVisTitle" style="font-size:21px; color:#fff; margin-top:5px;">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</h2>
+                                <p contenteditable="true" id="vVisSub" style="font-size:12px; color:#fde68a;">چوک اعظم، ضلع لیہ (پنجاب)</p>
                             </div>
-                            <div style="width:68px; height:68px; border-radius:50%; border:2px solid #d4af37; overflow:hidden; background:#fff;">
+                            <div style="width:60px; height:60px; border-radius:50%; border:2px solid #d4af37; overflow:hidden; background:#fff;">
                                 <canvas id="visPhotoCanvas" width="160" height="160" style="width:100%; height:100%; display:block;"></canvas>
                             </div>
                         </div>
-                        <div style="border-right:4px solid #d4af37; padding-right:12px; margin:10px 0;">
-                            <h3 contenteditable="true" id="vVisName" style="font-size:20px; color:#fde68a;">محمد جنید علی حسینی</h3>
-                            <p contenteditable="true" id="vVisRole" style="font-size:13px; color:#d1fae5;">ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)</p>
+                        <div style="border-right:4px solid #d4af37; padding-right:10px; margin:8px 0;">
+                            <h3 contenteditable="true" id="vVisName" style="font-size:19px; color:#fde68a;">محمد جنید علی حسینی</h3>
+                            <p contenteditable="true" id="vVisRole" style="font-size:12px; color:#d1fae5;">ڈپلومہ انفارمیشن ٹیکنالوجی (DIT)</p>
                         </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(212,175,55,0.4); padding-top:10px; font-size:12.5px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(212,175,55,0.4); padding-top:8px; font-size:12px;">
                             <span class="ltr" id="vVisPhone">📞 +92 328 7892826</span>
-                            <span class="ltr" id="vVisEmail">✉️ info.alghadeer@yahoo.com</span>
+                            <span class="ltr">✉️ info.alghadeer@yahoo.com</span>
                         </div>
                     </div>
 
-                    <!-- MODE 3: ROYAL SHADI / WALIMA CARD -->
+                    <!-- MODE 3: SHADI CARD -->
                     <div id="modeShadiCardBox" class="shadi-card-box">
                         <div>
-                            <div style="font-size:20px; color:#92400e;">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ</div>
-                            <div style="font-size:14px; color:#b45309; font-family:var(--ui-font); margin-top:4px;">نَحْمَدُہٗ وَنُصَلِّیْ عَلٰی رَسُوْلِہِ الْکَرِیْمِ</div>
-                            <h2 contenteditable="true" id="vShadiTitle" style="font-size:25px; color:#78350f; margin:14px 0 6px 0;">تقریبِ سعید مسرت و دعوتِ ولیمہ</h2>
-                            <p style="font-size:15px;">جنابِ عالی! السّلام علیکم ورحمۃ اللہ وبرکاتہ</p>
-                            <p style="font-size:15px; margin-top:8px;">اللہ ربّ العزت کے فضل و کرم سے ہمارے لختِ جگر عزیز از جان</p>
-                            <h1 contenteditable="true" id="vShadiName" style="font-size:30px; color:#991b1b; margin:10px 0;">محمد جنید علی حسینی</h1>
-                            <p style="font-size:15px;">ابنِ محترم <strong contenteditable="true" id="vShadiFather">جمشید عارف</strong></p>
-                            <p contenteditable="true" id="vShadiRole" style="font-size:16px; color:#043927; margin-top:12px;">کی تقریبِ شادی خانہ آبادی و دعوتِ ولیمہ</p>
+                            <div style="font-size:18px; color:#92400e;">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ</div>
+                            <h2 contenteditable="true" id="vShadiTitle" style="font-size:23px; color:#78350f; margin:10px 0 4px 0;">تقریبِ سعید مسرت و دعوتِ ولیمہ</h2>
+                            <p style="font-size:14px;">جنابِ عالی! السّلام علیکم ورحمۃ اللہ وبرکاتہ</p>
+                            <p style="font-size:14px; margin-top:6px;">اللہ ربّ العزت کے فضل و کرم سے ہمارے لختِ جگر</p>
+                            <h1 contenteditable="true" id="vShadiName" style="font-size:28px; color:#991b1b; margin:8px 0;">محمد جنید علی حسینی</h1>
+                            <p style="font-size:14px;">ابنِ محترم <strong contenteditable="true" id="vShadiFather">جمشید عارف</strong></p>
+                            <p contenteditable="true" id="vShadiRole" style="font-size:15px; color:#043927; margin-top:10px;">کی تقریبِ شادی خانہ آبادی و دعوتِ ولیمہ</p>
                         </div>
-                        <div style="border-top:2px dashed #b45309; padding-top:14px; font-family:var(--ui-font); font-size:14px;">
+                        <div style="border-top:2px dashed #b45309; padding-top:12px; font-size:13.5px;">
                             <div><strong>مقام:</strong> <span contenteditable="true" id="vShadiSub">چوک اعظم، ضلع لیہ (پنجاب)</span></div>
-                            <div style="margin-top:4px;"><strong>المشتہر:</strong> جملہ خاندان و احباب | <span class="ltr" id="vShadiPhone">+92 328 7892826</span></div>
+                            <div style="margin-top:3px;"><strong>المشتہر:</strong> جملہ خاندان | <span class="ltr" id="vShadiPhone">+92 328 7892826</span></div>
                         </div>
                     </div>
 
-                    <!-- MODE 4: MUG WRAP DESIGN -->
+                    <!-- MODE 4: MUG -->
                     <div id="modeMugWrapBox" class="mug-wrap-box">
-                        <div style="width:155px; height:155px; border-radius:50%; border:4px solid #d4af37; overflow:hidden; margin:0 auto; background:#fff;">
+                        <div style="width:140px; height:140px; border-radius:50%; border:3px solid #d4af37; overflow:hidden; margin:0 auto; background:#fff;">
                             <canvas id="mugPhotoCanvas" width="220" height="220" style="width:100%; height:100%; display:block;"></canvas>
                         </div>
                         <div style="text-align:center;">
                             <span class="badge-gold">SPECIAL EDITION MUG</span>
-                            <h2 contenteditable="true" id="vMugName" style="font-size:26px; color:#fde68a; margin:8px 0;">محمد جنید علی حسینی</h2>
-                            <p contenteditable="true" id="vMugTitle" style="font-size:16px; color:#ffffff;">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</p>
-                            <p contenteditable="true" id="vMugSub" style="font-size:13px; color:#a7f3d0; margin-top:6px;">چوک اعظم، ضلع لیہ (پنجاب)</p>
+                            <h2 contenteditable="true" id="vMugName" style="font-size:24px; color:#fde68a; margin:6px 0;">محمد جنید علی حسینی</h2>
+                            <p contenteditable="true" id="vMugTitle" style="font-size:15px; color:#fff;">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</p>
+                            <p contenteditable="true" id="vMugSub" style="font-size:12px; color:#a7f3d0; margin-top:4px;">چوک اعظم، ضلع لیہ (پنجاب)</p>
                         </div>
-                        <div style="text-align:center; border-right:2px dashed rgba(212,175,55,0.4); padding-right:16px;">
-                            <div style="font-size:28px; font-family:var(--nastaliq-font); color:#d4af37;">الغدیر</div>
-                            <div class="ltr" style="font-size:11.5px; margin-top:8px;" id="vMugPhone">+92 328 7892826</div>
+                        <div style="text-align:center; border-right:2px dashed rgba(212,175,55,0.4); padding-right:14px;">
+                            <div style="font-size:24px; font-family:var(--nastaliq-font); color:#d4af37;">الغدیر</div>
+                            <div class="ltr" style="font-size:11px; margin-top:6px;" id="vMugPhone">+92 328 7892826</div>
                         </div>
                     </div>
                 </div>
@@ -610,242 +744,566 @@
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 5: PASSPORT PHOTO, COAT-TIE & CNIC A4 COPIER
-         ===================================================== -->
+    <!-- HUB 5: PHOTO & CNIC COPIER LAB -->
     <section id="hub-photolab" class="hub-view">
         <div class="workspace-grid">
             <div class="panel-box">
-                <div class="panel-title"><span>📸 پاسپورٹ فوٹو، کوٹ ٹائی ایڈجسٹمنٹ اور شناختی کارڈ شیٹ</span></div>
-                <div style="margin-bottom:10px;">
-                    <label>1. کسٹمر کی تصویر منتخب کریں:</label>
-                    <input type="file" accept="image/*" onchange="uploadPassLabPhoto(event)">
-                </div>
-                <div style="margin-bottom:10px;">
-                    <label>2. بیک گراؤنڈ کلر (1-Click BG Color):</label>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button class="btn-light" style="background:#1d4ed8; color:#fff;" onclick="updatePassLabBg('#1d4ed8')">Royal Blue</button>
-                        <button class="btn-light" style="background:#38bdf8; color:#000;" onclick="updatePassLabBg('#38bdf8')">Sky Blue</button>
-                        <button class="btn-light" style="background:#ffffff; color:#000;" onclick="updatePassLabBg('#ffffff')">White</button>
-                        <button class="btn-light" style="background:#047857; color:#fff;" onclick="updatePassLabBg('#047857')">Green</button>
+                <div class="panel-title"><span>📸 پاسپورٹ فوٹو، کوٹ ٹائی اور شناختی کارڈ شیٹ</span></div>
+                <div style="margin-bottom:8px;"><label>1. تصویر منتخب کریں:</label><input type="file" accept="image/*" onchange="uploadPassLabPhoto(event)"></div>
+                <div style="margin-bottom:8px;">
+                    <label>2. بیک گراؤنڈ کلر:</label>
+                    <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                        <button class="btn-light" style="background:#1d4ed8; color:#fff; padding:4px 8px;" onclick="updatePassLabBg('#1d4ed8')">Blue</button>
+                        <button class="btn-light" style="background:#38bdf8; color:#000; padding:4px 8px;" onclick="updatePassLabBg('#38bdf8')">Sky</button>
+                        <button class="btn-light" style="background:#ffffff; color:#000; padding:4px 8px;" onclick="updatePassLabBg('#ffffff')">White</button>
+                        <button class="btn-light" style="background:#047857; color:#fff; padding:4px 8px;" onclick="updatePassLabBg('#047857')">Green</button>
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
-                    <div>
-                        <label>✨ چہرہ روشن کریں (Brightness):</label>
-                        <input type="range" id="passLabBright" min="80" max="150" value="106" oninput="renderPassLabGrid()">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
+                    <div><label>چہرہ روشن کریں:</label><input type="range" id="passLabBright" min="80" max="150" value="106" oninput="renderPassLabGrid()"></div>
+                    <div><label>کنٹراسٹ:</label><input type="range" id="passLabContrast" min="80" max="160" value="108" oninput="renderPassLabGrid()"></div>
+                </div>
+                <div style="background:var(--bg-muted); padding:10px; border-radius:8px; border:1px solid var(--gold-500); margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <label style="margin:0; color:var(--emerald-700);">👔 کوٹ اور ٹائی فٹنگ:</label>
+                        <div style="display:flex; gap:5px;"><button class="btn-light" style="padding:2px 6px;" onclick="togglePassSuit(true)">کوٹ لگائیں</button><button class="btn-light" style="padding:2px 6px;" onclick="togglePassSuit(false)">ہٹائیں</button></div>
                     </div>
-                    <div>
-                        <label>🎯 شارپنس و کنٹراسٹ:</label>
-                        <input type="range" id="passLabContrast" min="80" max="160" value="108" oninput="renderPassLabGrid()">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                        <div><label>سائز:</label><input type="range" id="suitScaleSlider" min="35" max="70" value="46" oninput="renderPassLabGrid()"></div>
+                        <div><label>اوپر/نیچے:</label><input type="range" id="suitYSlider" min="-20" max="20" value="0" oninput="renderPassLabGrid()"></div>
                     </div>
                 </div>
-
-                <!-- Adjustable Suit & Tie Controls -->
-                <div style="background:var(--bg-muted); padding:10px; border-radius:10px; border:1px solid var(--gold-500); margin-bottom:12px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <label style="margin:0; color:var(--emerald-700);">👔 پروفیشنل کوٹ اور ٹائی فٹنگ کنٹرولز:</label>
-                        <div style="display:flex; gap:6px;">
-                            <button class="btn-light" style="padding:3px 8px;" onclick="togglePassSuit(true)">کوٹ لگائیں</button>
-                            <button class="btn-light" style="padding:3px 8px;" onclick="togglePassSuit(false)">ہٹائیں</button>
-                        </div>
+                <div style="background:var(--bg-muted); padding:10px; border-radius:8px; border:1px solid var(--border-clr); margin-bottom:10px;">
+                    <label>🪪 شناختی کارڈ فرنٹ + بیک A4 کاپی شیٹ:</label>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:5px;">
+                        <div><small>فرنٹ:</small><input type="file" accept="image/*" onchange="loadCnicSide(event, 'front')"></div>
+                        <div><small>بیک:</small><input type="file" accept="image/*" onchange="loadCnicSide(event, 'back')"></div>
                     </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                        <div>
-                            <label>کوٹ سائز (چوڑائی/لمبائی):</label>
-                            <input type="range" id="suitScaleSlider" min="35" max="70" value="46" oninput="renderPassLabGrid()">
-                        </div>
-                        <div>
-                            <label>کوٹ اوپر/نیچے کریں:</label>
-                            <input type="range" id="suitYSlider" min="-20" max="20" value="0" oninput="renderPassLabGrid()">
-                        </div>
-                    </div>
+                    <button class="btn-emerald" style="width:100%;" onclick="renderCnicA4Sheet()">🪪 4 کاپیاں A4 پر سیٹ کریں</button>
                 </div>
-
-                <!-- CNIC Front + Back A4 Copier Upload -->
-                <div style="background:var(--bg-muted); padding:10px; border-radius:10px; border:1px solid var(--border-clr); margin-bottom:12px;">
-                    <label>🪪 شناختی کارڈ فرنٹ + بیک A4 فوٹو کاپی شیٹ میکر:</label>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
-                        <div><small>فرنٹ تصویر:</small><input type="file" accept="image/*" onchange="loadCnicSide(event, 'front')"></div>
-                        <div><small>بیک تصویر:</small><input type="file" accept="image/*" onchange="loadCnicSide(event, 'back')"></div>
-                    </div>
-                    <button class="btn-emerald" style="width:100%;" onclick="renderCnicA4Sheet()">🪪 شناختی کارڈ کی 4 کاپیاں A4 پر سیٹ کریں</button>
-                </div>
-
-                <button class="btn-gold-action" style="width:100%;" onclick="downloadElementAsHD('passLabSheetBox', 'AlGhadeer_Photo_Sheet')">🖼️ <span class="ltr">300-DPI</span> فوٹو شیٹ ڈاؤن لوڈ کریں</button>
+                <button class="btn-gold-action" style="width:100%;" onclick="downloadElementAsHD('passLabSheetBox', 'AlGhadeer_Photo_Sheet')">🖼️ فوٹو شیٹ ڈاؤن لوڈ</button>
             </div>
-
             <div class="panel-box">
                 <div class="panel-title">
-                    <span>پاسپورٹ فوٹو / شناختی کارڈ پرنٹ ریڈی شیٹ</span>
-                    <div style="display:flex; gap:6px;">
-                        <button class="btn-light" onclick="setPassCount(8)">8 تصاویر</button>
-                        <button class="btn-light" onclick="setPassCount(12)">12 تصاویر</button>
-                    </div>
+                    <span>پرنٹ ریڈی شیٹ</span>
+                    <div style="display:flex; gap:5px;"><button class="btn-light" style="padding:3px 8px;" onclick="setPassCount(8)">8 تصاویر</button><button class="btn-light" style="padding:3px 8px;" onclick="setPassCount(12)">12 تصاویر</button></div>
                 </div>
-                <div id="passLabSheetBox" style="background:#ffffff; padding:24px; border:1px solid #cbd5e1; display:flex; flex-wrap:wrap; gap:14px; justify-content:center; min-height:420px;"></div>
+                <div id="passLabSheetBox" style="background:#ffffff; padding:20px; border:1px solid #cbd5e1; display:flex; flex-wrap:wrap; gap:12px; justify-content:center; min-height:380px;"></div>
             </div>
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 6: SHAJRA-E-NASAB, LAND, WARASAT, CASH NOTES & PERCENTAGE
-         ===================================================== -->
+    <!-- HUB 6: CALCULATORS & SHAJRA -->
     <section id="hub-calculators" class="hub-view">
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(370px, 1fr)); gap:20px;">
-
-            <!-- 1. Shajra-e-Nasab Family Tree Builder -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap:18px;">
             <div class="panel-box">
-                <div class="panel-title"><span>🌳 شجرہ نسب (Family Tree Flowchart Maker)</span></div>
+                <div class="panel-title"><span>🌳 شجرہ نسب (Family Tree Maker)</span></div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                    <div><label>مورث / مرحوم کا نام:</label><input type="text" id="shjRoot" value="مرحوم جمشید عارف" oninput="buildShajraChart()"></div>
-                    <div><label>بیوہ کا نام (اگر ہو):</label><input type="text" id="shjWidow" value="مسماۃ (بیوہ)" oninput="buildShajraChart()"></div>
+                    <div><label>مورث / مرحوم:</label><input type="text" id="shjRoot" value="مرحوم جمشید عارف" oninput="buildShajraChart()"></div>
+                    <div><label>بیوہ کا نام:</label><input type="text" id="shjWidow" value="مسماۃ (بیوہ)" oninput="buildShajraChart()"></div>
                 </div>
-                <label>اولاد (بیٹے اور بیٹیاں — کاما لگا کر لکھیں):</label>
-                <input type="text" id="shjChildren" value="جنید علی حسینی (پسر), برادر اول (پسر), ہمشیرہ (دختر)" oninput="buildShajraChart()">
-                <div id="shajraPreviewBox" style="background:#ffffff; color:#000; padding:14px; border-radius:10px; border:2px solid #043927; margin-top:10px; text-align:center;"></div>
-                <button class="btn-emerald" style="width:100%; margin-top:8px;" onclick="insertShajraIntoPaper()">📄 یہ شجرہ نسب اسٹامپ پیپر میں شامل کریں</button>
+                <label>اولاد (بیٹے اور بیٹیاں — کاما سے الگ کریں):</label>
+                <input type="text" id="shjChildren" value="جنید علی حسینی (پسر), برادر اول (پسر)" oninput="buildShajraChart()">
+                <div id="shajraPreviewBox" style="background:#ffffff; color:#000; padding:12px; border-radius:8px; border:2px solid #043927; margin-top:8px; text-align:center;"></div>
+                <button class="btn-emerald" style="width:100%; margin-top:8px;" onclick="insertShajraIntoPaper()">📄 اسٹامپ پیپر میں شامل کریں</button>
             </div>
-
-            <!-- 2. Pakistani Currency Note Counter -->
             <div class="panel-box">
-                <div class="panel-title"><span>💵 پاکستانی نوٹ گننے والا کیش کاؤنٹر (Cash Note Tally)</span></div>
+                <div class="panel-title"><span>💵 پاکستانی نوٹ گننے والا کیش کاؤنٹر</span></div>
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
-                    <div><label><span class="ltr">5000 x</span> نوٹ:</label><input type="number" id="n5000" class="ltr" value="10" min="0" oninput="runNoteCounter()"></div>
-                    <div><label><span class="ltr">1000 x</span> نوٹ:</label><input type="number" id="n1000" class="ltr" value="25" min="0" oninput="runNoteCounter()"></div>
-                    <div><label><span class="ltr">500 x</span> نوٹ:</label><input type="number" id="n500" class="ltr" value="10" min="0" oninput="runNoteCounter()"></div>
+                    <div><label><span class="ltr">5000 x</span>:</label><input type="number" id="n5000" class="ltr" value="10" min="0" oninput="runNoteCounter()"></div>
+                    <div><label><span class="ltr">1000 x</span>:</label><input type="number" id="n1000" class="ltr" value="25" min="0" oninput="runNoteCounter()"></div>
+                    <div><label><span class="ltr">500 x</span>:</label><input type="number" id="n500" class="ltr" value="10" min="0" oninput="runNoteCounter()"></div>
                 </div>
-                <div id="noteCounterOut" style="background:var(--bg-muted); padding:12px; border-radius:8px; border:1px solid var(--gold-500); margin-top:10px; font-weight:700; line-height:1.8;"></div>
+                <div id="noteCounterOut" style="background:var(--bg-muted); padding:10px; border-radius:8px; border:1px solid var(--gold-500); margin-top:10px; font-weight:700;"></div>
             </div>
-
-            <!-- 3. Raqam in Words Converter -->
             <div class="panel-box">
-                <div class="panel-title"><span>💰 ہندسوں سے الفاظ میں رقم (کچہری اسٹامپ فارمیٹ)</span></div>
-                <label>رقم لکھیں (مثلاً <span class="ltr">450000</span>):</label>
-                <input type="number" id="calcRaqamNum" class="ltr" value="450000" oninput="runRaqamCalc()">
-                <div id="calcRaqamText" style="background:var(--bg-muted); padding:12px; border-radius:8px; border:1px solid var(--gold-500); margin-top:10px; font-weight:700;"></div>
+                <div class="panel-title"><span>💰 ہندسوں سے الفاظ میں رقم</span></div>
+                <label>رقم لکھیں:</label><input type="number" id="calcRaqamNum" class="ltr" value="450000" oninput="runRaqamCalc()">
+                <div id="calcRaqamText" style="background:var(--bg-muted); padding:10px; border-radius:8px; border:1px solid var(--gold-500); margin-top:10px; font-weight:700;"></div>
             </div>
-
-            <!-- 4. Marks, Percentage & Grade Calculator -->
             <div class="panel-box">
-                <div class="panel-title"><span>📊 نمبرز، فیصد (%) اور گریڈ کیلکولیٹر</span></div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                    <div><label>حاصل کردہ نمبر:</label><input type="number" id="calcObt" class="ltr" value="856" oninput="runPercCalc()"></div>
+                <div class="panel-title"><span>📊 نمبرز، فیصد (%) اور گریڈ</span></div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <div><label>حاصل کردہ:</label><input type="number" id="calcObt" class="ltr" value="856" oninput="runPercCalc()"></div>
                     <div><label>کل نمبر:</label><input type="number" id="calcTot" class="ltr" value="1100" oninput="runPercCalc()"></div>
                 </div>
-                <div id="calcPercOut" style="background:var(--bg-muted); padding:12px; border-radius:8px; border:1px solid var(--border-clr); margin-top:10px; font-weight:700;"></div>
+                <div id="calcPercOut" style="background:var(--bg-muted); padding:10px; border-radius:8px; border:1px solid var(--border-clr); margin-top:10px; font-weight:700;"></div>
             </div>
-
-            <!-- 5. Zameen / Arazi & Warasat Calculator -->
-            <div class="panel-box">
-                <div class="panel-title"><span>🌾 زمین رقبہ (کنال/مرلہ) اور اسلامی وراثت کیلکولیٹر</span></div>
-                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
-                    <div><label>کل کنال:</label><input type="number" id="cKanal" class="ltr" value="8" oninput="runWarasatCalc()"></div>
-                    <div><label>بیٹے:</label><input type="number" id="cSons" class="ltr" value="2" oninput="runWarasatCalc()"></div>
-                    <div><label>بیٹیاں:</label><input type="number" id="cDaughters" class="ltr" value="1" oninput="runWarasatCalc()"></div>
-                </div>
-                <div id="calcWarasatOut" style="background:var(--bg-muted); padding:12px; border-radius:8px; border:1px solid var(--border-clr); margin-top:10px; font-size:13.5px;"></div>
-            </div>
-
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 7: FOUNDER & CUSTOMER SUPPORT PROFILE (JUNAID ALI HUSSAINI)
-         ===================================================== -->
+    <!-- HUB 7: FOUNDER PROFILE -->
     <section id="hub-founder" class="hub-view">
-        <div class="hero-banner" style="grid-template-columns: 260px 1fr;">
+        <div class="hero-banner" style="grid-template-columns: 240px 1fr;">
             <div style="text-align:center;">
-                <div style="width:220px; height:250px; border-radius:18px; border:4px solid var(--gold-500); overflow:hidden; margin:0 auto; background:#0d6e52; box-shadow:0 12px 30px rgba(0,0,0,0.4);">
-                    <canvas id="founderCanvasPhoto" width="240" height="270" style="width:100%; height:100%; display:block;"></canvas>
+                <div style="width:200px; height:230px; border-radius:16px; border:4px solid var(--gold-500); overflow:hidden; margin:0 auto; background:#0d6e52;">
+                    <canvas id="founderCanvasPhoto" width="220" height="250" style="width:100%; height:100%; display:block;"></canvas>
                 </div>
-                <label style="margin-top:10px; color:#fde68a; cursor:pointer; font-size:12.5px;">
-                    📷 اپنی تصویر اپ لوڈ کریں
-                    <input type="file" accept="image/*" style="display:none;" onchange="handleCardPhotoUpload(event)">
-                </label>
+                <label style="margin-top:8px; color:#fde68a; cursor:pointer; font-size:12px;">📷 تصویر اپ لوڈ کریں<input type="file" accept="image/*" style="display:none;" onchange="handleCardPhotoUpload(event)"></label>
             </div>
-
             <div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
                     <span class="badge-gold">FOUNDER & LEAD DEVELOPER</span>
                     <span class="badge-gold">IT SEMI-EXPERT</span>
-                    <span class="badge-gold">INTERNATIONAL VISA CONSULTANT</span>
-                    <span class="badge-gold">CUSTOMER SUPPORT SPECIALIST</span>
+                    <span class="badge-gold">VISA CONSULTANT</span>
+                    <span class="badge-gold">CUSTOMER SUPPORT</span>
                 </div>
-                <h2 style="font-size:32px; font-weight:800; color:#ffffff;">جنید علی حسینی — <span class="ltr">Junaid Ali Hussaini</span></h2>
-                <p class="ltr" style="font-size:14.5px; color:#fde68a; font-weight:700; margin-bottom:12px;">
-                    S/O Jamshaid Arif | Chief Executive — Al Ghadeer Digital Services (Chowk Azam, District Layyah)
+                <h2 style="font-size:28px; font-weight:800; color:#ffffff;">جنید علی حسینی — <span class="ltr">Junaid Ali Hussaini</span></h2>
+                <p class="ltr" style="font-size:13.5px; color:#fde68a; font-weight:700; margin-bottom:10px;">S/O Jamshaid Arif | Chief Executive — Al Ghadeer Digital Services (Chowk Azam, Layyah)</p>
+                <p style="font-size:14px; line-height:1.8; color:#ecfdf5; margin-bottom:14px;">
+                    ماہر آئی ٹی و ٹیلی کمیونیکیشن پروفیشنل، ویزہ کنسلٹنٹ اور کسٹمر سپورٹ اسپیشلسٹ (سابقہ <strong class="ltr">China Mobile International, Qingdao</strong>)۔ الغدیر ڈیجیٹل سروسز کے ذریعے چوک اعظم اور ضلع لیہ میں تمام ڈیجیٹل، قانونی اور فوٹوگرافی خدمات فراہم کر رہے ہیں۔
                 </p>
-                <p style="font-size:14.5px; line-height:1.9; color:#ecfdf5; margin-bottom:16px;">
-                    ایک ماہر آئی ٹی و ٹیلی کمیونیکیشن پروفیشنل، ویزہ کنسلٹنٹ اور کسٹمر سپورٹ اسپیشلسٹ جنہوں نے <strong class="ltr">China Mobile International (Qingdao, China)</strong> میں <span class="ltr">1.5</span> سال (اگست 2024 تا فروری 2026) انٹرنیشنل ڈیٹا آپریشنز اور کسٹمر سپورٹ کے فرائض سرانجام دیے۔ الغدیر ڈیجیٹل سروسز کے ذریعے چوک اعظم اور ضلع لیہ میں جدید ترین ڈیجیٹل خدمات فراہم کر رہے ہیں۔
-                </p>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;" dir="ltr">
+                <div style="display:flex; gap:8px; flex-wrap:wrap;" dir="ltr">
                     <a href="https://wa.me/923287892826" target="_blank" class="btn-gold-action" style="text-decoration:none;">💬 WhatsApp: +92 328 7892826</a>
                     <a href="tel:+923257238226" class="btn-emerald" style="text-decoration:none;">📞 Call: +92 325 7238226</a>
-                    <a href="mailto:info.alghadeer@yahoo.com" class="btn-emerald" style="text-decoration:none;">✉️ info.alghadeer@yahoo.com</a>
+                    <a href="mailto:info.alghadeer@yahoo.com" class="btn-emerald" style="text-decoration:none;">✉️ Email</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- =====================================================
-         HUB 8: PRIVATE ADMIN COMMAND CENTER (OWNER ONLY)
-         ===================================================== -->
+    <!-- HUB 8: ADMIN COMMAND CENTER -->
     <section id="hub-admin" class="hub-view">
         <div class="panel-box" style="border:2px solid var(--gold-500);">
             <div class="panel-title">
-                <span>👑 الغدیر پرائیویٹ ایڈمن کمانڈ سینٹر — <span class="ltr">Authorized Owner: Junaid Ali Hussaini</span></span>
+                <span>👑 الغدیر پرائیویٹ ایڈمن کمانڈ سینٹر — <span class="ltr">Junaid Ali Hussaini</span></span>
                 <button class="btn-emerald" style="background:#dc2626;" onclick="lockAdminVault()">🚪 لاگ آؤٹ</button>
             </div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                 <div>
-                    <h4 style="margin-bottom:10px;">💵 دکان کا روزانہ کیش رجسٹر (Daily Cash Counter)</h4>
-                    <div style="display:flex; gap:8px; margin-bottom:10px;">
-                        <input type="text" id="cashTitle" placeholder="کسٹمر / کام کی تفصیل">
-                        <input type="number" id="cashAmt" class="ltr" placeholder="رقم (Rs)" style="width:140px;">
+                    <h4 style="margin-bottom:8px;">💵 دکان کا روزانہ کیش رجسٹر</h4>
+                    <div style="display:flex; gap:6px; margin-bottom:8px;">
+                        <input type="text" id="cashTitle" placeholder="کام کی تفصیل">
+                        <input type="number" id="cashAmt" class="ltr" placeholder="رقم" style="width:120px;">
                         <button class="btn-gold-action" onclick="addCashRow()">جمع</button>
                     </div>
-                    <div id="cashListArea" style="font-size:13.5px; line-height:2.0;"></div>
+                    <div id="cashListArea" style="font-size:13px; line-height:1.9;"></div>
                 </div>
                 <div>
-                    <h4 style="margin-bottom:10px;">🔐 پرائیویٹ نوٹس اور پاس ورڈ اپ ڈیٹ</h4>
-                    <textarea id="ownerPrivateNotes" rows="4" placeholder="آپ کے خفیہ نوٹس یہاں محفوظ رہیں گے..." oninput="localStorage.setItem('ag_priv_notes', this.value)"></textarea>
+                    <h4 style="margin-bottom:8px;">🔐 پرائیویٹ نوٹس</h4>
+                    <textarea id="ownerPrivateNotes" rows="4" placeholder="خفیہ نوٹس یہاں لکھیں..." oninput="localStorage.setItem('ag_priv_notes', this.value)"></textarea>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ADMIN LOGIN MODAL -->
+    <!-- MODALS -->
     <div id="adminModalBox" class="modal-overlay">
         <div class="modal-card">
-            <h3 style="color:var(--emerald-800); margin-bottom:8px;">🛡️ الغدیر ایڈمن سیکیورٹی گیٹ</h3>
-            <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:14px;">صرف منظور شدہ اونر گوگل اکاؤنٹ کے ذریعے ہی لاگ ان ممکن ہے۔</p>
-            <div style="margin-bottom:12px;">
-                <label>آفیشل گوگل اکاؤنٹ (<span class="ltr">Authorized Gmail</span>):</label>
-                <input type="email" id="authEmailField" class="ltr" placeholder="Enter your Google email...">
-            </div>
-            <div style="margin-bottom:14px;">
-                <label>ایڈمن پاس ورڈ (پہلی بار اپنی مرضی کا نیا پاس ورڈ لکھیں):</label>
-                <input type="password" id="authPassField" class="ltr" placeholder="Enter or Create Password">
-            </div>
-            <div id="authErrMsg" style="color:#dc2626; font-size:12.5px; font-weight:700; margin-bottom:10px; display:none;"></div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-gold-action" style="flex:1;" onclick="submitAdminLogin()">🔓 تصدیق اور لاگ ان</button>
-                <button class="btn-light" onclick="document.getElementById('adminModalBox').classList.remove('open')">بند کریں</button>
+            <h3 style="color:var(--emerald-800); margin-bottom:6px;">🛡️ الغدیر ایڈمن سیکیورٹی گیٹ</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">صرف منظور شدہ اونر گوگل اکاؤنٹ سے لاگ ان ممکن ہے۔</p>
+            <div style="margin-bottom:10px;"><label>گوگل اکاؤنٹ (<span class="ltr">Gmail</span>):</label><input type="email" id="authEmailField" class="ltr" placeholder="Enter your Gmail..."></div>
+            <div style="margin-bottom:12px;"><label>پاس ورڈ:</label><input type="password" id="authPassField" class="ltr" placeholder="Enter password"></div>
+            <div id="authErrMsg" style="color:#dc2626; font-size:12px; font-weight:700; margin-bottom:8px; display:none;"></div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn-gold-action" style="flex:1;" onclick="submitAdminLogin()">🔓 لاگ ان</button>
+                <button class="btn-light" onclick="document.getElementById('adminModalBox').classList.remove('open')">بند</button>
             </div>
         </div>
     </div>
 
-    <!-- SHOP LOCK OVERLAY -->
     <div id="lockScreenModal" class="modal-overlay" style="background: radial-gradient(circle, #043927 0%, #01140d 100%); z-index:3000;">
         <div style="text-align:center; color:#ffffff;">
-            <h1 style="font-size:32px; color:var(--gold-500);">الغدیر ڈیجیٹل سروسز — چوک اعظم</h1>
-            <p class="ltr" style="margin:10px 0 24px 0; color:#a7f3d0;">Founder & Developer: Junaid Ali Hussaini | +92 328 7892826</p>
+            <h1 style="font-size:28px; color:var(--gold-500);">الغدیر ڈیجیٹل سروسز — چوک اعظم</h1>
+            <p class="ltr" style="margin:8px 0 20px 0; color:#a7f3d0;">Founder: Junaid Ali Hussaini | +92 328 7892826</p>
             <button class="btn-gold-action" onclick="document.getElementById('lockScreenModal').classList.remove('open')">🔓 اسکرین ان لاک کریں</button>
         </div>
     </div>
 
-    <!-- Link to Part 3 Application Script -->
-    <script src="app.js"></script>
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+        let dateDayOffset = 0;
+        function adjustDateOffset(val) {
+            if (val === 0) dateDayOffset = 0; else dateDayOffset += val;
+            updateLiveClockAndDate();
+        }
+        function updateLiveClockAndDate() {
+            const now = new Date();
+            if (dateDayOffset !== 0) now.setDate(now.getDate() + dateDayOffset);
+            const clk = document.getElementById('liveClockText');
+            if (clk) clk.innerText = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            const engD = document.getElementById('liveEngDateText');
+            if (engD) engD.innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            try {
+                const urD = document.getElementById('liveUrduDateText');
+                if (urD) urD.innerText = now.toLocaleDateString('ur-PK', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            } catch (_) {}
+            const sd = document.getElementById('sheetLiveDate');
+            if (sd) sd.innerText = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+        }
+        setInterval(updateLiveClockAndDate, 1000);
+
+        function uploadGlobalBrandLogo(e) {
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader();
+            r.onload = (ev) => { localStorage.setItem('ag_brand_logo', ev.target.result); applySavedBrandLogo(); };
+            r.readAsDataURL(f);
+        }
+        function applySavedBrandLogo() {
+            const saved = localStorage.getItem('ag_brand_logo');
+            if (saved) {
+                const img = document.getElementById('globalBrandLogoImg');
+                const svg = document.getElementById('globalBrandLogoSvg');
+                if (img && svg) { img.src = saved; img.style.display = 'block'; svg.style.display = 'none'; }
+            }
+        }
+
+        function switchHub(targetId) {
+            document.querySelectorAll('.hub-view').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-target') === targetId));
+            const el = document.getElementById(targetId); if (el) el.classList.add('active');
+        }
+
+        let urduUI = true;
+        function toggleInterfaceLang() {
+            urduUI = !urduUI;
+            const h = document.getElementById('uiMainHeading');
+            if (h) h.innerText = urduUI ? "الغدیر ڈیجیٹل سروسز — انٹرپرائز اردو و ڈاکیومنٹ اسٹوڈیو" : "Al Ghadeer Digital Services — Enterprise Document Studio";
+        }
+
+        const _OWNER_GMAIL_B64 = "anVuYWlkZ21oc0BnbWFpbC5jb20=";
+        function openAdminModal() { document.getElementById('authErrMsg').style.display = 'none'; document.getElementById('adminModalBox').classList.add('open'); }
+        function submitAdminLogin() {
+            const em = (document.getElementById('authEmailField').value || "").trim().toLowerCase();
+            const pw = (document.getElementById('authPassField').value || "").trim();
+            const err = document.getElementById('authErrMsg');
+            if (btoa(em) !== _OWNER_GMAIL_B64) { err.innerText = "⛔ رسائی مسترد! صرف اونر کا اکاؤنٹ مجاز ہے۔"; err.style.display = 'block'; return; }
+            if (pw.length < 4) { err.innerText = "⚠️ پاس ورڈ کم از کم 4 حروف کا ہو۔"; err.style.display = 'block'; return; }
+            let stored = localStorage.getItem('ag_owner_pw');
+            if (!stored) localStorage.setItem('ag_owner_pw', btoa(unescape(encodeURIComponent(pw))));
+            else if (btoa(unescape(encodeURIComponent(pw))) !== stored) { err.innerText = "❌ غلط پاس ورڈ!"; err.style.display = 'block'; return; }
+            document.getElementById('adminModalBox').classList.remove('open');
+            document.getElementById('adminVaultTabBtn').style.display = 'flex';
+            document.getElementById('kpiAdminLockText').innerText = "✅ Unlocked";
+            document.getElementById('ownerPrivateNotes').value = localStorage.getItem('ag_priv_notes') || "";
+            renderCashRows(); switchHub('hub-admin');
+        }
+        function lockAdminVault() { document.getElementById('adminVaultTabBtn').style.display = 'none'; document.getElementById('kpiAdminLockText').innerText = "🔒 Locked"; switchHub('hub-sea'); }
+        function addCashRow() {
+            const t = document.getElementById('cashTitle').value.trim() || "Service";
+            const a = parseFloat(document.getElementById('cashAmt').value || 0); if (a <= 0) return;
+            const list = JSON.parse(localStorage.getItem('ag_cash_list') || "[]");
+            list.unshift({ t, a }); localStorage.setItem('ag_cash_list', JSON.stringify(list));
+            document.getElementById('cashTitle').value = ""; document.getElementById('cashAmt').value = ""; renderCashRows();
+        }
+        function renderCashRows() {
+            const list = JSON.parse(localStorage.getItem('ag_cash_list') || "[]"); let sum = 0;
+            const html = list.map(r => { sum += Number(r.a); return `<div>• ${r.t} — <strong class="ltr">Rs. ${r.a}</strong></div>`; }).join("");
+            const area = document.getElementById('cashListArea'); if (area) area.innerHTML = html + `<hr style="margin:6px 0;"><strong>کل: <span class="ltr">Rs. ${sum}</span></strong>`;
+        }
+
+        const DOC_TEMPLATES = {
+            kachehri: [
+                { name: "بیانِ حلفی (Affidavit)", text: `بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ\n\t\t\t\tحـــلـــف نـــامـــہ\n\nمنکہ مسمی جنید علی حسینی ولد جمشید عارف ساکن چک نمبر 387/A ٹی ڈی اے، چوک اعظم ضلع لیہ، حامل شناختی کارڈ نمبر 32203-5121785-1 حلفاً اقرار کرتا ہوں:\n\n1۔ یہ کہ من مظہر مندرجہ بالا پتہ کا مستقل رہائشی ہے۔\n2۔ یہ کہ میرے بیان کردہ تمام کوائف بالکل درست ہیں۔\n\n\t\t\t\t\t\t\tالــــمــــقــــر\n\t\t\t\t\t\tدستخط: ______________` },
+                { name: "اقرار نامہ فروخت موٹرسائیکل", text: `بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ\n\t\t\tاقرار نامہ فروخت موٹرسائیکل\n\nفریق اول (فروخت کنندہ): __________________ ساکن چوک اعظم۔\nفریق دوم (خریدار): _______________________ ساکن چوک اعظم۔\n\nمنکہ فریق اول اپنی موٹرسائیکل نمبر ______ ماڈل ______ بعوض مبلغ ________ روپے فروخت کر کے رقم وصول پا لی ہے۔` }
+            ],
+            police: [
+                { name: "درخواست بنام ایس ایچ او چوک اعظم", text: `بخدمتِ جنابِ ایس ایچ او صاحب،\nتھانہ چوک اعظم، ضلع لیہ۔\n\nعنوان: درخواست برائے قانونی کارروائی\n\nجنابِ عالی!\nگزارش ہے کہ سائل چوک اعظم کا رہائشی ہے۔ استدعا ہے کہ انصاف فراہم کیا جائے۔\n\n\t\t\t\t\t\t\tالــــعــــارض\n\t\t\t\t\t\tسائل: ____________________` }
+            ],
+            chowkazam: [
+                { name: "تصدیق نامہ نمبردار TDA", text: `بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ\n\t\tتصدیق نامہ نمبردار حلقہ — چوک اعظم\n\nتصدیق کی جاتی ہے کہ مسمی __________________ ولد __________________ ساکن چک نمبر 387/A ٹی ڈی اے، چوک اعظم ضلع لیہ کا رہائشی ہے۔` }
+            ],
+            banking: [
+                { name: "درخواست بحالی بینک اکاؤنٹ", text: `بخدمتِ جنابِ برانچ منیجر صاحب،\n__________ بینک، چوک اعظم۔\n\nعنوان: بحالی اکاؤنٹ\n\nگزارش ہے کہ سائل کا اکاؤنٹ نمبر ________________ فعال کیا جائے۔` }
+            ],
+            education: [
+                { name: "درخواست رخصت ضروری کام", text: `بخدمتِ جنابِ پرنسپل صاحب،\nگورنمنٹ مسلم ہائی اسکول چوک اعظم۔\n\nعنوان: رخصت ضروری کام\n\nجنابِ عالی! فدوی کو گھر پر ضروری کام ہے، ایک دن کی رخصت دی جائے۔` }
+            ],
+            posters: [
+                { name: "فوتگی دکان بند نوٹس", text: `إِنَّا لِلّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ\n\nبوجہ فوتگی آج ہماری دکان بند رہے گی۔` }
+            ],
+            business: [
+                { name: "ایکسپیرینس سرٹیفکیٹ", text: `AL GHADEER DIGITAL SERVICES — CHOWK AZAM\nEXPERIENCE CERTIFICATE\nThis is to certify that Mr. ______________ has worked with Al Ghadeer Digital Services as IT Specialist.` }
+            ]
+        };
+
+        let pagesArr = [""], currPageIdx = 0;
+        function updateDocTemplatesDropdown() {
+            const cat = document.getElementById('docCatSelect').value;
+            const sel = document.getElementById('docTplSelect'); if (!sel) return;
+            sel.innerHTML = "";
+            (DOC_TEMPLATES[cat] || []).forEach((t, idx) => {
+                const o = document.createElement('option'); o.value = idx; o.innerText = t.name; sel.appendChild(o);
+            });
+            applySelectedDocTemplate();
+        }
+        function applySelectedDocTemplate() {
+            const cat = document.getElementById('docCatSelect').value;
+            const sel = document.getElementById('docTplSelect'); if (!sel) return;
+            const item = (DOC_TEMPLATES[cat] || [])[parseInt(sel.value || 0)];
+            if (item) { pagesArr[currPageIdx] = item.text; const area = document.getElementById('docEditableArea'); if (area) area.innerText = item.text; }
+        }
+        function saveCurrentPageContent() { const area = document.getElementById('docEditableArea'); if (area) pagesArr[currPageIdx] = area.innerText; }
+        function renderPageTabs() {
+            const box = document.getElementById('multiPageTabs'); if (!box) return; box.innerHTML = "";
+            pagesArr.forEach((_, i) => {
+                const b = document.createElement('button'); b.className = 'btn-light';
+                if (i === currPageIdx) { b.style.background = 'var(--emerald-800)'; b.style.color = '#fff'; }
+                b.innerText = `صفحہ ${i + 1}`;
+                b.onclick = () => { saveCurrentPageContent(); currPageIdx = i; const area = document.getElementById('docEditableArea'); if (area) area.innerText = pagesArr[i]; renderPageTabs(); };
+                box.appendChild(b);
+            });
+        }
+        function addDocPage() {
+            saveCurrentPageContent(); pagesArr.push("بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِیْمِ\n\n"); currPageIdx = pagesArr.length - 1;
+            const area = document.getElementById('docEditableArea'); if (area) area.innerText = pagesArr[currPageIdx]; renderPageTabs();
+        }
+        function insertAtCursor(txt) {
+            const area = document.getElementById('docEditableArea'); if (!area) return; area.focus();
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0 && area.contains(sel.anchorNode)) {
+                const range = sel.getRangeAt(0); range.deleteContents();
+                const node = document.createTextNode(txt); range.insertNode(node); range.setStartAfter(node); range.setEndAfter(node);
+                sel.removeAllRanges(); sel.addRange(range);
+            } else { area.innerText += txt; }
+            saveCurrentPageContent();
+        }
+
+        const ROMAN_MAP = {
+            "bakhidmat": "بخدمتِ", "ba": "با", "khidmat": "خدمت", "janab": "جناب", "sahib": "صاحب",
+            "sho": "ایس ایچ او", "thana": "تھانہ", "chowk": "چوک", "azam": "اعظم", "layyah": "لیہ",
+            "kia": "کیا", "haal": "حال", "hai": "ہے", "guzarish": "گزارش", "ke": "کہ", "sail": "سائل"
+        };
+        async function translateRomanWord(word) {
+            const low = word.toLowerCase(); if (ROMAN_MAP[low]) return ROMAN_MAP[low];
+            try {
+                const r = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(word)}&itc=ur-t-i0-und&num=1`);
+                const d = await r.json(); if (d[0] === "SUCCESS" && d[1][0][1][0]) return d[1][0][1][0];
+            } catch (_) {}
+            return word;
+        }
+        async function processRomanInput(e) {
+            const inp = document.getElementById('romanInputBox'); if (!inp) return;
+            const val = inp.value.trim();
+            if ((e.key === ' ' || e.key === 'Enter') && val) {
+                e.preventDefault(); const words = val.split(/\s+/); const out = [];
+                for (const w of words) out.push(await translateRomanWord(w));
+                insertAtCursor(out.join(" ") + " "); inp.value = "";
+            }
+        }
+        async function handleDirectPaperRoman(e) {
+            const toggle = document.getElementById('directPaperRomanToggle'); if (!toggle || !toggle.checked) return;
+            if (e.key === ' ') {
+                const area = document.getElementById('docEditableArea'); if (!area) return;
+                const match = area.innerText.match(/([a-zA-Z]{2,})\s$/);
+                if (match && match[1]) {
+                    const u = await translateRomanWord(match[1]);
+                    if (u !== match[1]) { area.innerText = area.innerText.replace(new RegExp(match[1] + "\\s$"), u + " "); saveCurrentPageContent(); }
+                }
+            }
+        }
+        function addMovableTextBox() {
+            const sheet = document.getElementById('printableDocSheet'); if (!sheet) return;
+            const div = document.createElement('div'); div.className = 'movable-node'; div.style.top = '150px'; div.style.left = '80px';
+            div.innerHTML = `<span class="del-btn" onclick="this.parentElement.remove()">✕</span><div contenteditable="true">الــــعــــارض: جنید علی حسینی</div>`;
+            let p1=0,p2=0,p3=0,p4=0;
+            div.onmousedown = (e) => {
+                if (e.target.classList.contains('del-btn')) return;
+                p3 = e.clientX; p4 = e.clientY;
+                document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
+                document.onmousemove = (ev) => {
+                    p1 = p3 - ev.clientX; p2 = p4 - ev.clientY; p3 = ev.clientX; p4 = ev.clientY;
+                    div.style.top = (div.offsetTop - p2) + "px"; div.style.left = (div.offsetLeft - p1) + "px";
+                };
+            };
+            sheet.appendChild(div);
+        }
+        function autoFormatCNIC(el) {
+            let v = el.value.replace(/\D/g, '').substring(0, 13);
+            if (v.length > 12) v = v.slice(0,5) + '-' + v.slice(5,12) + '-' + v.slice(12);
+            else if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5);
+            el.value = v;
+            const info = document.getElementById('cnicGenderInfo');
+            if (info) info.innerText = (v.length === 15) ? (parseInt(v.slice(-1)) % 2 !== 0 ? "✅ مرد (ولد / سائل)" : "✅ خاتون (دختر / زوجہ)") : "";
+        }
+        let borderIdx = 0;
+        const borderClasses = ["", "bdr-kachehri", "bdr-royal", "bdr-barat"];
+        function cycleDocBorder() {
+            const s = document.getElementById('printableDocSheet'); if (!s) return;
+            borderClasses.forEach(c => { if(c) s.classList.remove(c); });
+            borderIdx = (borderIdx + 1) % borderClasses.length;
+            if (borderClasses[borderIdx]) s.classList.add(borderClasses[borderIdx]);
+        }
+        function refreshSheetVisuals() {
+            const s = document.getElementById('printableDocSheet'); const fz = document.getElementById('sheetFontSize');
+            if (!s || !fz) return;
+            document.getElementById('lblFontSize').innerText = fz.value + 'px';
+            s.style.fontFamily = document.getElementById('sheetFontFam').value;
+            s.style.fontSize = fz.value + 'px';
+        }
+        function toggleDocHeader() { const h = document.getElementById('docLetterheadBlock'); if (h) h.style.display = (h.style.display === 'none') ? 'flex' : 'none'; }
+        function toggleDocWitness() { const w = document.getElementById('docWitnessBlock'); if (w) w.style.display = (w.style.display === 'none') ? 'block' : 'none'; }
+
+        /* Graphic & Card Studio */
+        let loadedUserImg = null;
+        function switchGraphicStudioMode() {
+            const mode = document.getElementById('graphicModeSelect').value;
+            document.getElementById('modeIdCardWrap').style.display = (mode === 'idcard') ? 'flex' : 'none';
+            document.getElementById('modeVisitingCardBox').style.display = (mode === 'visiting') ? 'flex' : 'none';
+            document.getElementById('modeShadiCardBox').style.display = (mode === 'shadi') ? 'flex' : 'none';
+            document.getElementById('modeMugWrapBox').style.display = (mode === 'mug') ? 'grid' : 'none';
+            syncAllGraphicCards();
+        }
+        function toggleCardPhotoShape() {
+            const sh = document.getElementById('cardPhotoShape').value;
+            const h = document.getElementById('idPhotoFrameHolder'); if (h) h.classList.toggle('square-mode', sh === 'square');
+        }
+        function applyCardThemeColor() {
+            const th = document.getElementById('cardThemeColor').value;
+            const g = { emerald: "linear-gradient(135deg, #022015 0%, #059669 100%)", navy: "linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%)", maroon: "linear-gradient(135deg, #450a0a 0%, #991b1b 100%)", dark: "linear-gradient(135deg, #09090b 0%, #27272a 100%)" };
+            document.getElementById('idCardHeaderBox').style.background = g[th];
+            document.getElementById('modeVisitingCardBox').style.background = g[th];
+            document.getElementById('modeMugWrapBox').style.background = g[th];
+        }
+        function syncAllGraphicCards() {
+            const g = id => document.getElementById(id) ? document.getElementById(id).value : '';
+            const s = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+            const title = g('gTitle'), sub = g('gSub'), name = g('gName'), father = g('gFather'), role = g('gRole'), idNum = g('gIdNum'), extra = g('gExtra'), phone = g('gPhone');
+            s('vIdTitle', title); s('vIdSub', sub); s('vIdName', name); s('vIdFather', father); s('vIdRole', role);
+            const b = document.getElementById('vIdBadge'); if (b) b.innerText = "ID: " + idNum;
+            s('vIdExtra', extra); s('vIdPhone', phone); s('vIdBackPhone', phone);
+            s('vVisTitle', title); s('vVisSub', sub); s('vVisName', name); s('vVisRole', role); s('vVisPhone', "📞 " + phone);
+            s('vShadiTitle', title); s('vShadiName', name); s('vShadiFather', father); s('vShadiRole', role); s('vShadiSub', sub); s('vShadiPhone', phone);
+            s('vMugName', name); s('vMugTitle', title); s('vMugSub', sub); s('vMugPhone', phone);
+            const qr = document.getElementById('idQrContainer');
+            if (qr && typeof QRCode !== 'undefined') { qr.innerHTML = ""; new QRCode(qr, { text: `AlGhadeer|${name}|${idNum}|${phone}`, width: 75, height: 75 }); }
+        }
+        function resetPhotoSliders() {
+            document.getElementById('photoZoomSlider').value = 100;
+            document.getElementById('photoPanXSlider').value = 0; document.getElementById('photoPanYSlider').value = 0; drawPhotoOnCanvases();
+        }
+        function handleCardPhotoUpload(e) {
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader();
+            r.onload = ev => {
+                const img = new Image();
+                img.onload = () => { loadedUserImg = img; resetPhotoSliders(); renderPassLabGrid(); };
+                img.src = ev.target.result;
+            };
+            r.readAsDataURL(f);
+        }
+        function drawPhotoOnCanvases() {
+            const z = parseInt(document.getElementById('photoZoomSlider').value || 100) / 100;
+            const px = parseInt(document.getElementById('photoPanXSlider').value || 0);
+            const py = parseInt(document.getElementById('photoPanYSlider').value || 0);
+            document.getElementById('lblZoom').innerText = Math.round(z * 100) + '%';
+            ['idPhotoCanvas', 'visPhotoCanvas', 'mugPhotoCanvas', 'founderCanvasPhoto'].forEach(cid => {
+                const c = document.getElementById(cid); if (!c) return;
+                const ctx = c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+                ctx.fillStyle = "#064e3b"; ctx.fillRect(0,0,c.width,c.height);
+                if (loadedUserImg) {
+                    const sc = Math.max(c.width/loadedUserImg.width, c.height/loadedUserImg.height) * z;
+                    ctx.drawImage(loadedUserImg, (c.width - loadedUserImg.width*sc)/2 + px, (c.height - loadedUserImg.height*sc)/2 + py, loadedUserImg.width*sc, loadedUserImg.height*sc);
+                } else {
+                    ctx.fillStyle = "#d4af37"; ctx.beginPath(); ctx.arc(c.width/2, c.height*0.36, c.width*0.2, 0, Math.PI*2); ctx.fill();
+                    ctx.beginPath(); ctx.arc(c.width/2, c.height*0.95, c.width*0.38, Math.PI, 0); ctx.fill();
+                }
+            });
+        }
+
+        /* Passport Lab & CNIC Copier */
+        let passBgClr = "#1d4ed8", passSuitOn = false, passPhotoCount = 8;
+        let cnicFrontImg = null, cnicBackImg = null;
+        function updatePassLabBg(c) { passBgClr = c; renderPassLabGrid(); }
+        function togglePassSuit(s) { passSuitOn = s; renderPassLabGrid(); }
+        function setPassCount(n) { passPhotoCount = n; renderPassLabGrid(); }
+        function uploadPassLabPhoto(e) { handleCardPhotoUpload(e); }
+        function renderPassLabGrid() {
+            const box = document.getElementById('passLabSheetBox'); if (!box) return;
+            const br = document.getElementById('passLabBright').value, ct = document.getElementById('passLabContrast').value;
+            const suitH = document.getElementById('suitScaleSlider').value, suitY = document.getElementById('suitYSlider').value;
+            box.innerHTML = "";
+            for (let i = 0; i < passPhotoCount; i++) {
+                const div = document.createElement('div');
+                div.style.cssText = `width:125px; height:160px; background:${passBgClr}; border:2px solid #000; position:relative; overflow:hidden;`;
+                const c = document.createElement('canvas'); c.width = 160; c.height = 200;
+                c.style.cssText = `width:100%; height:100%; filter:brightness(${br}%) contrast(${ct}%); display:block;`;
+                const ctx = c.getContext('2d'); ctx.fillStyle = passBgClr; ctx.fillRect(0,0,160,200);
+                if (loadedUserImg) {
+                    const sc = Math.max(160/loadedUserImg.width, 200/loadedUserImg.height);
+                    ctx.drawImage(loadedUserImg, (160 - loadedUserImg.width*sc)/2, (200 - loadedUserImg.height*sc)/2, loadedUserImg.width*sc, loadedUserImg.height*sc);
+                }
+                div.appendChild(c);
+                if (passSuitOn) div.innerHTML += `<svg viewBox="0 0 120 65" style="position:absolute; bottom:${suitY}px; left:0; width:100%; height:${suitH}%; pointer-events:none;"><path d="M0 65 L22 12 L60 44 L98 12 L120 65 Z" fill="#0f172a"/><polygon points="55,26 65,26 63,65 57,65" fill="#dc2626"/></svg>`;
+                box.appendChild(div);
+            }
+        }
+        function loadCnicSide(e, side) {
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader(); r.onload = ev => { if (side === 'front') cnicFrontImg = ev.target.result; else cnicBackImg = ev.target.result; };
+            r.readAsDataURL(f);
+        }
+        function renderCnicA4Sheet() {
+            const box = document.getElementById('passLabSheetBox'); if (!box) return; box.innerHTML = "";
+            for (let i = 0; i < 4; i++) {
+                const row = document.createElement('div'); row.style.cssText = "display:flex; gap:14px; width:100%; justify-content:center; margin-bottom:8px;";
+                row.innerHTML = `<div style="width:240px; height:150px; border:1.5px dashed #334155; border-radius:6px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f8fafc;">${cnicFrontImg ? `<img src="${cnicFrontImg}" style="width:100%; height:100%; object-fit:cover;">` : 'CNIC Front'}</div><div style="width:240px; height:150px; border:1.5px dashed #334155; border-radius:6px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f8fafc;">${cnicBackImg ? `<img src="${cnicBackImg}" style="width:100%; height:100%; object-fit:cover;">` : 'CNIC Back'}</div>`;
+                box.appendChild(row);
+            }
+        }
+
+        /* Calculators */
+        function buildShajraChart() {
+            const r = document.getElementById('shjRoot').value, w = document.getElementById('shjWidow').value;
+            const kids = document.getElementById('shjChildren').value.split(',').map(s => s.trim()).filter(Boolean);
+            const kidsH = kids.map(k => `<div style="border:1.2px solid #043927; padding:4px 8px; border-radius:5px; background:#ecfdf5; font-weight:700; font-size:12px;">${k}</div>`).join("");
+            const box = document.getElementById('shajraPreviewBox');
+            if (box) box.innerHTML = `<div style="font-weight:800; color:#043927; margin-bottom:4px;">شجرہ نسب — ${r}</div><div style="display:inline-block; border:2px solid #d4af37; background:#043927; color:#fff; padding:4px 12px; border-radius:6px; font-weight:700; font-size:13px;">${r} (متوفی)</div>${w ? `<div style="font-size:12px; margin-top:4px;">بیوہ: <strong>${w}</strong></div>` : ''}<div style="margin:6px 0; color:#64748b; font-size:12px;">⬇️ وارثان ⬇️</div><div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">${kidsH}</div>`;
+        }
+        function insertShajraIntoPaper() {
+            insertAtCursor(`\n--- شجرہ نسب مرحوم ${document.getElementById('shjRoot').value} ---\nبیوہ: ${document.getElementById('shjWidow').value}\nاولاد: ${document.getElementById('shjChildren').value}\n-----------------------------\n`);
+            switchHub('hub-composing');
+        }
+        function runNoteCounter() {
+            const t = (parseInt(document.getElementById('n5000').value||0)*5000) + (parseInt(document.getElementById('n1000').value||0)*1000) + (parseInt(document.getElementById('n500').value||0)*500);
+            const out = document.getElementById('noteCounterOut'); if (out) out.innerHTML = `کل کیش: <span class="ltr">Rs. ${t.toLocaleString()}</span>`;
+        }
+        function runRaqamCalc() {
+            const v = parseInt(document.getElementById('calcRaqamNum').value || 0);
+            const box = document.getElementById('calcRaqamText'); if (box) box.innerText = `مبلغ ${v.toLocaleString()} روپے (نصف: ${Math.floor(v/2).toLocaleString()})۔`;
+        }
+        function runPercCalc() {
+            const o = parseFloat(document.getElementById('calcObt').value||0), t = parseFloat(document.getElementById('calcTot').value||1);
+            const p = ((o/t)*100).toFixed(2);
+            const box = document.getElementById('calcPercOut'); if (box) box.innerHTML = `فیصد: <span class="ltr" style="color:var(--emerald-700);">${p}%</span> | گریڈ: <span class="ltr">${p>=80?'A+':p>=70?'A':'B'}</span>`;
+        }
+
+        /* HD Export & Search */
+        function downloadElementAsHD(elId, namePrefix) {
+            const el = document.getElementById(elId); if (!el) return;
+            html2canvas(el, { scale: 4, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
+                const a = document.createElement('a'); a.download = `${namePrefix}_300DPI.png`; a.href = canvas.toDataURL('image/png', 1.0); a.click();
+            });
+        }
+        function downloadAsWordDoc() {
+            const area = document.getElementById('docEditableArea');
+            const blob = new Blob(['\ufeff', `<html dir='rtl'><head><meta charset='utf-8'></head><body style="font-family:'Noto Nastaliq Urdu',serif; font-size:16pt;">${area ? area.innerText : ''}</body></html>`], { type: 'application/msword' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'AlGhadeer_Doc.doc'; a.click();
+        }
+
+        const SEARCH_LIST = [
+            { title: "⚖️ بیانِ حلفی / اسٹامپ", hub: "hub-composing" },
+            { title: "🪪 اسٹوڈنٹ / وزٹنگ / شادی کارڈ", hub: "hub-cards" },
+            { title: "👶 پیدائش و وفات فارم", hub: "hub-forms" },
+            { title: "📸 پاسپورٹ فوٹو لیب", hub: "hub-photolab" },
+            { title: "🌳 شجرہ نسب و نوٹ کاؤنٹر", hub: "hub-calculators" }
+        ];
+        function handleGlobalSearch(q) {
+            const dd = document.getElementById('globalSearchDropdown'); if (!dd) return;
+            if (!q.trim()) { dd.style.display = 'none'; return; }
+            dd.innerHTML = "";
+            SEARCH_LIST.filter(x => x.title.toLowerCase().includes(q.toLowerCase())).forEach(m => {
+                const d = document.createElement('div'); d.className = 'search-item'; d.innerText = m.title;
+                d.onclick = () => { switchHub(m.hub); dd.style.display = 'none'; }; dd.appendChild(d);
+            });
+            dd.style.display = 'block';
+        }
+
+        window.onload = () => {
+            applySavedBrandLogo(); updateLiveClockAndDate(); updateDocTemplatesDropdown();
+            renderPageTabs(); loadBlankForm('birth'); syncAllGraphicCards(); drawPhotoOnCanvases();
+            renderPassLabGrid(); buildShajraChart(); runNoteCounter(); runRaqamCalc(); runPercCalc();
+        };
+    </script>
 </body>
 </html>
