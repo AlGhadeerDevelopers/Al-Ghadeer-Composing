@@ -114,21 +114,21 @@
       min-height: 58px;
       max-width: 58px;
       max-height: 58px;
-      border-radius: 12px;
+      border-radius: 50%;
       border: 2px solid var(--gold-primary);
-      background: linear-gradient(135deg, #022015, #064e3b);
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.45);
     }
-    .logo-box img {
+    .logo-box img, .logo-box svg {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     .logo-box:hover::after {
       content: "📷";
@@ -629,7 +629,7 @@
     .id-card-header {
       background: linear-gradient(135deg, #022015, #064e3b);
       color: #fff;
-      padding: 12px 10px;
+      padding: 10px;
       text-align: center;
       border-bottom: 3px solid #d4af37;
     }
@@ -725,16 +725,48 @@
 </head>
 <body>
 
+  <!-- ================= REUSABLE EXACT SVG REPLICA OF YOUR UPLOADED EMERALD & GOLD AL-GHADEER CREST ================= -->
+  <svg style="display:none;">
+    <symbol id="alGhadeerOfficialLogo" viewBox="0 0 240 240">
+      <!-- Outer White Circle & Gold Rings -->
+      <circle cx="120" cy="120" r="116" fill="#ffffff" stroke="#c89628" stroke-width="5"/>
+      <!-- Emerald & Gold Islamic Geometric Border Band -->
+      <circle cx="120" cy="120" r="108" fill="#034424" stroke="#c89628" stroke-width="2.5"/>
+      <!-- 12-Point Geometric Islamic Star Interlace Pattern -->
+      <g stroke="#c89628" stroke-width="3" fill="none">
+        <polygon points="120,10 148,36 186,26 194,64 228,82 214,120 228,158 194,176 186,214 148,204 120,230 92,204 54,214 46,176 12,158 26,120 12,82 46,64 54,26 92,36" fill="#034424"/>
+        <polygon points="120,16 142,40 176,34 184,68 216,86 202,120 216,154 184,172 176,206 142,200 120,224 98,200 64,206 56,172 24,154 38,120 24,86 56,68 64,34 98,40" stroke="#ffffff" stroke-width="2"/>
+      </g>
+      <!-- Cardinal Gold & Emerald Diamonds on the Ring -->
+      <polygon points="120,12 131,23 120,34 109,23" fill="#034424" stroke="#c89628" stroke-width="2.5"/>
+      <polygon points="120,206 131,217 120,228 109,217" fill="#034424" stroke="#c89628" stroke-width="2.5"/>
+      <polygon points="12,120 23,109 34,120 23,131" fill="#034424" stroke="#c89628" stroke-width="2.5"/>
+      <polygon points="206,120 217,109 228,120 217,131" fill="#034424" stroke="#c89628" stroke-width="2.5"/>
+      <!-- Inner White Medallion -->
+      <circle cx="120" cy="120" r="88" fill="#ffffff" stroke="#c89628" stroke-width="3.5"/>
+      <!-- Top Rub el Hizb Gold/Emerald Diamond Ornament -->
+      <g transform="translate(120, 52)">
+        <polygon points="0,-13 13,0 0,13 -13,0" fill="#c89628"/>
+        <polygon points="0,-7 7,0 0,7 -7,0" fill="#034424" stroke="#ffffff" stroke-width="1.2"/>
+      </g>
+      <!-- Center Bold Emerald Calligraphic "الغدیر" -->
+      <text x="120" y="138" text-anchor="middle" fill="#034424" font-size="68" font-weight="800" font-family="'Noto Nastaliq Urdu', 'Amiri', 'Tajawal', serif">الغدیر</text>
+      <!-- "DIGITAL SERVICES" Sub-Label -->
+      <text x="120" y="172" text-anchor="middle" fill="#034424" font-size="15.5" font-weight="800" letter-spacing="1.2" font-family="'Plus Jakarta Sans', sans-serif">DIGITAL SERVICES</text>
+      <!-- Bottom Rub el Hizb Gold/Emerald Diamond Ornament -->
+      <g transform="translate(120, 193)">
+        <polygon points="0,-11 11,0 0,11 -11,0" fill="#c89628"/>
+        <polygon points="0,-6 6,0 0,6 -6,0" fill="#034424" stroke="#ffffff" stroke-width="1.2"/>
+      </g>
+    </symbol>
+  </svg>
+
   <!-- ================= PRIVACY LOCK SCREEN MODAL ================= -->
   <div id="privacyLockModal" class="overlay-modal">
     <div class="modal-box" style="text-align:center;">
-      <div style="width:76px;height:76px;margin:0 auto 14px;border-radius:16px;border:2px solid var(--gold-primary);display:flex;align-items:center;justify-content:center;background:#022015;">
-        <svg viewBox="0 0 100 100" width="60" height="60">
-          <polygon points="50,5 93,28 93,72 50,95 7,72 7,28" fill="#064e3b" stroke="#d4af37" stroke-width="4"/>
-          <circle cx="50" cy="50" r="30" fill="#022015" stroke="#f59e0b" stroke-width="2"/>
-          <text x="50" y="52" text-anchor="middle" fill="#d4af37" font-size="18" font-weight="bold">الغدیر</text>
-          <text x="50" y="68" text-anchor="middle" fill="#ffffff" font-size="7" font-family="sans-serif">DIGITAL</text>
-        </svg>
+      <div style="width:92px;height:92px;margin:0 auto 14px;border-radius:50%;border:2px solid var(--gold-primary);display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.4);">
+        <svg class="brand-logo-svg" width="90" height="90"><use href="#alGhadeerOfficialLogo"></use></svg>
+        <img class="brand-logo-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Al Ghadeer Logo" />
       </div>
       <h2 style="color:var(--gold-primary);margin-bottom:6px;">Welcome to Al Ghadeer Digital Services</h2>
       <p class="nastaliq-heading" style="font-size:1.2rem;color:var(--gold-soft);margin-bottom:14px;">الغدیر ڈیجیٹل سروسز چوک اعظم میں خوش آمدید</p>
@@ -793,22 +825,10 @@
   <!-- ================= ENTERPRISE HEADER ================= -->
   <header class="app-header no-print">
     <div class="brand-cluster">
-      <!-- Strictly 58x58px Logo Box with Custom Upload -->
-      <div class="logo-box" id="headerLogoBox" title="اپنا کسٹم لوگو اپلوڈ کرنے کے لیے کلک کریں" onclick="document.getElementById('customLogoInput').click()">
-        <svg id="defaultCrestSvg" viewBox="0 0 100 100" width="54" height="54">
-          <defs>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fde68a"/>
-              <stop offset="50%" stop-color="#d4af37"/>
-              <stop offset="100%" stop-color="#b45309"/>
-            </linearGradient>
-          </defs>
-          <polygon points="50,4 94,27 94,73 50,96 6,73 6,27" fill="#043524" stroke="url(#goldGrad)" stroke-width="4"/>
-          <circle cx="50" cy="50" r="33" fill="#022015" stroke="url(#goldGrad)" stroke-width="2"/>
-          <text x="50" y="51" text-anchor="middle" fill="#fde68a" font-size="19" font-weight="bold" font-family="serif">الغدیر</text>
-          <text x="50" y="67" text-anchor="middle" fill="#10b981" font-size="6.8" font-weight="bold" font-family="sans-serif">DIGITAL SERVICES</text>
-        </svg>
-        <img id="customLogoImg" style="display:none;" alt="Al Ghadeer Logo" />
+      <!-- Strictly 58x58px Logo Box with Custom PNG Upload & Instant Sync Across All Cards/Headers -->
+      <div class="logo-box" id="headerLogoBox" title="اپنی اپلوڈ کردہ PNG لوگو فائل منتخب کرنے کے لیے کلک کریں" onclick="document.getElementById('customLogoInput').click()">
+        <svg class="brand-logo-svg" width="56" height="56"><use href="#alGhadeerOfficialLogo"></use></svg>
+        <img class="brand-logo-img" style="display:none;" alt="Al Ghadeer Logo" />
       </div>
       <input type="file" id="customLogoInput" accept="image/*" style="display:none;" onchange="handleCustomLogoUpload(event)" />
 
@@ -825,6 +845,7 @@
     </div>
 
     <div class="header-controls">
+      <button class="btn" onclick="document.getElementById('customLogoInput').click()">🖼️ لوگو PNG سلیکٹ</button>
       <button class="btn" onclick="openGlobalSearch()">🔍 تلاش <span class="ltr-iso" dir="ltr">(Ctrl+K)</span></button>
       <button class="btn" onclick="toggleTheme()" id="themeToggleBtn">🌓 تھیم <span class="ltr-iso" dir="ltr">(Light/Dark)</span></button>
       <button class="btn" onclick="toggleUiLanguage()" id="langToggleBtn">🌐 <span class="ltr-iso" dir="ltr">UR / EN</span></button>
@@ -853,21 +874,27 @@
          ========================================================================= -->
     <section id="hub1" class="hub-section active">
       <div class="hero-banner">
-        <div style="max-width:680px;">
-          <span class="badge ltr-iso" dir="ltr" style="background:var(--gold-primary);color:#022015;padding:3px 10px;border-radius:6px;font-weight:800;font-size:0.78rem;margin-bottom:8px;">
-            ENTERPRISE WASEEQA & COMPOSING SUITE v2026
-          </span>
-          <h2 class="nastaliq-heading" style="font-size:1.75rem;color:var(--gold-primary);margin-bottom:6px;">
-            الغدیر ڈیجیٹل سروسز — کچہری، وثیقہ نویسی، گرافکس اور آن لائن تصدیقی مرکز
-          </h2>
-          <p style="color:var(--text-muted);font-size:0.92rem;margin-bottom:14px;">
-            چوک اعظم اور ضلع لیہ کا جدید ترین سافٹ ویئر حب: اسٹامپ پیپرز، بیاناتِ حلفی، اقرار نامہ جات، نادرا/بورڈ/میپکو تصدیق، <span class="ltr-iso" dir="ltr">300 DPI HD</span> آئی ڈی کارڈز اور فوری پرنٹنگ۔
-          </p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn btn-gold" onclick="switchHub('hub2')">✍️ نیا اسٹامپ پیپر / درخواست لکھیں</button>
-            <button class="btn" onclick="switchHub('hub4')">🪪 سٹوڈنٹ / سٹاف کارڈ بنائیں</button>
-            <button class="btn" onclick="switchHub('hub5')">📸 پاسپورٹ فوٹو و سوٹ لیب</button>
-            <button class="btn" onclick="switchHub('hub6')">🧮 شجرہ نسب و وراثت کیلکولیٹر</button>
+        <div style="display:flex;align-items:center;gap:18px;max-width:740px;flex-wrap:wrap;">
+          <div style="width:88px;height:88px;border-radius:50%;background:#fff;border:3px solid var(--gold-primary);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.45);flex-shrink:0;">
+            <svg class="brand-logo-svg" width="86" height="86"><use href="#alGhadeerOfficialLogo"></use></svg>
+            <img class="brand-logo-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Al Ghadeer Logo" />
+          </div>
+          <div style="flex:1;min-width:260px;">
+            <span class="badge ltr-iso" dir="ltr" style="background:var(--gold-primary);color:#022015;padding:3px 10px;border-radius:6px;font-weight:800;font-size:0.78rem;margin-bottom:8px;">
+              ENTERPRISE WASEEQA & COMPOSING SUITE v2026
+            </span>
+            <h2 class="nastaliq-heading" style="font-size:1.7rem;color:var(--gold-primary);margin-bottom:6px;">
+              الغدیر ڈیجیٹل سروسز — کچہری، وثیقہ نویسی، گرافکس اور آن لائن تصدیقی مرکز
+            </h2>
+            <p style="color:var(--text-muted);font-size:0.92rem;margin-bottom:14px;">
+              چوک اعظم اور ضلع لیہ کا جدید ترین سافٹ ویئر حب: اسٹامپ پیپرز، بیاناتِ حلفی، اقرار نامہ جات، نادرا/بورڈ/میپکو تصدیق، <span class="ltr-iso" dir="ltr">300 DPI HD</span> آئی ڈی کارڈز اور فوری پرنٹنگ۔
+            </p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-gold" onclick="switchHub('hub2')">✍️ نیا اسٹامپ پیپر / درخواست لکھیں</button>
+              <button class="btn" onclick="switchHub('hub4')">🪪 سٹوڈنٹ / سٹاف کارڈ بنائیں</button>
+              <button class="btn" onclick="switchHub('hub5')">📸 پاسپورٹ فوٹو و سوٹ لیب</button>
+              <button class="btn" onclick="switchHub('hub6')">🧮 شجرہ نسب و وراثت کیلکولیٹر</button>
+            </div>
           </div>
         </div>
 
@@ -1201,11 +1228,17 @@
                 🏛️ ای اسٹامپ / اشٹام پیپر ہیڈر ایریا (پرنٹنگ میں خالی رہے گا)
               </div>
 
-              <!-- Optional Official Letterhead -->
+              <!-- Optional Official Letterhead with Official Al-Ghadeer Crest -->
               <div id="paperLetterhead" class="paper-letterhead">
-                <div style="text-align:right;">
-                  <div style="font-size:20px;font-weight:800;color:#022015;">الغدیر ڈیجیٹل سروسز چوک اعظم</div>
-                  <div style="font-size:12px;color:#064e3b;">وثیقہ نویسی، قانونی ڈرافٹنگ، کمپیوٹر کمپوزنگ و آن لائن تصدیقی مرکز</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:54px;height:54px;border-radius:50%;overflow:hidden;border:1.5px solid #c89628;display:flex;align-items:center;justify-content:center;">
+                    <svg class="brand-logo-svg" width="52" height="52"><use href="#alGhadeerOfficialLogo"></use></svg>
+                    <img class="brand-logo-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Logo" />
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:20px;font-weight:800;color:#022015;">الغدیر ڈیجیٹل سروسز چوک اعظم</div>
+                    <div style="font-size:12px;color:#064e3b;">وثیقہ نویسی، قانونی ڈرافٹنگ، کمپیوٹر کمپوزنگ و آن لائن تصدیقی مرکز</div>
+                  </div>
                 </div>
                 <div style="text-align:left;font-size:11px;" class="ltr-iso" dir="ltr">
                   <strong>AL GHADEER DIGITAL SERVICES</strong><br>
@@ -1306,11 +1339,11 @@
           <!-- FRONT CARD -->
           <div class="id-card-frame" contenteditable="true">
             <div class="id-card-header">
-              <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:3px;">
-                <svg viewBox="0 0 100 100" width="28" height="28">
-                  <polygon points="50,5 93,28 93,72 50,95 7,72 7,28" fill="#064e3b" stroke="#d4af37" stroke-width="5"/>
-                  <text x="50" y="58" text-anchor="middle" fill="#fde68a" font-size="24" font-weight="bold">الغدیر</text>
-                </svg>
+              <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:3px;">
+                <div style="width:32px;height:32px;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg class="brand-logo-svg" width="32" height="32"><use href="#alGhadeerOfficialLogo"></use></svg>
+                  <img class="brand-logo-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Logo" />
+                </div>
                 <span style="font-size:0.95rem;font-weight:800;color:#fde68a;">الغدیر کمپیوٹر اینڈ ٹیکنیکل اکیڈمی</span>
               </div>
               <div style="font-size:0.75rem;color:#cbd5e1;">چوک اعظم، ضلع لیہ (پنجاب)</div>
@@ -1388,9 +1421,15 @@
         </div>
         <div id="visitingCardExportZone" contenteditable="true" style="width:525px;height:300px;margin:0 auto;background:linear-gradient(135deg,#022015,#064e3b);border:3px solid #d4af37;border-radius:14px;padding:24px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 12px 30px rgba(0,0,0,0.5);">
           <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #d4af37;padding-bottom:10px;">
-            <div>
-              <h2 style="color:#fde68a;font-size:1.55rem;">الغدیر ڈیجیٹل سروسز</h2>
-              <div class="ltr-iso" dir="ltr" style="font-size:0.82rem;color:#10b981;font-weight:700;">AL GHADEER DIGITAL SERVICES</div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:50px;height:50px;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+                <svg class="brand-logo-svg" width="48" height="48"><use href="#alGhadeerOfficialLogo"></use></svg>
+                <img class="brand-logo-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Logo" />
+              </div>
+              <div>
+                <h2 style="color:#fde68a;font-size:1.45rem;">الغدیر ڈیجیٹل سروسز</h2>
+                <div class="ltr-iso" dir="ltr" style="font-size:0.78rem;color:#10b981;font-weight:700;">AL GHADEER DIGITAL SERVICES</div>
+              </div>
             </div>
             <div style="text-align:left;">
               <div style="font-size:1.05rem;font-weight:800;color:#fde68a;">محمد جنید علی حسینی</div>
@@ -1437,12 +1476,15 @@
       <div id="graphicMode_mug" class="graphic-mode-pane" style="display:none;">
         <div id="mugWrapExportZone" contenteditable="true" style="width:816px;height:336px;margin:0 auto;background:linear-gradient(90deg,#022015,#064e3b,#022015);border:4px solid #d4af37;border-radius:12px;padding:20px 30px;color:#fff;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;overflow:hidden;">
           <div style="text-align:right;">
-            <h3 class="nastaliq-heading" style="color:#fde68a;font-size:1.5rem;">الغدیر ڈیجیٹل سروسز</h3>
-            <p style="font-size:0.9rem;color:#cbd5e1;margin-top:6px;">
-              چوک اعظم، ضلع لیہ<br>
-              پروفیشنل کسٹم گفٹ اینڈ پرنٹنگ اسٹوڈیو
+            <div style="width:52px;height:52px;border-radius:50%;background:#fff;overflow:hidden;margin-bottom:6px;display:inline-flex;align-items:center;justify-content:center;">
+              <svg class="brand-logo-svg" width="50" height="50"><use href="#alGhadeerOfficialLogo"></use></svg>
+              <img class="brand-logo-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Logo" />
+            </div>
+            <h3 class="nastaliq-heading" style="color:#fde68a;font-size:1.45rem;">الغدیر ڈیجیٹل سروسز</h3>
+            <p style="font-size:0.88rem;color:#cbd5e1;margin-top:4px;">
+              چوک اعظم، ضلع لیہ — کسٹم گفٹ اسٹوڈیو
             </p>
-            <div class="ltr-iso" dir="ltr" style="margin-top:8px;color:#f59e0b;font-weight:800;">+92 328 7892826</div>
+            <div class="ltr-iso" dir="ltr" style="margin-top:6px;color:#f59e0b;font-weight:800;">+92 328 7892826</div>
           </div>
           <div style="text-align:center;">
             <canvas id="mugPhotoCanvas" width="170" height="170" style="border:4px solid #d4af37;border-radius:50%;background:#fff;"></canvas>
@@ -1673,7 +1715,7 @@
 
             <div style="background:rgba(0,0,0,0.25);padding:8px;border-radius:8px;">
               <label>🎂 تاریخِ پیدائش سے عمر</label>
-              <input type="date" id="dobInput" value="2005-03-15" onchange="calcExactAge()" style="margin-bottom:4px;" />
+              <input type="date" id="dobInput" value="2004-10-27" onchange="calcExactAge()" style="margin-bottom:4px;" />
               <div id="ageResultTxt" class="ltr-iso" dir="ltr" style="font-size:0.8rem;color:var(--gold-bright);font-weight:700;"></div>
             </div>
 
@@ -1700,7 +1742,7 @@
         <div style="display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:center;">
           <!-- Interactive Canvas Portrait Frame -->
           <div style="text-align:center;">
-            <canvas id="founderPortfolioCanvas" width="210" height="210" style="border:4px solid var(--gold-primary);border-radius:50%;box-shadow:0 10px 30px rgba(0,0,0,0.5);background:#022015;"></canvas>
+            <canvas id="founderPortfolioCanvas" width="210" height="210" style="border:4px solid var(--gold-primary);border-radius:50%;box-shadow:0 10px 30px rgba(0,0,0,0.5);background:#ffffff;"></canvas>
             <div style="margin-top:10px;display:flex;justify-content:center;gap:6px;">
               <button class="btn btn-sm" onclick="document.getElementById('founderPhotoInput').click()">📷 تصویر اپلوڈ</button>
               <input type="file" id="founderPhotoInput" accept="image/*" style="display:none;" onchange="loadFounderPhoto(event)" />
@@ -1954,6 +1996,7 @@
       modal.classList.toggle('active', show);
     }
 
+    // Syncs uploaded PNG logo everywhere across Header, Lock Screen, Letterhead, ID Card, Visiting Card & Mug
     function handleCustomLogoUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1968,10 +2011,11 @@
     function applySavedLogo() {
       const saved = localStorage.getItem('ag_custom_logo');
       if (saved) {
-        document.getElementById('defaultCrestSvg').style.display = 'none';
-        const img = document.getElementById('customLogoImg');
-        img.src = saved;
-        img.style.display = 'block';
+        document.querySelectorAll('.brand-logo-svg').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.brand-logo-img').forEach(img => {
+          img.src = saved;
+          img.style.display = 'block';
+        });
       }
     }
 
@@ -2225,7 +2269,7 @@
       'sakin': 'ساکن', 'chak': 'چک', 'number': 'نمبر', 'tehsil': 'تحصیل',
       'zila': 'ضلع', 'punjab': 'پنجاب', 'pakistan': 'پاکستان', 'darkhwast': 'درخواست',
       'zaroori': 'ضروری', 'kaam': 'کام', 'bimari': 'بیماری', 'rukhsat': 'رخصت',
-      'mahربانی': 'مہربانی', 'meharbani': 'مہربانی', 'nawazish': 'نوازش', 'hogi': 'ہوگی',
+      'meharbani': 'مہربانی', 'nawazish': 'نوازش', 'hogi': 'ہوگی',
       'al-aarz': 'العارض', 'gawah': 'گواہ', 'farik': 'فریق', 'awal': 'اول', 'doam': 'دوم',
       'mublagh': 'مبلغ', 'rupay': 'روپے', 'naqad': 'نقد', 'wusool': 'وصول'
     };
@@ -2246,9 +2290,7 @@
         if (data && data[0] === 'SUCCESS') {
           data[1][0][1].forEach(w => suggestions.add(w));
         }
-      } catch (e) {
-        // Offline dictionary fallback active
-      }
+      } catch (e) {}
 
       suggestions.forEach(urduWord => {
         const chip = document.createElement('button');
@@ -3207,10 +3249,7 @@
       const ch = canvas.height;
       ctx.clearRect(0, 0, cw, ch);
 
-      const grad = ctx.createRadialGradient(cw/2, ch/2, 10, cw/2, ch/2, cw/2);
-      grad.addColorStop(0, '#064e3b');
-      grad.addColorStop(1, '#022015');
-      ctx.fillStyle = grad;
+      ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, cw, ch);
 
       if (founderImgObj) {
@@ -3219,16 +3258,26 @@
         const h = founderImgObj.height * ratio;
         ctx.drawImage(founderImgObj, (cw - w)/2, (ch - h)/2, w, h);
       } else {
-        ctx.fillStyle = '#d4af37';
-        ctx.font = 'bold 28px serif';
+        // Draw Al-Ghadeer Emblem Look inside Founder Canvas by default
+        ctx.strokeStyle = '#c89628';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(cw/2, ch/2, cw/2 - 6, 0, Math.PI*2);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#034424';
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.arc(cw/2, ch/2, cw/2 - 16, 0, Math.PI*2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#034424';
+        ctx.font = 'bold 46px serif';
         ctx.textAlign = 'center';
-        ctx.fillText('الغدیر', cw/2, ch*0.42);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 13px sans-serif';
-        ctx.fillText('JUNAID ALI HUSSAINI', cw/2, ch*0.60);
-        ctx.fillStyle = '#10b981';
-        ctx.font = '11px sans-serif';
-        ctx.fillText('Founder & Developer', cw/2, ch*0.73);
+        ctx.fillText('الغدیر', cw/2, ch*0.54);
+        ctx.fillStyle = '#034424';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText('DIGITAL SERVICES', cw/2, ch*0.72);
       }
     }
 
@@ -3253,7 +3302,6 @@
       const pinInput = document.getElementById('adminPinInput').value;
       const errBox = document.getElementById('adminAuthError');
 
-      // Compare Base64 encoded email so raw string is never exposed
       if (btoa(emailInput) !== _OBF_OWNER_B64) {
         errBox.style.display = 'block';
         errBox.textContent = '❌ غیر مجاز ای میل! صرف اونر کا منظور شدہ گوگل اکاؤنٹ ہی لاگ ان کر سکتا ہے۔';
@@ -3563,23 +3611,18 @@
      * 11. INITIALIZATION ON LOAD
      ***************************************************************************/
     window.addEventListener('DOMContentLoaded', () => {
-      // Load saved theme & custom logo
       const savedTheme = localStorage.getItem('ag_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
       applySavedLogo();
 
-      // Start Live Clock
       updateClockAndDates();
       setInterval(updateClockAndDates, 1000);
 
-      // Initialize Composing Studio Page 1
       document.getElementById('paperEditor').innerHTML = docPages[0];
       renderMultiPageTabs();
 
-      // Initialize Hub 3 Default Form
       renderOfficialForm(1);
 
-      // Initialize Hub 4 ID Card Canvas & Live QR Code
       drawIdPhotoCanvas();
       const qrBox = document.getElementById('idCardQrContainer');
       if (qrBox && typeof QRCode !== 'undefined') {
@@ -3592,12 +3635,10 @@
         });
       }
 
-      // Initialize Hub 5 Passport Canvas, Grid & CNIC Copier
       drawPassportSingleCanvas();
       buildPassportGrid(8);
       renderCnicA4Pairs(4);
 
-      // Initialize Hub 6 Calculators
       buildShajraTree();
       calculateWarasatShares();
       calcCashTally();
@@ -3605,10 +3646,8 @@
       calcMarksGrade();
       calcExactAge();
 
-      // Initialize Hub 7 Founder Canvas
       drawFounderPortfolioCanvas();
 
-      // Initialize Hub 8 Saved Notes & Ledger
       const savedNotes = localStorage.getItem('ag_owner_notes');
       if (savedNotes) document.getElementById('ownerPrivateNotes').value = savedNotes;
       const docsCounter = localStorage.getItem('ag_docs_today') || '14';
